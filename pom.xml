@@ -14,6 +14,7 @@
     <module>cajr-service</module>
     <module>cajr-provider-basic-data</module>
     <module>cajr-provider-user-front</module>
+    <module>cajr-flyway</module>
   </modules>
 
   <properties>
