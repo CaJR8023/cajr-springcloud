@@ -6,8 +6,8 @@ CREATE TABLE `permission` (
                               `type` tinyint not null default 1 comment '1 允许权限 2 拒绝权限',
                               `description` varchar(200) DEFAULT NULL COMMENT '描述',
                               `status` tinyint not null default 1 ,
-                              'created_at' timestamp not null default CURRENT_TIMESTAMP,
-                              'updated_at' timestamp not null default '1980-01-01 00:00:01',
+                              created_at timestamp not null default CURRENT_TIMESTAMP,
+                              updated_at timestamp not null default '1980-01-01 00:00:01',
                               PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
@@ -16,8 +16,8 @@ CREATE TABLE `role` (
                         `name` varchar(64) NOT NULL COMMENT '角色名称',
                         `description` varchar(200) DEFAULT NULL COMMENT '备注',
                         `status` tinyint not null default 1 ,
-                        'created_at' timestamp not null default CURRENT_TIMESTAMP,
-                        'updated_at' timestamp not null default '1980-01-01 00:00:01',
+                        created_at timestamp not null default CURRENT_TIMESTAMP,
+                        updated_at timestamp not null default '1980-01-01 00:00:01',
                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='角色表';
 
@@ -26,8 +26,8 @@ CREATE TABLE `permission_group` (
                                     `name` varchar(64) not null comment '权限组名称',
                                     `description` varchar(200) DEFAULT NULL COMMENT '描述',
                                     `status` tinyint not null default 1 ,
-                                    'created_at' timestamp not null default CURRENT_TIMESTAMP,
-                                    'updated_at' timestamp not null default '1980-01-01 00:00:01',
+                                    created_at timestamp not null default CURRENT_TIMESTAMP,
+                                    updated_at timestamp not null default '1980-01-01 00:00:01',
                                     primary key (`id`)
 ) engine = InnoDB DEFAULT CHARSET=utf8 comment='权限组表';
 
@@ -46,8 +46,8 @@ CREATE TABLE `permission_group_permission` (
                                                `permission_group_id` int(11) not null comment '权限组id',
                                                `permission_id` int(11) not null comment '权限id',
                                                `status` tinyint not null default 1 ,
-                                               'created_at' timestamp not null default CURRENT_TIMESTAMP,
-                                               'updated_at' timestamp not null default '1980-01-01 00:00:01',
+                                               created_at timestamp not null default CURRENT_TIMESTAMP,
+                                               updated_at timestamp not null default '1980-01-01 00:00:01',
                                                primary key (`id`)
 ) engine = InnoDB DEFAULT CHARSET=utf8 comment='权限组权限表';
 
@@ -57,7 +57,7 @@ CREATE TABLE `user_role` (
                              `role_id` int(11) NOT NULL COMMENT '角色 ID',
                              `user_type` tinyint not null comment '角色类型 1:admin 2:user',
                              `status` tinyint not null default 1 ,
-                             'created_at' timestamp not null default CURRENT_TIMESTAMP,
-                             'updated_at' timestamp not null default '1980-01-01 00:00:01',
+                             created_at timestamp not null default CURRENT_TIMESTAMP,
+                             updated_at timestamp not null default '1980-01-01 00:00:01',
                              PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='用户角色表';
