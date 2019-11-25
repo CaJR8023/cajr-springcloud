@@ -9,7 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>cajr-provider-user-front</artifactId>
+  <artifactId>cajr-provider-user-after</artifactId>
   <version>1.0.0</version>
 
 
@@ -68,6 +68,5 @@
       <artifactId>cajr-api</artifactId>
     </dependency>
   </dependencies>
-
 
 </project>

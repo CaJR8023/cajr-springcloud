@@ -15,6 +15,10 @@
     <module>cajr-provider-basic-data</module>
     <module>cajr-provider-user-front</module>
     <module>cajr-flyway</module>
+    <module>cajr-security-jwt-client</module>
+    <module>cajr-security-jwt-auth-server</module>
+    <module>cajr-global-exception</module>
+      <module>cajr-provider-user-after</module>
   </modules>
 
   <properties>
@@ -157,6 +161,13 @@
         <version>1.2.54</version>
       </dependency>
 
+      <!--aliyun oss-->
+      <dependency>
+        <groupId>com.aliyun.oss</groupId>
+        <artifactId>aliyun-sdk-oss</artifactId>
+        <version>3.4.2</version>
+      </dependency>
+
       <!-- 模块依赖 -->
       <dependency>
         <groupId>CAJR</groupId>
@@ -182,12 +193,12 @@
         <version>1.0.0</version>
       </dependency>
 
-      <!--aliyun oss-->
       <dependency>
-        <groupId>com.aliyun.oss</groupId>
-        <artifactId>aliyun-sdk-oss</artifactId>
-        <version>3.4.2</version>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-global-exception</artifactId>
+        <version>1.0.0</version>
       </dependency>
+
     </dependencies>
   </dependencyManagement>
 

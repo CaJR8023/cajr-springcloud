@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.PermissionGroupPermissionMapper">
+  <resultMap id="BaseResultMap" type="com.cajr.vo.permission.PermissionGroupPermission">
+    <!--@mbg.generated-->
+    <!--@Table permission_group_permission-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="permission_group_id" jdbcType="INTEGER" property="permissionGroupId" />
+    <result column="permission_id" jdbcType="INTEGER" property="permissionId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, permission_group_id, permission_id, `status`, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from permission_group_permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from permission_group_permission
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.permission.PermissionGroupPermission" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into permission_group_permission (permission_group_id, permission_id, 
+      `status`, created_at, updated_at
+      )
+    values (#{permissionGroupId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER}, 
+      #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.permission.PermissionGroupPermission" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into permission_group_permission
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="permissionGroupId != null">
+        permission_group_id,
+      </if>
+      <if test="permissionId != null">
+        permission_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="permissionGroupId != null">
+        #{permissionGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="permissionId != null">
+        #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.permission.PermissionGroupPermission">
+    <!--@mbg.generated-->
+    update permission_group_permission
+    <set>
+      <if test="permissionGroupId != null">
+        permission_group_id = #{permissionGroupId,jdbcType=INTEGER},
+      </if>
+      <if test="permissionId != null">
+        permission_id = #{permissionId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.permission.PermissionGroupPermission">
+    <!--@mbg.generated-->
+    update permission_group_permission
+    set permission_group_id = #{permissionGroupId,jdbcType=INTEGER},
+      permission_id = #{permissionId,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
