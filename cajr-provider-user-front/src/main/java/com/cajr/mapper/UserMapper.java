@@ -18,4 +18,8 @@ public interface UserMapper {
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
+
+    int checkIsExistsByTel(String tel);
+
+    int checkIsExistsById(int id);
 }

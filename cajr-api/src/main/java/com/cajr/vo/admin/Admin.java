@@ -1,5 +1,6 @@
 package com.cajr.vo.admin;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author CAJR
  * @date 2019/11/25 8:01 下午
  */
-public class Admin {
+public class Admin implements Serializable {
     private Integer id;
 
     private String account;

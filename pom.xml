@@ -19,6 +19,7 @@
     <module>cajr-security-jwt-auth-server</module>
     <module>cajr-global-exception</module>
       <module>cajr-provider-user-after</module>
+    <module>cajr-swagger</module>
   </modules>
 
   <properties>
@@ -196,6 +197,25 @@
       <dependency>
         <groupId>CAJR</groupId>
         <artifactId>cajr-global-exception</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-swagger</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-security-jwt-auth-server</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-security-jwt-client</artifactId>
         <version>1.0.0</version>
       </dependency>
 

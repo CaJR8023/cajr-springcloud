@@ -34,18 +34,19 @@ CREATE TABLE `oauth_approvals` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `oauth_client_details` (
-    `client_id` varchar(128) NOT NULL,
-    `resource_ids` varchar(256) DEFAULT NULL,
-    `client_secret` varchar(256) DEFAULT NULL,
-    `scope` varchar(256) DEFAULT NULL,
-    `authorized_grant_types` varchar(256) DEFAULT NULL,
-    `web_server_redirect_uri` varchar(256) DEFAULT NULL,
-    `authorities` varchar(256) DEFAULT NULL,
-     `access_token_validity` int(11) DEFAULT NULL,
-     `refresh_token_validity` int(11) DEFAULT NULL,
-     `additional_information` varchar(4096) DEFAULT NULL,
-     `autoapprove` varchar(256) DEFAULT NULL,
-     PRIMARY KEY (`client_id`)
+    id int (11) NOT NULL AUTO_INCREMENT ,
+    client_id VARCHAR(255) ,
+    resource_ids VARCHAR(255),
+    client_secret VARCHAR(255),
+    scope VARCHAR(255),
+    authorized_grant_types VARCHAR(255),
+    web_server_redirect_uri VARCHAR(255),
+    authorities VARCHAR(255),
+    access_token_validity INTEGER,
+    refresh_token_validity INTEGER,
+    additional_information VARCHAR(4096),
+    autoapprove VARCHAR(255),
+     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `oauth_client_token` (

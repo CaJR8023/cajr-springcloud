@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.AdminMapper">
+    <resultMap id="BaseResultMap" type="com.cajr.vo.admin.Admin">
+        <!--@mbg.generated-->
+        <!--@Table admin-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="account" jdbcType="VARCHAR" property="account" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, account, `password`, `status`, created_at, updated_at
+    </sql>
+    <select id="getOneAdminByAccount" parameterType="string" resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List" />
+        from admin
+        where account = #{account,jdbcType=VARCHAR}
+    </select>
+
+</mapper>

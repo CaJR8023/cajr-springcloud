@@ -67,6 +67,10 @@
       <groupId>CAJR</groupId>
       <artifactId>cajr-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-swagger</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

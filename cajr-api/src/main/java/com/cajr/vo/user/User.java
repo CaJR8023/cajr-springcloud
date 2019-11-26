@@ -1,12 +1,15 @@
 package com.cajr.vo.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
  * @author CAJR
  * @date 2019/11/25 7:22 下午
  */
-public class User {
+public class User implements Serializable {
     private int id;
 
     private String username;
@@ -17,8 +20,10 @@ public class User {
 
     private int status;
 
+    @JsonIgnore
     private Timestamp createdAt;
 
+    @JsonIgnore
     private Timestamp updatedAt;
 
     public int getId() {

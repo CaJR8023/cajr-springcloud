@@ -51,7 +51,15 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
     </dependency>
+    <dependency>
+    <groupId>CAJR</groupId>
+    <artifactId>cajr-swagger</artifactId>
+    </dependency>
 
+    <dependency>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-global-exception</artifactId>
+    </dependency>
     <!--mapper-->
     <dependency>
       <groupId>tk.mybatis</groupId>

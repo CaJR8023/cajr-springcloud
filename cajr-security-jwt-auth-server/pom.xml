@@ -52,6 +52,10 @@
             <groupId>CAJR</groupId>
             <artifactId>cajr-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>CAJR</groupId>
+            <artifactId>cajr-global-exception</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -16,6 +16,15 @@
     <!--@mbg.generated-->
     id, username, tel, `password`, `status`, created_at, updated_at
   </sql>
+
+  <select id="checkIsExistsById" resultType="int">
+    select exists (select 1 from user where id = #{id,jdbcType=INTEGER} limit 1)
+  </select>
+
+  <select id="checkIsExistsByTel" resultType="int">
+    select exists (select 1 from user where tel = #{tel,jdbcType=VARCHAR} limit 1)
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
