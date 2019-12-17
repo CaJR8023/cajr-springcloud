@@ -20,6 +20,7 @@
     <module>cajr-global-exception</module>
       <module>cajr-provider-user-after</module>
     <module>cajr-swagger</module>
+      <module>cajr-redis</module>
   </modules>
 
   <properties>

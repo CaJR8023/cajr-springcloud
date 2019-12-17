@@ -1,0 +1,22 @@
+server:
+  port: 8033
+spring:
+  application:
+    name: cajr-redis
+  redis:
+    database: 1
+    host: localhost
+    port: 6379
+    password: 123zxc
+    timeout: 1000ms
+    lettuce:
+        pool:
+          max-idle: 8
+          min-idle: 0
+          max-active: 8
+          max-wait: -1ms
+  cache:
+    type: redis
+    redis:
+        time-to-live: 200000ms
+        cache-null-values: false
