@@ -1,6 +1,7 @@
 package com.cajr.config;
 
 import com.cajr.exception.CustomWebResponseExceptionTranslator;
+import com.cajr.service.impl.CustomTokenServices;
 import com.cajr.service.impl.CustomUserAuthenticationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -67,10 +68,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Bean
     @Primary
     public DefaultTokenServices tokenServices(){
-        final DefaultTokenServices defaultTokenServices = new DefaultTokenServices();
-        defaultTokenServices.setTokenStore(tokenStore());
-        defaultTokenServices.setSupportRefreshToken(true);
-        return defaultTokenServices;
+        final DefaultTokenServices tokenServices = new CustomTokenServices();
+        tokenServices.setTokenStore(tokenStore());
+        tokenServices.setSupportRefreshToken(true);
+        return tokenServices;
     }
 
 
