@@ -75,6 +75,11 @@
       <groupId>CAJR</groupId>
       <artifactId>cajr-api</artifactId>
     </dependency>
+
+    <dependency>
+    <groupId>com.aliyun</groupId>
+    <artifactId>aliyun-java-sdk-core</artifactId>
+    </dependency>
   </dependencies>
 
 

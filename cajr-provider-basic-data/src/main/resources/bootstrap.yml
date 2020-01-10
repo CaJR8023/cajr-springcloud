@@ -1,16 +1,3 @@
 spring:
   profiles:
     active: dev
-  cloud:
-    nacos:
-      config:
-        server-addr: 127.0.0.1:8848
-        endpoint: acm.aliyun.com
-        namespace: 7cea0dc5-3fee-4dc8-9bf2-216377ba43ef
-        access-key: 2353172b6e7c44eea3a7b2d34c3fd535
-        secret-key: ePdX7b6b/im4js7NRS9emDkawbU=
-        file-extension: yml
-        ext-config[0]:
-          data-id: cajr-page-size-config.yml
-        ext-config[1]:
-          data-id: cajr-database-config.yml

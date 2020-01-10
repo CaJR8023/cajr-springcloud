@@ -1,5 +1,5 @@
 server:
-  port: 7100
+  port: 5100
 spring:
   application:
     name: cajr-basic-data
