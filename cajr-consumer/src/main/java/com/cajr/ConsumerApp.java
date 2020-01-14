@@ -12,6 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  */
 @SpringBootApplication
 @MapperScan("com.cajr.mapper")
+@EnableFeignClients("com.cajr.service")
 @EnableDiscoveryClient
 public class ConsumerApp {
     public static void main(String[] args) {

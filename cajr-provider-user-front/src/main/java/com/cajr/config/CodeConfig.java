@@ -20,6 +20,12 @@ public class CodeConfig {
     @Value("${aliyun.accessSecret}")
     private String accessSecret;
 
+    @Value("${aliyun.signName}")
+    private String signName;
+
+    @Value("${aliyun.templateCode}")
+    private String templateCode;
+
     @Bean
     public DefaultAcsClient defaultAcsClient(){
         DefaultProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId,accessSecret);
@@ -32,8 +38,10 @@ public class CodeConfig {
         request.setMethod(MethodType.POST);
         request.setDomain("dysmsapi.aliyuncs.com");
         request.setVersion("2017-05-25");
-        request.setAction("QuerySendDetails");
+        request.setAction("SendSms");
         request.putQueryParameter("RegionId", "cn-hangzhou");
+        request.putQueryParameter("SignName", signName);
+        request.putQueryParameter("TemplateCode", templateCode);
         return request;
     }
 }

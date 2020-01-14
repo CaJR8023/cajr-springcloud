@@ -41,6 +41,7 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
 
         http.authorizeRequests().antMatchers("/login/**").permitAll()
                 .antMatchers("/oauth/token/**").permitAll()
+                .antMatchers("/oauth/check_token/**").permitAll()
                 .antMatchers("/tokens/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/user/").permitAll()
                 .antMatchers(HttpMethod.POST,"/admin/").permitAll()

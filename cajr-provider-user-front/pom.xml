@@ -60,6 +60,10 @@
       <groupId>CAJR</groupId>
       <artifactId>cajr-global-exception</artifactId>
     </dependency>
+    <dependency>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-redis</artifactId>
+    </dependency>
     <!--mapper-->
     <dependency>
       <groupId>tk.mybatis</groupId>
