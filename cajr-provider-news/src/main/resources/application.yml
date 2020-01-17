@@ -1,0 +1,8 @@
+server:
+  port: 7400
+spring:
+  application:
+    name: cajr-provider-news
+mybatis:
+  mapper-locations:
+    - classpath:mapping/*.xml
