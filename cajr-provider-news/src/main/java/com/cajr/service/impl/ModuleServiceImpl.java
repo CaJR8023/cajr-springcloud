@@ -22,6 +22,9 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public Integer add(Module module) {
+        if (this.moduleMapper.checkExistByName(module.getName()) >= 1){
+            return -1;
+        }
         module.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         module.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return moduleMapper.insertSelective(module);
@@ -35,6 +38,6 @@ public class ModuleServiceImpl implements ModuleService {
 
     @Override
     public List<Module> findAll() {
-        return null;
+        return this.moduleMapper.findAll();
     }
 }

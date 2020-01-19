@@ -6,6 +6,9 @@ import com.cajr.vo.news.NewsImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 /**
  * @author CAJR
  * @date 2020/1/17 4:05 下午
@@ -18,6 +21,10 @@ public class NewsImageServiceImpl implements NewsImageService {
 
     @Override
     public Integer add(NewsImage newsImage) {
+
+        newsImage.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        newsImage.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        newsImage.setStatus(1);
         return newsImageMapper.insertSelective(newsImage);
     }
 }

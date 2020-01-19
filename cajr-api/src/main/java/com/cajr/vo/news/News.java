@@ -22,6 +22,8 @@ public class News {
 
     private String allContent;
 
+    private String newsDataSign;
+
     private int status;
 
     private Timestamp createdAt;
@@ -106,5 +108,13 @@ public class News {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getNewsDataSign() {
+        return newsDataSign;
+    }
+
+    public void setNewsDataSign(String newsDataSign) {
+        this.newsDataSign = newsDataSign;
     }
 }

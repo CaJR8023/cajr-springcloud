@@ -18,4 +18,6 @@ public interface NewsMapper {
     int updateByPrimaryKeySelective(News record);
 
     int updateByPrimaryKey(News record);
+
+    int checkExistBySign(String sign);
 }

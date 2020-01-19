@@ -22,4 +22,6 @@ public interface ModuleMapper {
     int updateByPrimaryKey(Module record);
 
     List<Module> findAll();
+
+    Integer checkExistByName(String name);
 }

@@ -15,7 +15,12 @@
     <!--@mbg.generated-->
     id, `name`, `status`, created_at, updated_at, sign
   </sql>
-  <select id="findAll" parameterType="int" resultMap="BaseResultMap">
+
+  <select id="checkExistByName" resultType="integer">
+    select exists (SELECT 1 FROM module WHERE name = #{param1} and status = 1 LIMIT 1)
+  </select>
+
+  <select id="findAll"  resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />

@@ -18,6 +18,10 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public Integer add(News news) {
-        return newsMapper.insertSelective(news);
+        if (this.newsMapper.checkExistBySign(news.getNewsDataSign()) > 0){
+            return -1;
+        }
+        newsMapper.insertSelective(news);
+        return news.getId();
     }
 }

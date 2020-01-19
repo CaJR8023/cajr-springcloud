@@ -9,6 +9,8 @@ import com.cajr.service.NewsImageService;
 import com.cajr.service.NewsService;
 import com.cajr.util.URLRequestUtils;
 import com.cajr.vo.news.Module;
+import com.cajr.vo.news.News;
+import com.cajr.vo.news.NewsImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,10 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * @author CAJR
@@ -64,12 +70,17 @@ public class NewsDataServiceImpl implements NewsDataService {
                 Module module = new Module();
                 if (moduleJson.getString("name") != null){
                     module.setName(moduleJson.getString("name").replace("焦点","").replace("最新","").trim());
+//                    module.setName(moduleJson.getString("name"));
                 }
+//                if (moduleJson.getString("name").equals("最新")){
+//                    module.setSign(moduleJson.getString("channelId"));
+//                }
                 module.setSign(moduleJson.getString("channelId"));
+                module.setStatus(1);
                 System.out.println(module.toString());
                 modules.add(module);
             });
-            this.moduleService.addList(modules);
+//            this.moduleService.addList(modules);
         }
         return "success";
     }
@@ -78,17 +89,74 @@ public class NewsDataServiceImpl implements NewsDataService {
     public String crawlNewsData() throws Exception {
         //查询参数
         Map<String, String> queryParams = new HashMap<>(16);
-        queryParams.put("channelId", "5572a108b3cdc86cf39001d1");
-        queryParams.put("channelName", "互联网焦点");
         queryParams.put("needAllList", "1");
         queryParams.put("needContent", "1");
+        queryParams.put("channelId", "");
         queryParams.put("page", "1");
-//        queryParams.put("title", "");
-        String result = crawlData(urlNews, queryParams);
-        JSONObject jsonObject = JSON.parseObject(result);
-        System.out.println(jsonObject.getString("showapi_res_body"));
-        return result;
+
+        List<Module> modules = this.moduleService.findAll();
+        if (!modules.isEmpty()){
+            for (Module module : modules) {
+                if (module.getId() > 0){
+                    try {
+                        queryParams.put("channelId",module.getSign());
+                        JSONObject jsonAll = JSON.parseObject(crawlData(urlNews, queryParams));
+                        if (jsonAll != null){
+                            if (jsonAll.getInteger("showapi_res_code") == 0){
+                                JSONObject jsonPageBean = JSON.parseObject(JSON.parseObject(jsonAll.getString("showapi_res_body")).getString("pagebean"));
+                                int allPages = jsonPageBean.getInteger("allPages");
+                                insertData(module, jsonPageBean);
+
+                                for (int i = 1; i <= allPages; i++) {
+                                    queryParams.put("page",String.valueOf(i));
+                                    JSONObject jsonAllLoop = JSON.parseObject(crawlData(urlNews, queryParams));
+                                    JSONObject jsonPageBeanLoop = JSON.parseObject(JSON.parseObject(jsonAllLoop.getString("showapi_res_body")).getString("pagebean"));
+                                    insertData(module, jsonPageBeanLoop);
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+
+
+        return "1";
     }
+
+    private void insertData(Module module, JSONObject jsonPageBean){
+        JSONArray contentList = JSONArray.parseArray(jsonPageBean.getString("contentlist"));
+        contentList.forEach(contentObject -> {
+            JSONObject content = JSON.parseObject(contentObject.toString());
+            News news = new News();
+            System.out.println("news==>"+module.getId());
+            news.setModuleId(module.getId());
+            news.setDesc(content.getString("desc"));
+            news.setAllContent(content.getString("allList"));
+            news.setContent(content.getString("content"));
+            news.setTitle(content.getString("title"));
+            news.setSource(content.getString("source"));
+            news.setCreatedAt(content.getTimestamp("pubDate"));
+            news.setNewsDataSign(content.getString("id"));
+            news.setStatus(1);
+            int newsId = this.newsService.add(news);
+
+            JSONArray jsonImageUrls = JSONArray.parseArray(content.getString("imageurls"));
+            jsonImageUrls.forEach(imageObject -> {
+                JSONObject jsonImage = JSON.parseObject(imageObject.toString());
+                NewsImage newsImage = new NewsImage();
+                newsImage.setNewsId(newsId);
+                newsImage.setUrl(jsonImage.getString("url"));
+                if (newsImage.getNewsId() > 0){
+                    this.newsImageService.add(newsImage);
+                }
+            });
+
+        });
+    }
+
 
     private String crawlData(String url, Map<String, String> queryParams) throws Exception {
         Calendar calendar = Calendar.getInstance();
