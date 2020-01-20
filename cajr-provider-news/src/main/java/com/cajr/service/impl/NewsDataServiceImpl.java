@@ -13,6 +13,7 @@ import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -23,15 +24,12 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import static java.util.Comparator.comparingLong;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
-
 /**
  * @author CAJR
  * @date 2020/1/15 5:14 下午
  */
 @Service
+@RefreshScope
 public class NewsDataServiceImpl implements NewsDataService {
     @Value("${news.data.secretId}")
     private String secretId;
