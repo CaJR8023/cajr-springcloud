@@ -90,10 +90,10 @@
     </dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
-      <artifactId>jackson-mapper-asl</artifactId>
+      <artifactId>jackson-core-asl</artifactId>
       <version>1.9.13</version>
-      <scope>compile</scope>
     </dependency>
+
     <dependency>
     <groupId>org.ansj</groupId>
     <artifactId>ansj_seg</artifactId>
