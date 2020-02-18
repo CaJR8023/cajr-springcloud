@@ -24,7 +24,7 @@
     <!--@mbg.generated-->
     select
     <include refid="Base_Column_List" />
-    from module
+    from module where `status` = 1
   </select>
   <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
     <!--@mbg.generated-->

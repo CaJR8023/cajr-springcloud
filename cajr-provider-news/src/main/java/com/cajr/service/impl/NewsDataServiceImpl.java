@@ -21,7 +21,9 @@ import java.io.DataOutputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -70,15 +72,17 @@ public class NewsDataServiceImpl implements NewsDataService {
                     module.setName(moduleJson.getString("name").replace("焦点","").replace("最新","").trim());
 //                    module.setName(moduleJson.getString("name"));
                 }
-//                if (moduleJson.getString("name").equals("最新")){
-//                    module.setSign(moduleJson.getString("channelId"));
-//                }
+                if (moduleJson.getString("name").equals("最新")){
+                    module.setSign(moduleJson.getString("channelId"));
+                }
                 module.setSign(moduleJson.getString("channelId"));
                 module.setStatus(1);
+                module.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+                module.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
                 System.out.println(module.toString());
                 modules.add(module);
             });
-//            this.moduleService.addList(modules);
+            this.moduleService.addList(modules);
         }
         return "success";
     }
