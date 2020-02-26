@@ -15,7 +15,7 @@ public class ICodeClientServiceFallBackFactory implements FallbackFactory<ICodeC
     public ICodeClientService create(Throwable throwable) {
         return new ICodeClientService() {
             @Override
-            public Result sendCode(String code, String phone) {
+            public Result sendCode(String phone) {
                 return new Result<>("hystrix",-1);
             }
         };

@@ -1,5 +1,6 @@
 package com.cajr.controller;
 
+import com.cajr.service.CodeService;
 import com.cajr.service.UserService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
@@ -23,6 +24,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    CodeService codeService;
+
     @GetMapping("/{id}")
     @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getOneUser")
     public Result getOneUser(@PathVariable("id")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") int id ){
@@ -37,13 +41,14 @@ public class UserController {
     @PostMapping("/")
     @ApiOperation(value = "添加用户接口",httpMethod = "POST",nickname = "addOneUser")
     public Result addOneUser(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
+        if (this.userService.checkIsExistByTel(user.getTel()).get() >= 1){
+            return new Result<>("该手机号码已注册！","");
+        }
         Optional<Integer> result = this.userService.add(user);
         if (!result.isPresent()){
             return new Result<>("添加失败","");
         }
-        if (this.userService.checkIsExistByTel(user.getTel()).get() >= 1){
-            return new Result<>("该手机号码已注册！","");
-        }
         return new Result<>(result.get());
     }
+
 }

@@ -1,5 +1,6 @@
-package com.cajr.exception;
+package com.cajr.handler;
 
+import com.cajr.exception.ExceptionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

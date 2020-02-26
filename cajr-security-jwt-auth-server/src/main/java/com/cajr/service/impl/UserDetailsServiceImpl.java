@@ -15,7 +15,7 @@ import java.util.Optional;
  * @author CAJR
  * @date 2019/11/25 7:02 下午
  */
-@Service
+@Service("UserDetailsServiceImpl")
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired

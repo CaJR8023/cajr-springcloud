@@ -1,7 +1,8 @@
 package com.cajr.config;
 
 import com.cajr.exception.AuthExceptionEntryPoint;
-import com.cajr.exception.CustomAccessDeniedHandler;
+import com.cajr.handler.CustomAccessDeniedHandler;
+import com.cajr.handler.CustomAuthenticationSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,6 +21,12 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     @Autowired
     CustomAccessDeniedHandler customAccessDeniedHandler;
 
+    @Autowired
+    SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.authenticationEntryPoint(new AuthExceptionEntryPoint())
@@ -28,6 +35,8 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/test").permitAll();
+        http.apply(smsCodeAuthenticationSecurityConfig)
+                .and().formLogin().successHandler(customAuthenticationSuccessHandler)
+                .and().authorizeRequests().antMatchers("/sms/login").permitAll();
     }
 }

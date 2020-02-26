@@ -1,11 +1,13 @@
 package com.cajr.config;
 
 import com.cajr.exception.AuthExceptionEntryPoint;
-import com.cajr.exception.CustomAccessDeniedHandler;
+import com.cajr.handler.CustomAccessDeniedHandler;
+import com.cajr.provider.SmsCodeAuthenticationProvider;
 import com.cajr.service.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,6 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsServiceImpl userDetailsService;
+
+    @Autowired
+    RedisTemplate redisTemplate;
 
     @Autowired
     public void globalUserDetails(final AuthenticationManagerBuilder auth) throws Exception {
@@ -52,6 +57,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(bCryptPasswordEncoder);
         return authenticationProvider;
     }
+
+//    @Bean
+//    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider(){
+//        final SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
+//        smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
+//        smsCodeAuthenticationProvider.setRedisTemplate(redisTemplate);
+//        return smsCodeAuthenticationProvider;
+//    }
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler(){

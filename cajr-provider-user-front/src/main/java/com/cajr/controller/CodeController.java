@@ -23,8 +23,7 @@ public class CodeController {
     CodeService codeService;
 
     @GetMapping("/send")
-    public Result sendCode(@RequestParam("code") @ApiParam(value = "验证码",required = true,type = "string") String code,
-                           @RequestParam("phone") @ApiParam(value = "手机号",required = true,type = "string") String phone){
-        return new Result<>(this.codeService.sendCode(code,phone));
+    public Result sendCode(@RequestParam("phone") @ApiParam(value = "手机号",required = true,type = "string") String phone){
+        return new Result<>(this.codeService.sendCode(phone));
     }
 }
