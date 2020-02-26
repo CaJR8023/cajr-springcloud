@@ -66,4 +66,16 @@ public class ConsumerSecurityController {
         HttpEntity<LinkedMultiValueMap> entity = new HttpEntity<>(headers);
         return restTemplate.exchange(url, HttpMethod.GET,entity,Object.class);
     }
+
+    @ApiOperation(value = "短信验证码登录", httpMethod = "POST", nickname = "smsCodeLogin")
+    @PostMapping("/sms/login")
+    Object smsCodeLogin(@RequestParam("mobile") String mobile, @RequestParam("inputCode") String inputCode, HttpServletRequest request) {
+        String url = url(request);
+        LinkedMultiValueMap<String,String> map = new LinkedMultiValueMap<>();
+        map.add("mobile",mobile);
+        map.add("inputCode",inputCode);
+        HttpHeaders headers = authorizationHeaders(request);
+        HttpEntity<LinkedMultiValueMap> entity = new HttpEntity<>(map,headers);
+        return restTemplate.postForEntity(url,entity,Object.class);
+    }
 }

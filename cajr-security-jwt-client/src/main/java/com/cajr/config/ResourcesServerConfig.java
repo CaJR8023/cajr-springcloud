@@ -40,6 +40,7 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(final HttpSecurity http) throws Exception {
 
         http.authorizeRequests().antMatchers("/login/**").permitAll()
+                .antMatchers("/sms/**").permitAll()
                 .antMatchers("/oauth/token/**").permitAll()
                 .antMatchers("/code/send/**").permitAll()
                 .antMatchers("/oauth/check_token/**").permitAll()

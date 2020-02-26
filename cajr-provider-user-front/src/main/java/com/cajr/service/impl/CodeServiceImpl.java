@@ -78,7 +78,7 @@ public class CodeServiceImpl implements CodeService {
         int randLength = fourCode.length();
         if (randLength < 4){
             for (int i = 1; i < 4-randLength; i++) {
-                fourCode.insert(0, "0");
+                fourCode.insert(randLength, "0");
             }
         }
         return fourCode.toString();
