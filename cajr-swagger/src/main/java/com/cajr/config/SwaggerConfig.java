@@ -1,9 +1,12 @@
 package com.cajr.config;
 
+import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.bind.annotation.RequestMethod;
+import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -27,6 +30,8 @@ import java.util.List;
  */
 @Configuration
 @EnableSwagger2
+@EnableSwaggerBootstrapUI
+@Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfig {
     final List<ResponseMessage> globalResponse = Arrays.asList(
             new ResponseMessageBuilder()

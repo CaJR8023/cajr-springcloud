@@ -2,6 +2,8 @@ package com.cajr.mapper;
 
 import com.cajr.vo.news.News;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/1/17 3:51 下午
@@ -20,4 +22,6 @@ public interface NewsMapper {
     int updateByPrimaryKey(News record);
 
     int checkExistBySign(String sign);
+
+    List<News> selectSectionByNewsIds(List<Integer> newsId);
 }

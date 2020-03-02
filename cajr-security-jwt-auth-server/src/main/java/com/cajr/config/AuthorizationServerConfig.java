@@ -1,6 +1,7 @@
 package com.cajr.config;
 
 import com.cajr.exception.CustomWebResponseExceptionTranslator;
+import com.cajr.service.impl.CustomTokenEnhancer;
 import com.cajr.service.impl.CustomTokenServices;
 import com.cajr.service.impl.CustomUserAuthenticationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -49,17 +51,22 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.jdbc(dataSource);
     }
 
+    @Bean
+    public TokenEnhancer customTokenEnhancer(){
+        return new CustomTokenEnhancer();
+    }
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.authenticationManager(authenticationManager);
         endpoints.tokenStore(tokenStore());
         endpoints.setClientDetailsService(clientDetailsService());
+        endpoints.tokenEnhancer(customTokenEnhancer());
 
         DefaultTokenServices tokenServices = new DefaultTokenServices();
         tokenServices.setTokenStore(endpoints.getTokenStore());
         tokenServices.setSupportRefreshToken(true);
         tokenServices.setClientDetailsService(endpoints.getClientDetailsService());
-        tokenServices.setTokenEnhancer(endpoints.getTokenEnhancer());
         tokenServices.setAccessTokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(1));//一天
         endpoints.tokenServices(tokenServices);
         endpoints.exceptionTranslator(webResponseExceptionTranslator());

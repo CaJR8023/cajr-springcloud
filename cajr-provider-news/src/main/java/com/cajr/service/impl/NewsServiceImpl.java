@@ -6,6 +6,8 @@ import com.cajr.vo.news.News;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/1/15 4:43 下午
@@ -23,5 +25,10 @@ public class NewsServiceImpl implements NewsService {
         }
         newsMapper.insertSelective(news);
         return news.getId();
+    }
+
+    @Override
+    public List<News> findSectionNews(List<Integer> newsIds) {
+        return null;
     }
 }

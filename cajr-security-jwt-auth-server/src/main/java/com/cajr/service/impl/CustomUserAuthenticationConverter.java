@@ -1,5 +1,6 @@
 package com.cajr.service.impl;
 
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -44,5 +45,30 @@ public class CustomUserAuthenticationConverter extends JwtAccessTokenConverter {
             result.put("user", Objects.requireNonNull(authentication.getOAuth2Request()).getGrantType());
         }
         return result;
+    }
+
+    @Override
+    public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
+        DefaultOAuth2AccessToken defaultOAuth2AccessToken = new DefaultOAuth2AccessToken(accessToken);
+        Object principal = authentication.getPrincipal();
+        CustomUserDetailsImpl user = null;
+        CustomAdminDetailsImpl admin = null;
+        Map<String, Object> userInfoMap = new HashMap<>();
+
+        if ( principal != null) {
+            if ( principal instanceof CustomUserDetailsImpl) {
+                user = (CustomUserDetailsImpl) principal;
+                userInfoMap.put("user_id", user.getUsername());
+                System.out.println(user.getUsername());
+                userInfoMap.put("user_name", user.getUsername());
+            } else if (principal instanceof CustomAdminDetailsImpl) {
+                admin = (CustomAdminDetailsImpl) principal;
+                userInfoMap.put("user_id", admin.getId());
+                userInfoMap.put("user_name", admin.getUsername());
+            }
+        }
+
+        defaultOAuth2AccessToken.setAdditionalInformation(userInfoMap);
+        return super.enhance(defaultOAuth2AccessToken, authentication);
     }
 }

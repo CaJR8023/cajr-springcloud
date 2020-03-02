@@ -1,16 +1,18 @@
 package com.cajr.service;
 
+import com.cajr.vo.news.NewsRecommend;
+
 import java.util.List;
 
 /**
- * @Author CAJR
- * @create 2020/2/20 13:47
+ * @author CAJR
+ * @date 2020/2/26 6:09 下午
  */
 public interface NewsRecommendService {
 
-    /**
-     * 针对特定用户推荐新闻
-     * @param userIds 用户id列表
-     */
-    public void recommend(List<Integer> userIds);
+    List<NewsRecommend> findAllByUserId(int userId);
+
+    List<NewsRecommend> findAllByUserIds(List<Integer> userIds);
+
+    Integer insertRecommend(List<Integer> newsIds, int userId, int recAlgorithm);
 }
