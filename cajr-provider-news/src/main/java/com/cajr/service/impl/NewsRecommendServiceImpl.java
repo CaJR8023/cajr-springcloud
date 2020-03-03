@@ -42,6 +42,7 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
                 NewsRecommend newsRecommend = new NewsRecommend();
                 newsRecommend.setNewsId(newsId);
                 newsRecommend.setUserId(userId);
+                newsRecommend.setFeedback(recAlgorithm);
                 newsRecommend.setStatus(1);
                 newsRecommend.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
                 newsRecommend.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));

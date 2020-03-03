@@ -1,6 +1,7 @@
 package com.cajr.service.impl;
 
 import com.cajr.service.NewsRecommendService;
+import com.cajr.service.RecommendCommonService;
 import com.cajr.service.RecommendService;
 import com.cajr.util.CommonParam;
 import com.cajr.util.TimeUtil;
@@ -11,6 +12,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -28,6 +31,9 @@ public class HotRecommendImpl implements RecommendService {
 
     @Autowired
     private NewsRecommendService newsRecommendService;
+
+    @Autowired
+    private RecommendCommonService recommendCommonService;
 
     @Autowired
     private RedisTemplate redisTemplate;
@@ -77,16 +83,22 @@ public class HotRecommendImpl implements RecommendService {
             boolean flag = (tmpRecNums!=0);
             int delta = flag?TOTAL_REC_NUM - tmpRecNums : TOTAL_REC_NUM;
 
-            Set<Integer> toBeRecommended = new HashSet<>();
+            List<Integer> toBeRecommended = new ArrayList<>();
             if(delta > 0){
                 int index = Math.min(hotNewsTopIds.size(), delta);
                 while (index-- > 0){
                     toBeRecommended.add(hotNewsTopIds.get(index));
                 }
             }
+            this.recommendCommonService.filterBrowsedNews(toBeRecommended, userId);
+            this.recommendCommonService.filterRecCedNews(toBeRecommended, userId);
+            this.newsRecommendService.insertRecommend(toBeRecommended,userId,CommonParam.HR_ALGORITHM);
             count += toBeRecommended.size();
 
         }
+
+        logger.info("HR has contributed " + (userIds.size()==0?0:count/userIds.size()) + " recommending news on average");
+        logger.info("HR end at "+ Timestamp.valueOf(LocalDateTime.now()));
     }
 
 }

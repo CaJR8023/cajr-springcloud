@@ -2,6 +2,8 @@ package com.cajr.mapper;
 
 import com.cajr.vo.user.User;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2019/11/25 7:22 下午
@@ -22,4 +24,10 @@ public interface UserMapper {
     int checkIsExistsByTel(String tel);
 
     int checkIsExistsById(int id);
+
+    List<Integer> findAllUserId();
+
+    List<User> findAll();
+
+    List<User> findSection(List<Integer> userIds);
 }

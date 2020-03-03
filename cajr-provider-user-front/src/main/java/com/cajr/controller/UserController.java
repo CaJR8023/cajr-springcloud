@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -49,6 +50,25 @@ public class UserController {
             return new Result<>("添加失败","");
         }
         return new Result<>(result.get());
+    }
+
+
+    @GetMapping("/all_user_id")
+    public Result findAllUserId(){
+        return new Result<>(this.userService.findAllUserId());
+    }
+
+    @GetMapping("/active")
+    public List<Integer> findActiveUserId(){
+        return this.userService.findAllActiveUserId();
+    }
+
+    @GetMapping("/section")
+    public List<User> findSectionUser(@RequestParam("userIds") List<Integer> userIds){
+        if (userIds.isEmpty()){
+            return null;
+        }
+        return this.userService.findSection(userIds);
     }
 
 }

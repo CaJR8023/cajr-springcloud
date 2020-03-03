@@ -2,13 +2,19 @@ package com.cajr.service.impl;
 
 import com.cajr.mapper.UserMapper;
 import com.cajr.service.UserService;
+import com.cajr.util.CustomHashMap;
+import com.cajr.util.TimeUtil;
 import com.cajr.vo.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,6 +27,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Value("${news.recommend.activeDays}")
+    private int activeDays;
 
     @Override
     public Optional<User> getOneUser(int id) {
@@ -57,5 +65,30 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<Integer> checkIsExistById(int id) {
         return Optional.of(this.userMapper.checkIsExistsById(id));
+    }
+
+    @Override
+    public List<Integer> findAllUserId() {
+        return this.userMapper.findAllUserId();
+    }
+
+    @Override
+    public List<User> findSection(List<Integer> userIds) {
+        return null;
+    }
+
+    @Override
+    public List<Integer> findAllActiveUserId() {
+        List<User> users = this.userMapper.findAll();
+        if (users.isEmpty()){
+            return null;
+        }
+        List<Integer> activeUserIds = new ArrayList<>();
+        users.forEach(user -> {
+            if (user.getUserLog().getLatestLoginTime().after(TimeUtil.getInRecTimestamp(activeDays))){
+                activeUserIds.add(user.getId());
+            }
+        });
+        return activeUserIds;
     }
 }

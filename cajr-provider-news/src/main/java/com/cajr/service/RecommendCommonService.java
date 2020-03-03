@@ -1,5 +1,8 @@
 package com.cajr.service;
 
+import com.cajr.util.CustomHashMap;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -29,5 +32,11 @@ public interface RecommendCommonService {
      */
     public void filterOutDateNews(List<Integer> newsIds, Integer userId);
 
+    /**
+     * 获取用户的喜好关键词
+     * @param userIds
+     * @return
+     */
+    public HashMap<Integer, CustomHashMap<Integer, CustomHashMap<String,Double>>> getUserPrefList(List<Integer> userIds);
 
 }

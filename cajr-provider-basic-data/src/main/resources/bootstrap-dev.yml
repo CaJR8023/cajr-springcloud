@@ -17,3 +17,5 @@ spring:
           data-id: cajr-page-size-config.yml
         ext-config[2]:
           data-id: cajr-common-config.yml
+        ext-config[3]:
+          data-id: cajr-news-recommend-config.yml

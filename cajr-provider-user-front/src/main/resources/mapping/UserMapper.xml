@@ -11,12 +11,35 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+
+    <association property="userLog" javaType="com.cajr.vo.user.UserLog" column="id" select="com.cajr.mapper.UserLogMapper.selectOneByUserId"/>
+    <association property="userPref" javaType="com.cajr.vo.user.UserPref" column="id" select="com.cajr.mapper.UserPrefMapper.selectByUserId"/>
+
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, username, tel, `password`, `status`, created_at, updated_at
   </sql>
 
+  <select id="findAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from user where status = 1
+  </select>
+
+  <select id="findSection" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from user where status = 1 and
+    id in <foreach collection="list" item="userId" open="(" separator="," close=")">
+    #{userId,jdbcType=INTEGER}
+  </foreach>
+  </select>
+
+  <select id="findAllUserId" resultType="integer">
+    select
+    id
+    from user where status = 1
+  </select>
   <select id="checkIsExistsById" resultType="int">
     select exists (select 1 from user where id = #{id,jdbcType=INTEGER} limit 1)
   </select>

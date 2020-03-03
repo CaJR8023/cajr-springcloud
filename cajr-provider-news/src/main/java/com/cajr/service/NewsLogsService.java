@@ -1,0 +1,19 @@
+package com.cajr.service;
+
+import com.cajr.vo.news.NewsLogs;
+
+import java.util.List;
+
+/**
+ * @author CAJR
+ * @date 2020/3/3 10:07 上午
+ */
+public interface NewsLogsService {
+
+    List<NewsLogs> findAllByUserId(Integer userId);
+
+    Integer add(NewsLogs newsLogs);
+
+    Integer update(NewsLogs newsLogs);
+
+}

@@ -26,6 +26,10 @@ public class User implements Serializable {
     @JsonIgnore
     private Timestamp updatedAt;
 
+    private UserLog userLog;
+
+    private UserPref userPref;
+
     public int getId() {
         return id;
     }
@@ -80,5 +84,21 @@ public class User implements Serializable {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public UserLog getUserLog() {
+        return userLog;
+    }
+
+    public void setUserLog(UserLog userLog) {
+        this.userLog = userLog;
+    }
+
+    public UserPref getUserPref() {
+        return userPref;
+    }
+
+    public void setUserPref(UserPref userPref) {
+        this.userPref = userPref;
     }
 }

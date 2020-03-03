@@ -5,10 +5,9 @@ import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 /**
@@ -23,4 +22,13 @@ public interface IUserClientService {
 
     @PostMapping("/user/")
     public Result addOneUser(@RequestBody User user);
+
+    @GetMapping("/user/all_user_id")
+    public Result findAllUserId();
+
+    @GetMapping("/user/active")
+    public List<Integer> findActiveUserId();
+
+    @GetMapping("/user/section")
+    public List<User> findSectionUserId(@RequestParam("userIds") List<Integer> userIds);
 }

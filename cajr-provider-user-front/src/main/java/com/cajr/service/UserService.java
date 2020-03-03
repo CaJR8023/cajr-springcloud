@@ -1,7 +1,10 @@
 package com.cajr.service;
 
+import com.cajr.util.CustomHashMap;
 import com.cajr.vo.user.User;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -21,4 +24,11 @@ public interface UserService {
     public Optional<Integer> checkIsExistByTel(String tel);
 
     public Optional<Integer> checkIsExistById(int id);
+
+    public List<Integer> findAllUserId();
+
+    public List<User> findSection(List<Integer> userIds);
+
+    public List<Integer> findAllActiveUserId();
+
 }
