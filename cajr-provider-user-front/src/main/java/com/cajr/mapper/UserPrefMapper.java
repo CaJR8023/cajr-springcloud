@@ -17,7 +17,11 @@ public interface UserPrefMapper {
 
     int updateByPrimaryKeySelective(UserPref record);
 
+    int updateByUserIdSelective(UserPref record);
+
     int updateByPrimaryKey(UserPref record);
 
     UserPref selectByUserId(int userId);
+
+    int checkExistUserPrefByUserId(Integer userId);
 }

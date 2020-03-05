@@ -22,4 +22,6 @@ public interface NewsLogsMapper {
     int updateByPrimaryKey(NewsLogs record);
 
     List<NewsLogs> findAllByUserId(int userId);
+
+    List<NewsLogs> findAll();
 }

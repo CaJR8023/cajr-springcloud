@@ -54,8 +54,8 @@ public class UserController {
 
 
     @GetMapping("/all_user_id")
-    public Result findAllUserId(){
-        return new Result<>(this.userService.findAllUserId());
+    public List<Integer> findAllUserId(){
+        return this.userService.findAllUserId();
     }
 
     @GetMapping("/active")

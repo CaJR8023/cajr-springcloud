@@ -4,6 +4,7 @@ import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserPref;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,11 +25,17 @@ public interface IUserClientService {
     public Result addOneUser(@RequestBody User user);
 
     @GetMapping("/user/all_user_id")
-    public Result findAllUserId();
+    public List<Integer> findAllUserId();
 
     @GetMapping("/user/active")
     public List<Integer> findActiveUserId();
 
     @GetMapping("/user/section")
     public List<User> findSectionUserId(@RequestParam("userIds") List<Integer> userIds);
+
+    @PostMapping("/user_pref/")
+    public Result addOne(@RequestBody UserPref userPref);
+
+    @PutMapping("/user_pref")
+    public Result updateUserPref(@RequestBody UserPref userPref);
 }

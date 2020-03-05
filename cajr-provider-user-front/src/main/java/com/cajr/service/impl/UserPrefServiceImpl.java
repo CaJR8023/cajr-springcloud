@@ -31,6 +31,11 @@ public class UserPrefServiceImpl implements UserPrefService{
     public Integer update(UserPref userPref) {
         userPref.setStatus(1);
         userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        return this.userPrefMapper.updateByPrimaryKeySelective(userPref);
+        return this.userPrefMapper.updateByUserIdSelective(userPref);
+    }
+
+    @Override
+    public int checkExistUserPrefByUserId(Integer userId) {
+        return this.userPrefMapper.checkExistUserPrefByUserId(userId);
     }
 }

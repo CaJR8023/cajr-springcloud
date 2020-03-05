@@ -10,7 +10,7 @@ import java.util.Date;
 public class UserPref {
     private Integer id;
 
-    private String userId;
+    private int userId;
 
     private String prefList;
 
@@ -28,11 +28,11 @@ public class UserPref {
         this.id = id;
     }
 
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

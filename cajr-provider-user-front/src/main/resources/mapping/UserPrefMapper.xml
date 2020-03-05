@@ -5,7 +5,7 @@
     <!--@mbg.generated-->
     <!--@Table user_pref-->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="pref_list" jdbcType="LONGVARCHAR" property="prefList" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
@@ -15,6 +15,9 @@
     <!--@mbg.generated-->
     id, user_id, pref_list, `status`, created_at, updated_at
   </sql>
+  <select id="checkExistUserPrefByUserId" resultType="integer">
+    select exists (select 1 from user_pref where user_id = #{id,jdbcType=INTEGER} and status = 1 limit 1)
+  </select>
   <select id="selectByUserId" parameterType="int" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
@@ -37,7 +40,7 @@
     <!--@mbg.generated-->
     insert into user_pref (user_id, pref_list, `status`, 
       created_at, updated_at)
-    values (#{userId,jdbcType=VARCHAR}, #{prefList,jdbcType=LONGVARCHAR}, #{status,jdbcType=TINYINT}, 
+    values (#{userId,jdbcType=INTEGER}, #{prefList,jdbcType=LONGVARCHAR}, #{status,jdbcType=TINYINT},
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.UserPref" useGeneratedKeys="true">
@@ -60,7 +63,7 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="userId != null">
-        #{userId,jdbcType=VARCHAR},
+        #{userId,jdbcType=INTEGER},
       </if>
       <if test="prefList != null">
         #{prefList,jdbcType=LONGVARCHAR},
@@ -79,7 +82,7 @@
     update user_pref
     <set>
       <if test="userId != null">
-        user_id = #{userId,jdbcType=VARCHAR},
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
       <if test="prefList != null">
         pref_list = #{prefList,jdbcType=LONGVARCHAR},
@@ -96,10 +99,32 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByUserIdSelective" parameterType="com.cajr.vo.user.UserPref">
+    <!--@mbg.generated-->
+    update user_pref
+    <set>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="prefList != null">
+        pref_list = #{prefList,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
   <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.UserPref">
     <!--@mbg.generated-->
     update user_pref
-    set user_id = #{userId,jdbcType=VARCHAR},
+    set user_id = #{userId,jdbcType=INTEGER},
       pref_list = #{prefList,jdbcType=LONGVARCHAR},
       `status` = #{status,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},

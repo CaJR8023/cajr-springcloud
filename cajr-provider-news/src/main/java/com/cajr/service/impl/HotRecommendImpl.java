@@ -40,7 +40,7 @@ public class HotRecommendImpl implements RecommendService {
 
     @Override
     public void recommend(List<Integer> userIds) {
-        logger.info("HR start at " + new Date());
+        logger.info("热点补充算法开始 " + new Date());
 
         //将每天生成的“热点新闻”ID，按照新闻的热点程度从高到低放入redis
         Set<ZSetOperations.TypedTuple<Object>> hotNewsRedisTopIds = redisTemplate.opsForZSet().reverseRangeWithScores(CommonParam.HOT_NEWS_REDIS_KEY,0,-1);

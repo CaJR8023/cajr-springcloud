@@ -6,3 +6,15 @@ spring:
 mybatis:
   mapper-locations:
     - classpath:mapping/*.xml
+
+#算法自定义配置
+algorithm:
+  CFRecNum: 5
+  CFValidDay: -30
+  CBRecNum: 5
+  previousDays: -30
+  TFIDFKeywordsNum: 10
+  startAt: 30 * * * * ?
+  enableCF: true
+  enableCB: true
+  enableHR: true

@@ -10,4 +10,6 @@ public interface UserPrefService {
     public Integer add(UserPref userPref);
 
     public Integer update(UserPref userPref);
+
+    int checkExistUserPrefByUserId(Integer userId);
 }

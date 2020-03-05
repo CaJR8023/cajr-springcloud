@@ -12,6 +12,8 @@ public interface NewsLogsService {
 
     List<NewsLogs> findAllByUserId(Integer userId);
 
+    List<NewsLogs> findAll();
+
     Integer add(NewsLogs newsLogs);
 
     Integer update(NewsLogs newsLogs);

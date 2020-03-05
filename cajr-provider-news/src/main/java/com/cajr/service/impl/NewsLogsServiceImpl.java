@@ -24,6 +24,11 @@ public class NewsLogsServiceImpl implements NewsLogsService {
     }
 
     @Override
+    public List<NewsLogs> findAll() {
+        return this.newsLogsMapper.findAll();
+    }
+
+    @Override
     public Integer add(NewsLogs newsLogs) {
         return this.newsLogsMapper.insertSelective(newsLogs);
     }

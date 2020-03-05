@@ -14,7 +14,7 @@ public class NewsLogs {
 
     private Integer newsId;
 
-    private Integer viewTime;
+    private Timestamp viewTime;
 
     private int preferDegree;
 
@@ -48,11 +48,11 @@ public class NewsLogs {
         this.newsId = newsId;
     }
 
-    public Integer getViewTime() {
+    public Timestamp getViewTime() {
         return viewTime;
     }
 
-    public void setViewTime(Integer viewTime) {
+    public void setViewTime(Timestamp viewTime) {
         this.viewTime = viewTime;
     }
 

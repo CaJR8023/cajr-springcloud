@@ -3,6 +3,7 @@ package com.cajr.service.fallbak;
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserPref;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -29,8 +30,10 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             }
 
             @Override
-            public Result findAllUserId() {
-                return new Result<>("hystrix fail",0);
+            public List<Integer> findAllUserId() {
+                List<Integer> hystrixList = new ArrayList<>();
+                hystrixList.add(-1);
+                return hystrixList;
             }
 
             @Override
@@ -47,6 +50,16 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
                 user.setId(0);
                 hystrixList.add(user);
                 return hystrixList;
+            }
+
+            @Override
+            public Result addOne(UserPref userPref) {
+                return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public Result updateUserPref(UserPref userPref) {
+                return new Result<>("hystrix fail",0);
             }
         };
     }

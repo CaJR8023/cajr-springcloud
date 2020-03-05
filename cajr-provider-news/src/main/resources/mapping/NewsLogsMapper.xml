@@ -7,7 +7,7 @@
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
     <result column="news_id" jdbcType="INTEGER" property="newsId" />
-    <result column="view_time" jdbcType="INTEGER" property="viewTime" />
+    <result column="view_time" jdbcType="TIMESTAMP" property="viewTime" />
     <result column="prefer_degree" jdbcType="TINYINT" property="preferDegree" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
@@ -17,6 +17,13 @@
     <!--@mbg.generated-->
     id, user_id, news_id, view_time, prefer_degree, `status`, created_at, updated_at
   </sql>
+
+  <select id="findAll"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from news_logs
+    where status = 1
+  </select>
 
   <select id="findAllByUserId" parameterType="int" resultMap="BaseResultMap">
     select
@@ -42,7 +49,7 @@
     insert into news_logs (user_id, news_id, view_time, 
       prefer_degree, `status`, created_at, 
       updated_at)
-    values (#{userId,jdbcType=INTEGER}, #{newsId,jdbcType=INTEGER}, #{viewTime,jdbcType=INTEGER}, 
+    values (#{userId,jdbcType=INTEGER}, #{newsId,jdbcType=INTEGER}, #{viewTime,jdbcType=TIMESTAMP},
       #{preferDegree,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
@@ -76,7 +83,7 @@
         #{newsId,jdbcType=INTEGER},
       </if>
       <if test="viewTime != null">
-        #{viewTime,jdbcType=INTEGER},
+        #{viewTime,jdbcType=TIMESTAMP},
       </if>
       #{preferDegree,jdbcType=TINYINT},
       #{status,jdbcType=TINYINT},
@@ -99,7 +106,7 @@
         news_id = #{newsId,jdbcType=INTEGER},
       </if>
       <if test="viewTime != null">
-        view_time = #{viewTime,jdbcType=INTEGER},
+        view_time = #{viewTime,jdbcType=TIMESTAMP},
       </if>
       <if test="preferDegree != null">
         prefer_degree = #{preferDegree,jdbcType=TINYINT},
@@ -121,7 +128,7 @@
     update news_logs
     set user_id = #{userId,jdbcType=INTEGER},
       news_id = #{newsId,jdbcType=INTEGER},
-      view_time = #{viewTime,jdbcType=INTEGER},
+      view_time = #{viewTime,jdbcType=TIMESTAMP},
       prefer_degree = #{preferDegree,jdbcType=TINYINT},
       `status` = #{status,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
