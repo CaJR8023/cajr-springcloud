@@ -15,11 +15,14 @@ import java.util.List;
  * @author CAJR
  * @date 2019/11/26 6:09 下午
  */
-@FeignClient(name = "cajr-basic-data",configuration = FeignClientConfig.class,
+@FeignClient(name = "cajr-provider-basic-data",configuration = FeignClientConfig.class,
 fallbackFactory = IUserClientServiceFallBackFactory.class)
 public interface IUserClientService {
     @GetMapping("/user/{id}")
     public Result getOneUser(@PathVariable("id") int id);
+
+    @GetMapping("/user/one")
+    public User getUser(@RequestParam("userId") int userId);
 
     @PostMapping("/user/")
     public Result addOneUser(@RequestBody User user);
@@ -36,6 +39,6 @@ public interface IUserClientService {
     @PostMapping("/user_pref/")
     public Result addOne(@RequestBody UserPref userPref);
 
-    @PutMapping("/user_pref")
+    @PutMapping("/user_pref/")
     public Result updateUserPref(@RequestBody UserPref userPref);
 }

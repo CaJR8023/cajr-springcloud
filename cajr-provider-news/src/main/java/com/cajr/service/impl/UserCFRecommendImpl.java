@@ -30,7 +30,7 @@ import java.util.List;
  * @author CAJR
  * @date 2020/3/6 2:11 下午
  */
-@Service("userCFRecommend")
+@Service("userCFRecommendImpl")
 public class UserCFRecommendImpl implements RecommendService {
     private static final org.apache.log4j.Logger logger = Logger.getLogger(UserCFRecommendImpl.class);
 
@@ -38,21 +38,18 @@ public class UserCFRecommendImpl implements RecommendService {
     private NewsLogsService newsLogsService;
 
     @Autowired
-    private IUserClientService iUserClientService;
-
-    @Autowired
     private MySQLBooleanPrefJDBCDataModel mySQLBooleanPrefJDBCDataModel;
 
     /**
      * 对应计算相似度时的时效天数
      */
-    @Value("${new.recommend.CFValidDay}")
+    @Value("${news.recommend.CFValidDay}")
     private  int inRecDays;
 
     /**
      * 给每个用户推荐的新闻的条数
      */
-    @Value("${new.recommend.CFRecNum}")
+    @Value("${news.recommend.CFRecNum}")
     public  int nNews;
 
     //用户邻居数量

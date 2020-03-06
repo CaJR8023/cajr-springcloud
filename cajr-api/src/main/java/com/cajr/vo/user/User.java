@@ -1,6 +1,7 @@
 package com.cajr.vo.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -21,13 +22,17 @@ public class User implements Serializable {
     private int status;
 
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
     @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
+    @ApiModelProperty(hidden = true)
     private UserLog userLog;
 
+    @ApiModelProperty(hidden = true)
     private UserPref userPref;
 
     public int getId() {

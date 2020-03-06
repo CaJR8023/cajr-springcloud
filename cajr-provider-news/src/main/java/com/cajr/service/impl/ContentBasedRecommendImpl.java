@@ -18,7 +18,7 @@ import java.util.*;
  * @author CAJR
  * @date 2020/3/3 5:19 下午
  */
-@Service("ContentBasedRecommend")
+@Service("contentBasedRecommend")
 public class ContentBasedRecommendImpl implements RecommendService {
     private static final org.apache.log4j.Logger logger = Logger.getLogger(ContentBasedRecommendImpl.class);
 

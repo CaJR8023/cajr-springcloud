@@ -89,7 +89,7 @@ public class SwaggerConfig {
     private ApiInfo getApiInfo() {
         Contact contact = new Contact("CAJR","https://github.com/CaJR8023","1206303099@qq.com");
         return new ApiInfoBuilder()
-                .title("CAJR")
+                .title("CAJR-新闻个性推荐")
                 .description("推荐系统api")
                 .version("1.0.0")
                 .contact(contact)

@@ -15,6 +15,8 @@ public interface UserService {
 
     public Optional<User> getOneUser(int id);
 
+    public User getUser(int id);
+
     public Optional<Integer> add(User user);
 
     public Optional<Integer> update(User user);

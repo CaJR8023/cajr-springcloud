@@ -12,6 +12,8 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+
+    <association property="news" javaType="com.cajr.vo.news.News" column="news_id" select="com.cajr.mapper.NewsMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->

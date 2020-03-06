@@ -24,5 +24,5 @@ public class CommonParam {
     public static final int CB_ALGORITHM = 3;
 
     //最近的新闻的天数
-    public static final int RECENT_NEWS_BEFORE_DAYS = 7;
+    public static final int RECENT_NEWS_BEFORE_DAYS = 90;
 }

@@ -28,6 +28,7 @@ public class TimeUtil {
      * @return
      */
     public static Timestamp getInRecTimestamp(int beforeDays) {
+        beforeDays = 0-beforeDays;
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH, beforeDays);
         return new Timestamp(calendar.getTime().getTime());

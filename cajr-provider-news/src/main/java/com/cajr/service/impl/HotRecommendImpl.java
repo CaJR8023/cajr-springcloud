@@ -44,7 +44,7 @@ public class HotRecommendImpl implements RecommendService {
 
         //将每天生成的“热点新闻”ID，按照新闻的热点程度从高到低放入redis
         Set<ZSetOperations.TypedTuple<Object>> hotNewsRedisTopIds = redisTemplate.opsForZSet().reverseRangeWithScores(CommonParam.HOT_NEWS_REDIS_KEY,0,-1);
-        if (hotNewsRedisTopIds == null){
+        if (hotNewsRedisTopIds == null || hotNewsRedisTopIds.size() == 0){
             return;
         }
 

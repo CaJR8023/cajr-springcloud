@@ -1,5 +1,7 @@
 package com.cajr.vo.news;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 
 /**
@@ -13,8 +15,10 @@ public class Module {
 
     private int status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
     /**

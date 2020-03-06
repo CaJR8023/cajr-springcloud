@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @author CAJR
  * @date 2020/1/10 3:23 下午
  */
-@FeignClient(name = "cajr-basic-data",configuration = FeignClientConfig.class,
+@FeignClient(name = "cajr-provider-basic-data",configuration = FeignClientConfig.class,
         fallbackFactory = ICodeClientServiceFallBackFactory.class)
 public interface ICodeClientService {
     @GetMapping("/code/send")

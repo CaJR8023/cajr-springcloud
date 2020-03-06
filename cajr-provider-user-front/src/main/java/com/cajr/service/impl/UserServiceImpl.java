@@ -36,6 +36,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUser(int id) {
+        return this.userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
     public Optional<Integer> add(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setStatus(1);

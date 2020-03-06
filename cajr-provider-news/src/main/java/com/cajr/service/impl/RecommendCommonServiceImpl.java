@@ -107,7 +107,16 @@ public class RecommendCommonServiceImpl implements RecommendCommonService {
         if (userIds.isEmpty()){
             return userPrefListMap;
         }
-        List<User> users = this.iUserClientService.findSectionUserId(userIds);
+
+        List<User> users = new ArrayList<>();
+        for (Integer userId : userIds) {
+            User user = iUserClientService.getUser(userId);
+            if (user != null){
+                if (user.getUserPref() != null){
+                    users.add(user);
+                }
+            }
+        }
         if (!users.isEmpty()){
             users.forEach(user -> {
                 userPrefListMap.put(user.getId(), JsonUtil.jsonPrefListToMap(user.getUserPref().getPrefList()));

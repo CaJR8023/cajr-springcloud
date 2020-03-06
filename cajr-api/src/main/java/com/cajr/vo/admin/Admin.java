@@ -1,5 +1,7 @@
 package com.cajr.vo.admin;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -17,9 +19,11 @@ public class Admin implements Serializable {
 
     private Integer status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
-    private Date updatedAt;
+    @ApiModelProperty(hidden = true)
+    private Timestamp updatedAt;
 
     public Integer getId() {
         return id;
@@ -61,11 +65,11 @@ public class Admin implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Date getUpdatedAt() {
+    public Timestamp getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
     }
 }

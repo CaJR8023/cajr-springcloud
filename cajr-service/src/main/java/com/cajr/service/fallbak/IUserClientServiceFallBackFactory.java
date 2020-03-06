@@ -25,6 +25,13 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             }
 
             @Override
+            public User getUser(int id) {
+                User user = new User();
+                user.setId(-1);
+                return user;
+            }
+
+            @Override
             public Result addOneUser(User user) {
                 return new Result<>("hystrix fail",0);
             }

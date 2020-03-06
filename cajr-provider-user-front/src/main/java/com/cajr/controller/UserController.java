@@ -39,6 +39,15 @@ public class UserController {
         return new Result<>(result.get());
     }
 
+    @GetMapping("/one")
+    @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getUser")
+    public User getUser(@RequestParam("userId")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") int userId ){
+        if ( this.userService.checkIsExistById(userId).get() <= 0){
+            System.out.println(this.userService.checkIsExistById(userId).get());
+        }
+        return this.userService.getUser(userId);
+    }
+
     @PostMapping("/")
     @ApiOperation(value = "添加用户接口",httpMethod = "POST",nickname = "addOneUser")
     public Result addOneUser(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
