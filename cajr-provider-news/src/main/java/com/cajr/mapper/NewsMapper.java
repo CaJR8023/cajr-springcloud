@@ -24,4 +24,6 @@ public interface NewsMapper {
     int checkExistBySign(String sign);
 
     List<News> selectSectionByNewsIds(List<Integer> newsId);
+
+    List<News> selectAll();
 }

@@ -22,6 +22,10 @@
     updated_at, news_data_sign
   </sql>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from news where status = 1
+  </select>
+
   <select id="selectSectionByNewsIds" parameterType="list" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>

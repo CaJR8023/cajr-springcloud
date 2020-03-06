@@ -31,4 +31,9 @@ public class NewsServiceImpl implements NewsService {
     public List<News> findSectionNews(List<Integer> newsIds) {
         return null;
     }
+
+    @Override
+    public List<News> findAll() {
+        return this.newsMapper.selectAll();
+    }
 }

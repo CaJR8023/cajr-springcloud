@@ -12,4 +12,6 @@ public interface NewsService {
     Integer add(News news);
 
     List<News> findSectionNews(List<Integer> newsIds);
+
+    List<News> findAll();
 }

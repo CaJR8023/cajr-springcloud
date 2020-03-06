@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: cajr-provider-news
+  main:
+    allow-bean-definition-overriding: true
 mybatis:
   mapper-locations:
     - classpath:mapping/*.xml

@@ -119,8 +119,8 @@
     </dependency>
 
     <dependency>
-    <groupId>CAJR</groupId>
-    <artifactId>cajr-service</artifactId>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-service</artifactId>
     </dependency>
 
   </dependencies>
