@@ -21,6 +21,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +66,7 @@ public class UserCFRecommendImpl implements RecommendService {
     @Override
     public void recommend(List<Integer> userIds) {
         int count = 0;
-        logger.info("协同过滤推荐算法开始于" + new Date());
+        logger.info("协同过滤推荐算法开始于" +  Timestamp.valueOf(LocalDateTime.now()));
 
         try {
             MySQLBooleanPrefJDBCDataModel mySQLBooleanPrefJDBCDataModel = this.mySQLBooleanPrefJDBCDataModel;

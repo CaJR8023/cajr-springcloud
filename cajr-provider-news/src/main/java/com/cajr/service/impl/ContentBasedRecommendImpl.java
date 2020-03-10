@@ -46,7 +46,7 @@ public class ContentBasedRecommendImpl implements RecommendService {
     @Override
     public void recommend(List<Integer> userIds) {
         int count = 0;
-        logger.info("基于内容算法开始推荐" + Timestamp.valueOf(LocalDateTime.now()));
+        logger.info("基于内容算法开始推荐 ==> " + Timestamp.valueOf(LocalDateTime.now()));
         //首先先进行用户喜好的关键字列表的衰减更新+用户当日历史浏览记录的更新
         this.userPrefRefresherService.refresh();
         //新闻及对应关键词的Map

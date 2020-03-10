@@ -1,14 +1,20 @@
 package com.cajr.service.impl;
 
 import com.cajr.mapper.UserMapper;
+import com.cajr.service.IModuleService;
+import com.cajr.service.UserPrefService;
 import com.cajr.service.UserService;
 import com.cajr.util.CustomHashMap;
 import com.cajr.util.TimeUtil;
+import com.cajr.vo.news.Module;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserPref;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -27,6 +33,12 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    private IModuleService iModuleService;
+
+    @Autowired
+    private UserPrefService userPrefService;
+
     @Value("${news.recommend.activeDays}")
     private int activeDays;
 
@@ -41,13 +53,36 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
     public Optional<Integer> add(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user.setStatus(1);
         user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
-        return Optional.of(this.userMapper.insertSelective(user));
+        this.userMapper.insertSelective(user);
+        //同时初始化用户喜好关键词
+        UserPref userPref = new UserPref();
+        userPref.setUserId(user.getId());
+        userPref.setPrefList(getDefaultUserPref());
+        userPref.setStatus(1);
+        userPref.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+
+        return Optional.of(this.userPrefService.add(userPref));
+    }
+
+    private String getDefaultUserPref() {
+        List<Module> modules = this.iModuleService.getAllModule();
+        if (modules.isEmpty()){
+            return "{}";
+        }
+        StringBuilder userPrefList = new StringBuilder("{");
+        for (Module module : modules) {
+            userPrefList.append("\"").append(module.getId()).append("\":").append("{}").append(",");
+        }
+
+        return userPrefList.substring(0,userPrefList.length()-1) + "}";
     }
 
     @Override

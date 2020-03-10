@@ -19,15 +19,15 @@ public class JsonUtil {
     public static String test(){
         String json=null;
         try {
-            Map<Integer, Object> moduleidMap = new HashMap<Integer, Object>();
+            Map<Integer, Object> moduleIdMap = new HashMap<Integer, Object>();
             Map<String, Double> keywordRateMap = new HashMap<String, Double>();
             keywordRateMap.put("政治", 123.1);
             keywordRateMap.put("金融", 35.2);
-            moduleidMap.put(1,keywordRateMap);
+            moduleIdMap.put(1,keywordRateMap);
             keywordRateMap.put("电影", 351.1);
-            moduleidMap.put(2,keywordRateMap);
+            moduleIdMap.put(2,keywordRateMap);
             ObjectMapper objectMapper=new ObjectMapper();
-            json=objectMapper.writeValueAsString(moduleidMap);
+            json=objectMapper.writeValueAsString(moduleIdMap);
         } catch (IOException e) {
 
             e.printStackTrace();
@@ -118,4 +118,11 @@ public class JsonUtil {
         }
         return resultMap;
     }
+//
+//    public static void main(String[] args) {
+//        String srcJson = "{\"1\":{\"膏盐\":173.08449864151828,\"应城\":22.976422775068052,\"解释\":9.210345788463428,\"断层\":64.47241212406624,\"专家\":73.68275671321855,\"开采\":55.26207473078057,\"地震\":92.10344589152318,\"湖北\":82.8933873393619,\"地处\":27.631037365390284,\"无关\":55.26207473078057},\"20\":{\"申花\":276.31825513305665,\"曾诚\":211.54772056185573,\"斩获\":163.46869316143392,\"球队\":63.63065905853266,\"欧洲\":64.47263459728147,\"陈威\":160.35475336048546,\"门将\":174.9965471938941,\"小组赛\":64.98077263321612,\"最佳\":64.4776997328394,\"豪门\":64.47241212406624}}";
+//        String srcJson1 = "{}";
+//        CustomHashMap<Integer,CustomHashMap<String, Double>> map = jsonPrefListToMap(srcJson1);
+//        System.out.println(map.toString());
+//    }
 }

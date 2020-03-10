@@ -39,4 +39,11 @@ public interface RecommendCommonService {
      */
     public HashMap<Integer, CustomHashMap<Integer, CustomHashMap<String,Double>>> getUserPrefList(List<Integer> userIds);
 
+
+    /**
+     * 获取初始化的喜好词列表
+     * @return
+     */
+    public String getDefaultUserPref();
+
 }

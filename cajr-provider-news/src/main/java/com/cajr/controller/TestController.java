@@ -3,9 +3,11 @@ package com.cajr.controller;
 import com.cajr.service.IUserClientService;
 import com.cajr.service.NewsLogsService;
 import com.cajr.service.RecommendService;
+import com.cajr.service.UserPrefRefresherService;
 import com.cajr.util.Result;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.NewsLogs;
+import com.cajr.vo.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,16 +38,25 @@ public class TestController {
 
     @Autowired
     private RecommendService contentBasedRecommend;
+
     @Autowired
     private RecommendService userCFRecommendImpl;
+
+    @Autowired
+    private UserPrefRefresherService userPrefRefresherService;
+
 
 
 
     @GetMapping("/")
     public Result test(){
+
         List<Integer> userIds = this.iUserClientService.findAllUserId();
 //        hotNewsRecommend.recommend(userIds);
-        contentBasedRecommend.recommend(userIds);
+//        contentBasedRecommend.recommend(userIds);
+//        userPrefRefresherService.refresh();
+        userCFRecommendImpl.recommend(userIds);
+
         return new Result<>(1);
     }
 

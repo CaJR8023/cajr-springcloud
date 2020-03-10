@@ -16,6 +16,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -129,16 +131,21 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
     }
 
     /**
-     * 为喜好词列表为空的用户根据
-     * @param userIdList
+     * 为喜好词列表为空的用户根据该用户的浏览记录生成喜好关键词
+     * @param userIdList 用户id
      */
     private void autoRefreshUserPref(List<Integer> userIdList){
         List<User> users = new ArrayList<>();
         for (Integer userId : userIdList) {
             User user = iUserClientService.getUser(userId);
             if (user != null){
-                if (user.getUserPref() == null){
+                if (user.getUserPref() == null ){
+                    initUserPref(user);
                     users.add(user);
+                }else {
+                    if (this.recommendCommonService.getDefaultUserPref().equals(user.getUserPref().getPrefList())){
+                        users.add(user);
+                    }
                 }
             }
         }
@@ -148,7 +155,8 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
 
         for (User user : users) {
             //用户喜好关键词map
-            HashMap<Integer, CustomHashMap<String, Double>> userPrefListMap = new HashMap<>(16);
+//            CustomHashMap<Integer, CustomHashMap<String, Double>> userPrefListMap = new CustomHashMap<>();
+            CustomHashMap<Integer, CustomHashMap<String, Double>> userPrefListMap = JsonUtil.jsonPrefListToMap(user.getUserPref().getPrefList());
 
             //新闻及对应关键词的Map
             Map<Integer, List<Keyword>> newsKeywordsMap = new HashMap<>();
@@ -165,14 +173,16 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                     }
 
                     //提取新闻中的关键词，并把关键词放入newsKeywordsMap
-                    if (news.getCreatedAt().after(TimeUtil.getInRecTimestamp(90))){
+                    if (news.getCreatedAt().after(TimeUtil.getInRecTimestamp(120))){
                         newsKeywordsMap.put(news.getId(), TFIDF.getTfidf(news.getTitle(),news.getContent(),keyWordsNum));
+                    }else {
+                        List<Keyword> keywordList = new ArrayList<>();
+                        keywordList.add(null);
+                        newsKeywordsMap.put(news.getModuleId(),keywordList);
+                        continue;
                     }
 
                     if (newsKeywordsMap.isEmpty()){
-                        continue;
-                    }
-                    if (newsKeywordsMap.get(news.getId()).isEmpty()){
                         continue;
                     }
 
@@ -185,7 +195,11 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                 }
             }
 
-            userPref.setPrefList(userPrefListMap.toString());
+            if ("{}".equals(userPrefListMap.toString())) {
+                userPref.setPrefList(this.recommendCommonService.getDefaultUserPref());
+            }else {
+                userPref.setPrefList(userPrefListMap.toString());
+            }
             logger.info(userPrefListMap.toString());
             this.iUserClientService.addOne(userPref);
         }
@@ -194,6 +208,16 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
 //
 //
 //        });
+    }
+
+    private void initUserPref(User user){
+        UserPref userPref = new UserPref();
+        userPref.setUserId(user.getId());
+        userPref.setPrefList(this.recommendCommonService.getDefaultUserPref());
+        userPref.setStatus(1);
+        userPref.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.iUserClientService.addOne(userPref);
     }
 
     private void autoDecRefresh(List<Integer> userIdList) {
@@ -205,7 +229,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
         List<String> keyWordToDelete = new ArrayList<>();
         users.parallelStream().forEach(user -> {
             StringBuilder newsPrefList = new StringBuilder("{");
-            HashMap<Integer, CustomHashMap<String, Double>> map = JsonUtil.jsonPrefListToMap(user.getUserPref().getPrefList());
+            CustomHashMap<Integer, CustomHashMap<String, Double>> map = JsonUtil.jsonPrefListToMap(user.getUserPref().getPrefList());
             logger.info(map.toString());
             for (Integer moduleId : map.keySet()) {
                 //用户对应模块不为空
@@ -230,10 +254,10 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                 keyWordToDelete.clear();
                 newsPrefList.append(moduleMap.toString()).append(",");
             }
-            newsPrefList.append(",").append(newsPrefList.substring(0,newsPrefList.length())).append("}");
+//            newsPrefList.append(",").append(newsPrefList.substring(0,newsPrefList.length() - 1 )).append("}");
             UserPref userPref = new UserPref();
             userPref.setUserId(user.getId());
-            userPref.setPrefList(newsPrefList.toString());
+            userPref.setPrefList(newsPrefList.substring(0,newsPrefList.length()-1) + "}");
             //更新用户喜好关键词列表
             this.iUserClientService.updateUserPref(userPref);
         });

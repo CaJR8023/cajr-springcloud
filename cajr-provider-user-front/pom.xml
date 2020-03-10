@@ -84,6 +84,12 @@
     <groupId>com.aliyun</groupId>
     <artifactId>aliyun-java-sdk-core</artifactId>
     </dependency>
+
+    <dependency>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-service</artifactId>
+    </dependency>
+
   </dependencies>
 
 

@@ -4,6 +4,7 @@ import com.cajr.service.*;
 import com.cajr.util.CustomHashMap;
 import com.cajr.util.JsonUtil;
 import com.cajr.util.TimeUtil;
+import com.cajr.vo.news.Module;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
 import com.cajr.vo.news.NewsRecommend;
@@ -34,6 +35,9 @@ public class RecommendCommonServiceImpl implements RecommendCommonService {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private ModuleService moduleService;
 
     @Resource
     private IUserClientService iUserClientService;
@@ -123,5 +127,19 @@ public class RecommendCommonServiceImpl implements RecommendCommonService {
             });
         }
         return userPrefListMap;
+    }
+
+    @Override
+    public String getDefaultUserPref() {
+        List<Module> modules = this.moduleService.findAll();
+        if (modules.isEmpty()){
+            return "{}";
+        }
+        StringBuilder userPrefList = new StringBuilder("{");
+        for (Module module : modules) {
+            userPrefList.append("\"").append(module.getId()).append("\":").append("{}").append(",");
+        }
+
+        return userPrefList.substring(0,userPrefList.length()-1) + "}";
     }
 }

@@ -37,6 +37,7 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
 
     @Override
     public Integer insertRecommend(List<Integer> newsIds, int userId, int recAlgorithm) {
+
         if (!newsIds.isEmpty()){
             for (Integer newsId : newsIds) {
                 NewsRecommend newsRecommend = new NewsRecommend();
@@ -47,6 +48,9 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
                 newsRecommend.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
                 newsRecommend.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
 
+                if (this.newsRecommendMapper.checkRecommendByUserIdAndNewsId(userId, newsId) > 0){
+                    return CommonParam.RETURN_FAIL;
+                }
                 this.newsRecommendMapper.insertSelective(newsRecommend);
             }
             return CommonParam.RETURN_SUCCESS;

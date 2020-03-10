@@ -20,9 +20,10 @@ public class UserPrefController {
     private UserPrefService userPrefService;
 
     @PostMapping("/")
-    public Result addOne(@RequestBody UserPref userPref){
+    public Result addOrUpdateOne(@RequestBody UserPref userPref){
+
         if (this.userPrefService.checkExistUserPrefByUserId(userPref.getUserId()) > 0){
-            update(userPref);
+            return new Result<>(this.userPrefService.update(userPref));
         }
         return new Result<>(this.userPrefService.add(userPref));
     }
@@ -30,7 +31,7 @@ public class UserPrefController {
     @PutMapping("/")
     public Result update(@RequestBody UserPref userPref){
         if (this.userPrefService.checkExistUserPrefByUserId(userPref.getUserId()) <= 0){
-            addOne(userPref);
+            return new Result<>(this.userPrefService.add(userPref));
         }
         return new Result<>(this.userPrefService.update(userPref));
     }
