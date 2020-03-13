@@ -118,6 +118,12 @@
       </exclusions>
     </dependency>
 
+
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-quartz</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>CAJR</groupId>
       <artifactId>cajr-service</artifactId>

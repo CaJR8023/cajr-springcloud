@@ -57,7 +57,6 @@ public class ContentBasedRecommendImpl implements RecommendService {
         Map<Integer, CustomHashMap<Integer, CustomHashMap<String, Double>>> userPrefListMap = this.recommendCommonService.getUserPrefList(userIds);
 
         //获取最近7天的新闻
-//        List<News> newsList = this.newsService.findAll();
         List<News> newsList = getRecentNews(CommonParam.RECENT_NEWS_BEFORE_DAYS);
         if (newsList.isEmpty()){
             return;

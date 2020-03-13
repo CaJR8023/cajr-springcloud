@@ -1,9 +1,7 @@
 package com.cajr.controller;
 
-import com.cajr.service.IUserClientService;
-import com.cajr.service.NewsLogsService;
-import com.cajr.service.RecommendService;
-import com.cajr.service.UserPrefRefresherService;
+import com.cajr.job.TestJob;
+import com.cajr.service.*;
 import com.cajr.util.Result;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.NewsLogs;
@@ -16,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -45,6 +45,9 @@ public class TestController {
     @Autowired
     private UserPrefRefresherService userPrefRefresherService;
 
+    @Autowired
+    private QuartzService quartzService;
+
 
 
 
@@ -60,4 +63,13 @@ public class TestController {
         return new Result<>(1);
     }
 
+    @GetMapping("/qtz")
+    public Result testQuartz() {
+        Map<String, Long> map = new HashMap(2);
+        map.put("id", 1L);
+        // 先删除，再新增加
+        quartzService.deleteJob("job", "test");
+        quartzService.addJob(TestJob.class, "job", "test", "0/30 * * * * ?", map);
+        return new Result<>(1);
+    }
 }

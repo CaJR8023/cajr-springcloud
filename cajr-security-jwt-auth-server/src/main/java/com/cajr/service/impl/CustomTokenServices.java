@@ -18,8 +18,11 @@ public class CustomTokenServices extends DefaultTokenServices {
 
     private static final String LOCK_KEY = "token_lock";
 
-    @Autowired
-    RedisTemplate redisTemplate;
+    private RedisTemplate redisTemplate;
+
+    public CustomTokenServices(RedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
     @Override
     public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
