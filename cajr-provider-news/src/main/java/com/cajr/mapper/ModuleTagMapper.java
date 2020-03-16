@@ -4,7 +4,7 @@ import com.cajr.vo.tag.ModuleTag;
 
 /**
  * @author CAJR
- * @date 2020/3/16 9:55 上午
+ * @date 2020/3/16 2:02 下午
  */
 public interface ModuleTagMapper {
     int deleteByPrimaryKey(Integer id);
@@ -19,4 +19,5 @@ public interface ModuleTagMapper {
 
     int updateByPrimaryKey(ModuleTag record);
 
+    int checkIsExistedByModuleIdAndTagId(int moduleId, int tagId);
 }

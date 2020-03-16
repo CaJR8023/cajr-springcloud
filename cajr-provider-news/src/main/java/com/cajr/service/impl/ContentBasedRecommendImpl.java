@@ -4,6 +4,7 @@ import com.cajr.algorithm.TFIDF;
 import com.cajr.service.*;
 import com.cajr.util.*;
 import com.cajr.vo.news.News;
+import com.cajr.vo.tag.Tag;
 import org.ansj.app.keyword.Keyword;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,9 @@ public class ContentBasedRecommendImpl implements RecommendService {
     @Autowired
     private NewsRecommendService newsRecommendService;
 
+    @Autowired
+    private ITagClientService iTagClientService;
+
     @Value("${news.recommend.active.day}")
     private int activeDays;
 
@@ -45,10 +49,11 @@ public class ContentBasedRecommendImpl implements RecommendService {
 
     @Override
     public void recommend(List<Integer> userIds) {
-        int count = 0;
         logger.info("基于内容算法开始推荐 ==> " + Timestamp.valueOf(LocalDateTime.now()));
+        List<Integer> countList = new ArrayList<>();
+
         //首先先进行用户喜好的关键字列表的衰减更新+用户当日历史浏览记录的更新
-        this.userPrefRefresherService.refresh();
+//        this.userPrefRefresherService.refresh();
         //新闻及对应关键词的Map
         Map<Integer, List<Keyword>> newsKeywordsMap = new HashMap<>();
         Map<Integer, Integer> newsModuleMap = new HashMap<>();
@@ -73,23 +78,28 @@ public class ContentBasedRecommendImpl implements RecommendService {
             return;
         }
 
-        //在遍历用户，
-        for (Integer userId : userIds) {
-
+        userIds.parallelStream().forEach((userId) ->{
+            logger.info("为id为" + userId + "的用户推荐！");
+            int count = 0;
             //新闻id与根据该用户喜好关键词匹配值的map
             Map<Integer, Double> tempMatchMap = new HashMap<>(16);
             List<Integer> newsIdList = new ArrayList<>(newsKeywordsMap.keySet());
 
+            try {
 
-            for (Integer newsId : newsIdList){
-                Integer moduleId = newsModuleMap.get(newsId);
-                if (userPrefListMap.get(userId).get(moduleId) != null){
-                    tempMatchMap.put(newsId, getMatchValue(userPrefListMap.get(userId).get(moduleId), newsKeywordsMap.get(newsId)));
+                for (Integer newsId : newsIdList){
+                    Integer moduleId = newsModuleMap.get(newsId);
+                    if (userPrefListMap.get(userId).get(moduleId) != null){
+                        tempMatchMap.put(newsId, getMatchValue(userPrefListMap.get(userId).get(moduleId), newsKeywordsMap.get(newsId)));
+                    }
                 }
-            }
 
-            //去除匹配值为零的新闻
-            removeZeroItem(tempMatchMap);
+                //去除匹配值为零的新闻
+                removeZeroItem(tempMatchMap);
+            }catch (Exception e){
+                e.printStackTrace();
+//                continue;
+            }
 
             if (!("{}".equals(tempMatchMap.toString())) && (!tempMatchMap.isEmpty())){
                 tempMatchMap = sortMapByValue(tempMatchMap);
@@ -106,11 +116,29 @@ public class ContentBasedRecommendImpl implements RecommendService {
                     RecommendKit.removeOverNews(toBeRecededList, nNews);
                 }
                 this.newsRecommendService.insertRecommend(toBeRecededList, userId, CommonParam.CB_ALGORITHM);
-                count += toBeRecededList.size();
+                count = toBeRecededList.size();
+                countList.add(count);
+                logger.info("为"+ userId +"用户推荐了" + count +"条新闻");
             }
+        });
+
+//        //在遍历用户，
+//        for (Integer userId : userIds) {
+//
+//
+//        }
+        int sum = countSum(countList);
+        logger.info("CB has contributed " + (sum/userIds.size()) + " recommending news on average");
+        logger.info("CB finished at "+ Timestamp.valueOf(LocalDateTime.now()));
+    }
+
+    private int countSum(List<Integer> countList) {
+        int sum = 0;
+        for (Integer i :
+                countList) {
+            sum += i;
         }
-        logger.info("CB has contributed " + (count/userIds.size()) + " recommending news on average");
-        logger.info("CB finished at "+new Date());
+        return sum;
     }
 
     /**
@@ -166,14 +194,31 @@ public class ContentBasedRecommendImpl implements RecommendService {
      * @return
      */
     private Double getMatchValue(CustomHashMap<String, Double> stringDoubleCustomHashMap, List<Keyword> keywords) {
+        stringDoubleCustomHashMap = tagDataFill(stringDoubleCustomHashMap);
         Set<String> keywordsSet = stringDoubleCustomHashMap.keySet();
         double matchValue = 0.0;
         for (Keyword keyword : keywords){
+
             if (keywordsSet.contains(keyword.getName())){
                 matchValue += keyword.getScore()*stringDoubleCustomHashMap.get(keyword.getName());
             }
         }
         return matchValue;
+    }
+
+    /**
+     * 将标签数据填充到用户喜好关键词中
+     * @param stringDoubleCustomHashMap
+     */
+    private CustomHashMap<String, Double> tagDataFill(CustomHashMap<String, Double> stringDoubleCustomHashMap) {
+        CustomHashMap<String, Double> resultMap = new CustomHashMap<>();
+        Set<String> keywordsSet = stringDoubleCustomHashMap.keySet();
+        for (String tagId : keywordsSet){
+            String tagName = this.iTagClientService.getOneById(Integer.parseInt(tagId)).getName();
+            resultMap.put(tagName, stringDoubleCustomHashMap.get(tagId));
+        }
+
+        return resultMap;
     }
 
     /**

@@ -7,8 +7,7 @@ import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author CAJR
@@ -17,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "cajr-provider-basic-data",configuration = FeignClientConfig.class,
         fallbackFactory = ITagClientServiceFallBackFactory.class)
 public interface ITagClientService {
+
+    @GetMapping("/tag/name")
+    public Tag getOneByName(@RequestParam("name") String name);
+
+    @GetMapping("/tag/{id}")
+    public Tag getOneById(@PathVariable("id") int id);
+
     @PostMapping("/tag/")
     public Result addOneTag(@RequestBody Tag tag);
-
-    @PostMapping("/tag/module_tag")
-    public Result addOneTag(@RequestBody ModuleTag moduleTag);
-
-    @PostMapping("/tag/news_tag")
-    public Result addOneTag(@RequestBody NewsTag newsTag);
 }

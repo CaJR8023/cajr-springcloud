@@ -7,6 +7,7 @@ import com.cajr.util.JsonUtil;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
+import com.cajr.vo.tag.Tag;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserPref;
 import org.ansj.app.keyword.Keyword;
@@ -52,6 +53,9 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
 
     @Autowired
     private NewsService newsService;
+
+    @Autowired
+    private ITagClientService iTagClientService;
 
     @Value("${news.recommend.TFIDFKeywordsNum}")
     private int keyWordsNum;
@@ -106,11 +110,18 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                     if (!keywordList.isEmpty()){
                         for (Keyword keyword : keywordList) {
                             String name = keyword.getName();
+
+                            //获取关键词的标签的id
+                            int tagId = this.iTagClientService.getOneByName(name).getId();
+                            if (tagId <= 0){
+                                continue;
+                            }
+
                             //如果有重复的关键词，在原有的基础分上加
-                            if (rateMap.containsKey(name)){
-                                rateMap.put(name, rateMap.get(name)+keyword.getScore());
+                            if (rateMap.containsKey(String.valueOf(tagId))){
+                                rateMap.put(String.valueOf(tagId), rateMap.get(name)+keyword.getScore());
                             }else {
-                                rateMap.put(name, keyword.getScore());
+                                rateMap.put(String.valueOf(tagId), keyword.getScore());
                             }
                         }
                         userPrefListMap.get(userId).get(moduleId).putAll(rateMap);
@@ -189,7 +200,10 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                     //提取新闻中的关键词和其值的map
                     CustomHashMap<String, Double> keywordValue = new CustomHashMap<>();
                     for (Keyword keyword : newsKeywordsMap.get(news.getId())) {
-                        keywordValue.put(keyword.getName(), keyword.getScore());
+                        Tag tag = this.iTagClientService.getOneByName(keyword.getName());
+                        if (tag.getId() > 0){
+                            keywordValue.put(String.valueOf(tag.getId()), keyword.getScore());
+                        }
                     }
                     userPrefListMap.put(news.getModuleId(), keywordValue);
                 }

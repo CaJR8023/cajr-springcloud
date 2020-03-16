@@ -1,5 +1,6 @@
 package com.cajr.vo.tag;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -7,7 +8,7 @@ import java.util.Date;
  * @author CAJR
  * @date 2020/3/16 9:55 上午
  */
-public class NewsTag {
+public class NewsTag implements Serializable {
     private Integer id;
 
     private Integer newsId;
@@ -19,6 +20,11 @@ public class NewsTag {
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
+
+    public NewsTag(Integer newsId, Integer tagId) {
+        this.newsId = newsId;
+        this.tagId = tagId;
+    }
 
     public Integer getId() {
         return id;

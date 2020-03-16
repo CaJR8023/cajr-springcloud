@@ -265,6 +265,12 @@
 
       <dependency>
         <groupId>CAJR</groupId>
+        <artifactId>cajr-provider-tag</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
         <artifactId>cajr-redis</artifactId>
         <version>1.0.0</version>
       </dependency>

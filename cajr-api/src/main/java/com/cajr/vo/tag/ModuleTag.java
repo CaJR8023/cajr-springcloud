@@ -1,13 +1,13 @@
 package com.cajr.vo.tag;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.Date;
 
 /**
  * @author CAJR
  * @date 2020/3/16 9:55 上午
  */
-public class ModuleTag {
+public class ModuleTag implements Serializable {
     private Integer id;
 
     private Integer moduleId;
@@ -19,6 +19,11 @@ public class ModuleTag {
     private Timestamp createdAt;
 
     private Timestamp updatedAt;
+
+    public ModuleTag(Integer moduleId, Integer tagId) {
+        this.moduleId = moduleId;
+        this.tagId = tagId;
+    }
 
     public Integer getId() {
         return id;

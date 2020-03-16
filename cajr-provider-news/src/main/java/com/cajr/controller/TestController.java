@@ -51,14 +51,64 @@ public class TestController {
 
 
 
-    @GetMapping("/")
-    public Result test(){
+    @GetMapping("/user")
+    public Result testUser(){
 
-        List<Integer> userIds = this.iUserClientService.findAllUserId();
+        for (int i = 1; i < 100; i++) {
+            User user = new User();
+            if (i < 9){
+                user.setTel("1511202200"+i);
+            }else {
+                user.setTel("151120220"+i);
+            }
+            user.setUsername("cajr-"+i);
+            user.setPassword("20180615");
+            this.iUserClientService.addOneUser(user);
+        }
+
+//        List<Integer> userIds = this.iUserClientService.findAllUserId();
 //        hotNewsRecommend.recommend(userIds);
 //        contentBasedRecommend.recommend(userIds);
 //        userPrefRefresherService.refresh();
-        userCFRecommendImpl.recommend(userIds);
+//        userCFRecommendImpl.recommend(userIds);
+
+        return new Result<>(1);
+    }
+
+
+    @GetMapping("/user_log")
+    public Result testUserLog(){
+        List<Integer> userIds = this.iUserClientService.findAllUserId();
+
+        for (Integer userId : userIds) {
+            int count = 10;
+            while (count > 0){
+                NewsLogs newsLogs = new NewsLogs();
+                newsLogs.setUserId(userId);
+                newsLogs.setStatus(1);
+                newsLogs.setNewsId((int) (Math.random()*(49919-122)+122));
+                newsLogs.setViewTime(TimeUtil.getInRecTimestamp((int) (Math.random()*(3-1)+1)));
+                newsLogs.setPreferDegree((int) (Math.random()*(2)+0));
+                this.newsLogsService.add(newsLogs);
+                count--;
+            }
+        }
+//        hotNewsRecommend.recommend(userIds);
+//        contentBasedRecommend.recommend(userIds);
+//        userPrefRefresherService.refresh();
+//        userCFRecommendImpl.recommend(userIds);
+
+        return new Result<>(1);
+    }
+
+    @GetMapping("/user_rec")
+    public Result testRec(){
+
+        List<Integer> userIds = this.iUserClientService.findAllUserId();
+//        hotNewsRecommend.recommend(userIds);
+        contentBasedRecommend.recommend(userIds);
+//        userPrefRefresherService.refresh();
+//        userCFRecommendImpl.recommend(userIds);
 
         return new Result<>(1);
     }

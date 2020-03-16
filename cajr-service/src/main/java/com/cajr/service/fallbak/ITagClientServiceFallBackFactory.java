@@ -18,17 +18,17 @@ public class ITagClientServiceFallBackFactory implements FallbackFactory<ITagCli
     public ITagClientService create(Throwable throwable) {
         return new ITagClientService() {
             @Override
+            public Tag getOneByName(String name) {
+                return new Tag();
+            }
+
+            @Override
+            public Tag getOneById(int id) {
+                return new Tag();
+            }
+
+            @Override
             public Result addOneTag(Tag tag) {
-                return new Result<>("hystrix fail",0);
-            }
-
-            @Override
-            public Result addOneTag(ModuleTag moduleTag) {
-                return new Result<>("hystrix fail",0);
-            }
-
-            @Override
-            public Result addOneTag(NewsTag newsTag) {
                 return new Result<>("hystrix fail",0);
             }
         };
