@@ -1,7 +1,10 @@
 package com.cajr.job;
 
+import com.cajr.service.RecommendService;
+import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +14,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CBRecommendJob extends QuartzJobBean {
+    private static final Logger logger = Logger.getLogger(CBRecommendJob.class);
+
+
+    @Autowired
+    private RecommendService contentBasedRecommend;
+
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 

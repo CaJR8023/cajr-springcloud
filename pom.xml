@@ -22,6 +22,7 @@
     <module>cajr-swagger</module>
       <module>cajr-redis</module>
       <module>cajr-provider-news</module>
+      <module>cajr-provider-tag</module>
   </modules>
 
   <properties>

@@ -65,7 +65,7 @@ public class TestController {
 
     @GetMapping("/qtz")
     public Result testQuartz() {
-        Map<String, Long> map = new HashMap(2);
+        Map<String, Long> map = new HashMap<>(2);
         map.put("id", 1L);
         // 先删除，再新增加
         quartzService.deleteJob("job", "test");

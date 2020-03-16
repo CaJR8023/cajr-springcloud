@@ -9,8 +9,8 @@ import java.util.Date;
  */
 public class QuartzCronDateUtils {
 
-    public static String formatDateByPattern(Date date, String dateFormat){
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
+    private static String formatDateByPattern(Date date, String dateFormat){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
         String formatTimeStr = null;
         if (date != null){
             formatTimeStr = simpleDateFormat.format(date);
@@ -19,7 +19,8 @@ public class QuartzCronDateUtils {
     }
 
     public static String getCron(Date  date){
-        String dateFormat="ss mm HH dd MM ? yyyy";
+        String dateFormat="ss mm HH dd MM ? ";
         return formatDateByPattern(date,dateFormat);
     }
+
 }

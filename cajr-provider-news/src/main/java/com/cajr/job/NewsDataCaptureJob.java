@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Component
 public class NewsDataCaptureJob extends QuartzJobBean {
-    private static final org.apache.log4j.Logger logger = Logger.getLogger(NewsDataCaptureJob.class);
+    private static final Logger logger = Logger.getLogger(NewsDataCaptureJob.class);
 
     @Autowired
     NewsDataService newsDataService;

@@ -1,5 +1,6 @@
 package com.cajr.job;
 
+import org.apache.log4j.Logger;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class CFRecommendJob extends QuartzJobBean {
+    private static final Logger logger = Logger.getLogger(CFRecommendJob.class);
+
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
 
