@@ -34,6 +34,10 @@ public class TimeUtil {
         return new Timestamp(calendar.getTime().getTime());
     }
 
+    public static void main(String[] args) {
+        System.out.println(getInRecTimestamp(7));
+    }
+
     public static String getSpecificDayFormatForString(int beforeDays){
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Calendar calendar = Calendar.getInstance();

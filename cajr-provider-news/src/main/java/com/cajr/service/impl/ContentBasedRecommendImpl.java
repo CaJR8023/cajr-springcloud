@@ -53,7 +53,7 @@ public class ContentBasedRecommendImpl implements RecommendService {
         List<Integer> countList = new ArrayList<>();
 
         //首先先进行用户喜好的关键字列表的衰减更新+用户当日历史浏览记录的更新
-//        this.userPrefRefresherService.refresh();
+        this.userPrefRefresherService.refreshSpecificUser(userIds);
         //新闻及对应关键词的Map
         Map<Integer, List<Keyword>> newsKeywordsMap = new HashMap<>();
         Map<Integer, Integer> newsModuleMap = new HashMap<>();
@@ -104,19 +104,20 @@ public class ContentBasedRecommendImpl implements RecommendService {
             if (!("{}".equals(tempMatchMap.toString())) && (!tempMatchMap.isEmpty())){
                 tempMatchMap = sortMapByValue(tempMatchMap);
 
-                assert tempMatchMap != null;
-                List<Integer> toBeRecededList = new ArrayList<>(tempMatchMap.keySet());
+                if (tempMatchMap != null){
+                    List<Integer> toBeRecededList = new ArrayList<>(tempMatchMap.keySet());
 
-                //过滤已经推荐过的新闻
-                this.recommendCommonService.filterRecCedNews(toBeRecededList, userId);
-                //过滤用户已经看过的新闻
-                this.recommendCommonService.filterBrowsedNews(toBeRecededList, userId);
-                //如果可推荐新闻数目超过了系统默认为CB算法设置的单日推荐上限数（N），则去掉一部分多余的可推荐新闻，剩下的N个新闻才进行推荐
-                if (toBeRecededList.size() > nNews){
-                    RecommendKit.removeOverNews(toBeRecededList, nNews);
+                    //过滤已经推荐过的新闻
+                    this.recommendCommonService.filterRecCedNews(toBeRecededList, userId);
+                    //过滤用户已经看过的新闻
+                    this.recommendCommonService.filterBrowsedNews(toBeRecededList, userId);
+                    //如果可推荐新闻数目超过了系统默认为CB算法设置的单日推荐上限数（N），则去掉一部分多余的可推荐新闻，剩下的N个新闻才进行推荐
+                    if (toBeRecededList.size() > nNews){
+                        RecommendKit.removeOverNews(toBeRecededList, nNews);
+                    }
+                    this.newsRecommendService.insertRecommend(toBeRecededList, userId, CommonParam.CB_ALGORITHM, tempMatchMap);
+                    count = toBeRecededList.size();
                 }
-                this.newsRecommendService.insertRecommend(toBeRecededList, userId, CommonParam.CB_ALGORITHM);
-                count = toBeRecededList.size();
                 countList.add(count);
                 logger.info("为"+ userId +"用户推荐了" + count +"条新闻");
             }

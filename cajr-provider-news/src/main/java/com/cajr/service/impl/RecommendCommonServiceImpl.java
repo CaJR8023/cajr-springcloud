@@ -98,11 +98,12 @@ public class RecommendCommonServiceImpl implements RecommendCommonService {
         if (newsList.isEmpty()){
             return;
         }
-        newsList.forEach(news -> {
+
+        for (News news : newsList) {
             if (news.getCreatedAt().before(getInRecTimestamp())){
-                newsIds.remove(news.getId());
+                newsIds.remove(Integer.valueOf(news.getId()));
             }
-        });
+        }
     }
 
     @Override

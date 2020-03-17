@@ -1,5 +1,7 @@
 package com.cajr.vo.tag;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -17,8 +19,10 @@ public class NewsTag implements Serializable {
 
     private Integer status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
     public NewsTag(Integer newsId, Integer tagId) {

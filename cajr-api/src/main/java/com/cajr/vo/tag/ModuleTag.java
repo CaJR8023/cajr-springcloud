@@ -1,5 +1,7 @@
 package com.cajr.vo.tag;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -16,8 +18,10 @@ public class ModuleTag implements Serializable {
 
     private Integer status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
     public ModuleTag(Integer moduleId, Integer tagId) {

@@ -81,7 +81,7 @@ public class TestController {
         List<Integer> userIds = this.iUserClientService.findAllUserId();
 
         for (Integer userId : userIds) {
-            int count = 10;
+            int count = 30;
             while (count > 0){
                 NewsLogs newsLogs = new NewsLogs();
                 newsLogs.setUserId(userId);
@@ -107,7 +107,7 @@ public class TestController {
         List<Integer> userIds = this.iUserClientService.findAllUserId();
 //        hotNewsRecommend.recommend(userIds);
         contentBasedRecommend.recommend(userIds);
-//        userPrefRefresherService.refresh();
+//        userPrefRefresherService.refreshSpecificUser(userIds);
 //        userCFRecommendImpl.recommend(userIds);
 
         return new Result<>(1);

@@ -11,6 +11,8 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * @author CAJR
@@ -36,14 +38,20 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
     }
 
     @Override
-    public Integer insertRecommend(List<Integer> newsIds, int userId, int recAlgorithm) {
-
+    public Integer insertRecommend(List<Integer> newsIds, int userId, int recAlgorithm, Map<Integer, Double> tempMatchMap) {
         if (!newsIds.isEmpty()){
             for (Integer newsId : newsIds) {
                 NewsRecommend newsRecommend = new NewsRecommend();
                 newsRecommend.setNewsId(newsId);
                 newsRecommend.setUserId(userId);
                 newsRecommend.setFeedback(recAlgorithm);
+
+                if (recAlgorithm == CommonParam.HR_ALGORITHM){
+                    newsRecommend.setSuitability(0.0);
+                }else {
+                    newsRecommend.setSuitability(tempMatchMap.get(newsId));
+                }
+
                 newsRecommend.setStatus(1);
                 newsRecommend.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
                 newsRecommend.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));

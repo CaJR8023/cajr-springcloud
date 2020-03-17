@@ -70,7 +70,7 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> findSectionNews(List<Integer> newsIds) {
-        return null;
+        return this.newsMapper.selectSectionByNewsIds(newsIds);
     }
 
     @Override

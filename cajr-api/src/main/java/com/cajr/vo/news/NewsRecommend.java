@@ -18,6 +18,8 @@ public class NewsRecommend {
 
     private int feedback;
 
+    private double suitability;
+
     private int status;
 
     @ApiModelProperty(hidden = true)
@@ -56,6 +58,14 @@ public class NewsRecommend {
 
     public void setFeedback(int feedback) {
         this.feedback = feedback;
+    }
+
+    public double getSuitability() {
+        return suitability;
+    }
+
+    public void setSuitability(double suitability) {
+        this.suitability = suitability;
     }
 
     public int getStatus() {

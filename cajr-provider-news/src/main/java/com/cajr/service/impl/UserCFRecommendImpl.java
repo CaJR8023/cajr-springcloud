@@ -18,14 +18,13 @@ import org.apache.mahout.cf.taste.recommender.Recommender;
 import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
 import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * 基于用户的协同过滤(Based-User-Collaborative Filter 基于用户的协同过滤)
@@ -94,17 +93,19 @@ public class UserCFRecommendImpl implements RecommendService {
 
                 //生成推荐新闻id列表
                 List<Integer> toRecNewsList = new ArrayList<>();
-                for (RecommendedItem recommendedItem :
-                        recommendedItems) {
+                Map<Integer, Double> toRecNewsMap = new HashMap<>();
+                for (RecommendedItem recommendedItem : recommendedItems) {
                     toRecNewsList.add((int) recommendedItem.getItemID());
+                    toRecNewsMap.put((int)recommendedItem.getItemID(), (double) recommendedItem.getValue());
                 }
+                logger.info("生成" + toRecNewsList.size() + "条推荐");
                 if (toRecNewsList.isEmpty()){
                     continue;
                 }
 
                 //过滤已推荐的新闻和已过期的新闻
                 this.recommendCommonService.filterRecCedNews(toRecNewsList, userId);
-                this.recommendCommonService.filterOutDateNews(toRecNewsList, userId);
+//                this.recommendCommonService.filterOutDateNews(toRecNewsList, userId);
 
 
                 //如果推荐的新闻id大于规定的大小，自动去掉多余的
@@ -112,7 +113,7 @@ public class UserCFRecommendImpl implements RecommendService {
                     RecommendKit.removeOverNews(toRecNewsList, nNews);
                 }
                 //加入数据库
-                this.newsRecommendService.insertRecommend(toRecNewsList, userId, CommonParam.CF_ALGORITHM);
+                this.newsRecommendService.insertRecommend(toRecNewsList, userId, CommonParam.CF_ALGORITHM, toRecNewsMap);
                 //统计推荐数量
                 count += toRecNewsList.size();
             }

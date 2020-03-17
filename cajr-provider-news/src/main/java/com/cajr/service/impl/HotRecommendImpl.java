@@ -84,6 +84,7 @@ public class HotRecommendImpl implements RecommendService {
             int delta = flag?TOTAL_REC_NUM - tmpRecNums : TOTAL_REC_NUM;
 
             List<Integer> toBeRecommended = new ArrayList<>();
+            Map<Integer, Double> tempMatchMap = new HashMap<>();
             if(delta > 0){
                 int index = Math.min(hotNewsTopIds.size(), delta);
                 while (index-- > 0){
@@ -92,7 +93,7 @@ public class HotRecommendImpl implements RecommendService {
             }
             this.recommendCommonService.filterBrowsedNews(toBeRecommended, userId);
             this.recommendCommonService.filterRecCedNews(toBeRecommended, userId);
-            this.newsRecommendService.insertRecommend(toBeRecommended,userId,CommonParam.HR_ALGORITHM);
+            this.newsRecommendService.insertRecommend(toBeRecommended, userId, CommonParam.HR_ALGORITHM, tempMatchMap);
             count += toBeRecommended.size();
 
         }

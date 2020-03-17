@@ -37,10 +37,10 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
     private static final int KEY_DELETE_VALUE = 10;
 
     //每日衰减系数coefficient
-    private static final double DEC_COEFFICIENT=0.7;
+    private static final double DEC_COEFFICIENT=0.8;
 
     //筛选用户前几天的浏览记录
-    private static final int OLD_BROWSE_DAY = -1;
+    private static final int OLD_BROWSE_DAY = 3;
 
     @Resource
     private IUserClientService iUserClientService;
@@ -74,6 +74,14 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
         refresh(userIds);
     }
 
+    @Override
+    public void refreshSpecificUser(List<Integer> userIds) {
+        logger.info("为特定用户刷新喜好词");
+        autoRefreshUserPref(userIds);
+//        autoDecRefresh(userIds);
+        refresh(userIds);
+    }
+
     /**
      * 按照推荐频率调用的方法，一般为一天执行一次
      * 定期根据前一天所有用户的浏览记录，在对用户进行喜好关键词列表TFIDF值的衰减，将用户前一天看的新闻的关键词及相应TFIDF值更新到列表中去
@@ -81,7 +89,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
      */
     private void refresh(List<Integer> userIds){
         //首先对用户的喜好关键词列表进行衰减
-        autoDecRefresh(userIds);
+//        autoDecRefresh(userIds);
         //用户浏览记录
         Map<Integer, List<Integer>> userBrowsedMap = getBrowsedHistoryMap();
         if (userBrowsedMap.isEmpty()){
@@ -91,7 +99,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
         //获取用户喜好关键词
         Map<Integer,CustomHashMap<Integer, CustomHashMap<String, Double>>> userPrefListMap = this.recommendCommonService.getUserPrefList(new ArrayList<>(userBrowsedMap.keySet()));
         //新闻对应关键词列表与模块ID
-        Map<String, Object> newsTFIDFMap =getNewsTFIDFMap();
+        Map<String, Object> newsTFIDFMap = getNewsTFIDFMap();
 
         //开始遍历用户浏览记录，更新用户喜好关键词列表
         //对每个用户，循环他看过的每条新闻，对每条新闻，更新它的关键词列表到用户的对应的模块中
@@ -112,14 +120,20 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
                             String name = keyword.getName();
 
                             //获取关键词的标签的id
-                            int tagId = this.iTagClientService.getOneByName(name).getId();
+                            Tag tag = this.iTagClientService.getOneByName(name);
+                            if (tag == null){
+                                continue;
+                            }
+
+                            int tagId = tag.getId();
+
                             if (tagId <= 0){
                                 continue;
                             }
 
                             //如果有重复的关键词，在原有的基础分上加
                             if (rateMap.containsKey(String.valueOf(tagId))){
-                                rateMap.put(String.valueOf(tagId), rateMap.get(name)+keyword.getScore());
+                                rateMap.put(String.valueOf(tagId), rateMap.get(String.valueOf(tagId)) + keyword.getScore());
                             }else {
                                 rateMap.put(String.valueOf(tagId), keyword.getScore());
                             }
@@ -152,7 +166,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
             if (user != null){
                 if (user.getUserPref() == null ){
                     initUserPref(user);
-                    users.add(user);
+                    users.add(iUserClientService.getUser(userId));
                 }else {
                     if (this.recommendCommonService.getDefaultUserPref().equals(user.getUserPref().getPrefList())){
                         users.add(user);
@@ -161,6 +175,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
             }
         }
         if (users.isEmpty()){
+            logger.info("没有喜好词列表为空的用户");
             return;
         }
 
@@ -217,11 +232,6 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
             logger.info(userPrefListMap.toString());
             this.iUserClientService.addOne(userPref);
         }
-
-//        users.parallelStream().forEach(user -> {
-//
-//
-//        });
     }
 
     private void initUserPref(User user){
@@ -241,7 +251,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
         }
         //用于删除喜好值过低的关键词
         List<String> keyWordToDelete = new ArrayList<>();
-        users.parallelStream().forEach(user -> {
+        users.forEach(user -> {
             StringBuilder newsPrefList = new StringBuilder("{");
             CustomHashMap<Integer, CustomHashMap<String, Double>> map = JsonUtil.jsonPrefListToMap(user.getUserPref().getPrefList());
             logger.info(map.toString());
@@ -272,6 +282,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
             UserPref userPref = new UserPref();
             userPref.setUserId(user.getId());
             userPref.setPrefList(newsPrefList.substring(0,newsPrefList.length()-1) + "}");
+            logger.info("经过衰减后的标签===>" + newsPrefList.substring(0,newsPrefList.length()-1) + "}");
             //更新用户喜好关键词列表
             this.iUserClientService.updateUserPref(userPref);
         });
@@ -303,7 +314,7 @@ public class UserPrefRefresherServiceImpl implements UserPrefRefresherService {
         }
         for (NewsLogs newsLogs : newsLogsList) {
             if (newsLogs.getViewTime().after(TimeUtil.getInRecTimestamp(OLD_BROWSE_DAY))){
-                userBrowsedMap.put(newsLogs.getUserId(), new ArrayList<Integer>());
+                userBrowsedMap.put(newsLogs.getUserId(), new ArrayList<>());
                 userBrowsedMap.get(newsLogs.getUserId()).add(newsLogs.getNewsId());
             }
         }
