@@ -57,7 +57,9 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/configuration/ui").permitAll()
                 .antMatchers("/configuration/security").permitAll();
 
-        http.authorizeRequests().anyRequest().authenticated().and().formLogin().permitAll().and().csrf().disable();
+        http.authorizeRequests().anyRequest().authenticated()
+                .and().formLogin().permitAll()
+                .and().csrf().disable();
     }
 
     @Override

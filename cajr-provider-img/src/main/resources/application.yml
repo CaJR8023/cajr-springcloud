@@ -1,0 +1,6 @@
+server:
+  port: 5200
+spring:
+  application:
+    name: cajr-provider-img
+

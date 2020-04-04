@@ -1,4 +1,4 @@
-package com.cajr.controller;
+package com.cajr.controller.user;
 
 import com.cajr.service.ICodeClientService;
 import com.cajr.util.Result;

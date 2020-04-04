@@ -26,8 +26,7 @@ public class CustomUserDetailsImpl implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("USER"));
-        return authorities;
+        return Collections.<GrantedAuthority>singletonList(new SimpleGrantedAuthority("USER"));
     }
 
     @Override
@@ -53,6 +52,10 @@ public class CustomUserDetailsImpl implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
+    }
+
+    public int getUserId(){
+        return user.getId();
     }
 
     @Override

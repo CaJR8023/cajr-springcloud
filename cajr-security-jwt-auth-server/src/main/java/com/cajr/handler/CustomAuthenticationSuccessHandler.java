@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
 import org.springframework.security.oauth2.provider.*;
@@ -63,10 +64,10 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
         TokenRequest tokenRequest = new TokenRequest(new HashMap<>(), clientId, clientDetails.getScope(),"custom");
         OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
         OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
-        OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+//        DefaultOAuth2AccessToken accessToken = (DefaultOAuth2AccessToken) ;
 
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(accessToken));
+        httpServletResponse.getWriter().write(objectMapper.writeValueAsString(authorizationServerTokenServices.createAccessToken(oAuth2Authentication)));
     }
 
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request) {

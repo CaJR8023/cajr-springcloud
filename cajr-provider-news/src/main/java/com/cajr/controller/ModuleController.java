@@ -16,7 +16,6 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/module")
-
 @Api(tags = "新闻模块",value = "新闻模块 rest接口")
 public class ModuleController {
 

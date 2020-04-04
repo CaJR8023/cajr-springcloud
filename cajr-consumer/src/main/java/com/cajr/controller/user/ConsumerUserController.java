@@ -1,4 +1,4 @@
-package com.cajr.controller;
+package com.cajr.controller.user;
 
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;

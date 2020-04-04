@@ -1,4 +1,4 @@
-package com.cajr.controller;
+package com.cajr.controller.jwt;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

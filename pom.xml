@@ -23,6 +23,7 @@
       <module>cajr-redis</module>
       <module>cajr-provider-news</module>
       <module>cajr-provider-tag</module>
+      <module>cajr-provider-img</module>
   </modules>
 
   <properties>
@@ -208,6 +209,13 @@
         <version>1.8.3</version>
       </dependency>
 
+      <!--aliyun oss-->
+      <dependency>
+        <groupId>com.aliyun.oss</groupId>
+        <artifactId>aliyun-sdk-oss</artifactId>
+        <version>3.4.2</version>
+      </dependency>
+
       <!-- 模块依赖 -->
       <dependency>
         <groupId>CAJR</groupId>
@@ -266,6 +274,12 @@
       <dependency>
         <groupId>CAJR</groupId>
         <artifactId>cajr-provider-tag</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-provider-img</artifactId>
         <version>1.0.0</version>
       </dependency>
 
