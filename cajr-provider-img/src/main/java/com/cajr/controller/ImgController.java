@@ -25,10 +25,18 @@ public class ImgController {
     private ImgService imgService;
 
     @PostMapping("/news/upload")
-    public ImageResult upload(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+    public ImageResult uploadNewsImg(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
         if (multipartFile.isEmpty()){
 
         }
         return new ImageResult(this.imgService.uploadImg(multipartFile, request, CommonParams.NEWS_TYPE));
+    }
+
+    @PostMapping("/avatar/upload")
+    public ImageResult uploadAvatarImg(@RequestParam("file") MultipartFile multipartFile, HttpServletRequest request) throws IOException {
+        if (multipartFile.isEmpty()){
+
+        }
+        return new ImageResult(this.imgService.uploadImg(multipartFile, request, CommonParams.AVATAR_TYPE));
     }
 }

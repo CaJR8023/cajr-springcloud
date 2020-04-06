@@ -3,10 +3,7 @@ package com.cajr.controller.jwt;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -78,4 +75,5 @@ public class ConsumerSecurityController {
         HttpEntity<LinkedMultiValueMap> entity = new HttpEntity<>(map,headers);
         return restTemplate.postForEntity(url,entity,Object.class);
     }
+
 }

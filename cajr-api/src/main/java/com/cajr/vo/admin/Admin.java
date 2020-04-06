@@ -11,6 +11,7 @@ import java.util.Date;
  * @date 2019/11/25 8:01 下午
  */
 public class Admin implements Serializable {
+    private static final long serialVersionUID = 2954989151519708555L;
     private Integer id;
 
     private String account;

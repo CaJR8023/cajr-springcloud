@@ -17,7 +17,9 @@ import java.util.List;
 @Service
 public class CustomUserDetailsImpl implements UserDetails {
 
+    private static final long serialVersionUID = 4858470651946887004L;
     private User user;
+
     public CustomUserDetailsImpl() { }
 
     CustomUserDetailsImpl(User user) {

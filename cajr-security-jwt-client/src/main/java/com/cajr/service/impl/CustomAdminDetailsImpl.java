@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class CustomAdminDetailsImpl implements UserDetails {
 
+    private static final long serialVersionUID = 4953933060986522034L;
     private Admin admin;
 
     public CustomAdminDetailsImpl(Admin admin) {

@@ -25,7 +25,7 @@ public class CodeController {
 
     @ApiOperation(value = "获取手机验证码", httpMethod = "GET", nickname = "sendCode")
     @GetMapping("/send")
-    public Result sendCode(@RequestParam("phone") @ApiParam(value = "手机号",required = true,type = "string") String phone){
-        return this.iCodeClientService.sendCode(phone);
+    public Result sendCode(@RequestParam("mobile") @ApiParam(value = "手机号",required = true,type = "string") String mobile){
+        return this.iCodeClientService.sendCode(mobile);
     }
 }

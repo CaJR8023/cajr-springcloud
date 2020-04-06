@@ -35,7 +35,7 @@ public class ImgServiceImpl implements ImgService {
 
             try {
                 if (!"".equals(imgFileName) && imgFileName != null){
-                    String newsImgPath = type+"/img/"+ userId +"/"+ UUID.randomUUID()+"/";
+                    String newsImgPath = type+"/img/"+ userId +"/";
                     String fileF = imgFileName.substring(imgFileName.lastIndexOf("."));
                     imgFileName = new Date().getTime() + fileF;
 
