@@ -6,6 +6,7 @@ import com.cajr.util.Result;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,4 +26,8 @@ public interface ITagClientService {
 
     @PostMapping("/tag/")
     public Result addOneTag(@RequestBody Tag tag);
+
+    @GetMapping("/tag/")
+    public PageInfo getAllTag(@RequestParam(value = "page",defaultValue = "1") int page,
+                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 }

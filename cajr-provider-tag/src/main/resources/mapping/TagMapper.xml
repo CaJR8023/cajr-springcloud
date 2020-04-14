@@ -19,6 +19,10 @@
     SELECT  EXISTS(SELECT 1 FROM tag WHERE `name` = #{name,jdbcType=VARCHAR} LIMIT 1)
   </select>
 
+  <select id="selectAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from tag
+  </select>
+
   <select id="selectByPrimaryName" parameterType="string" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select

@@ -7,6 +7,8 @@ import com.cajr.service.NewsLogsService;
 import com.cajr.util.CommonParam;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.BoundZSetOperations;
@@ -93,5 +95,11 @@ public class NewsLogsServiceImpl implements NewsLogsService {
     @Override
     public Integer delete(Integer id) {
         return this.newsLogsMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public PageInfo getAllByPage(int page, int pageSize) {
+        PageHelper.startPage(page,pageSize);
+        return new PageInfo<>(this.newsLogsMapper.findAll());
     }
 }

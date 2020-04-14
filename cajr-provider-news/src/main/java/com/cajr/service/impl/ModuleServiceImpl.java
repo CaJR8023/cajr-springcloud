@@ -6,6 +6,8 @@ import com.cajr.service.NewsService;
 import com.cajr.vo.news.Module;
 import com.cajr.vo.news.ModuleCountResult;
 import com.cajr.vo.news.News;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,5 +60,11 @@ public class ModuleServiceImpl implements ModuleService {
             moduleCountResults.add(moduleCountResult);
         }
         return moduleCountResults;
+    }
+
+    @Override
+    public PageInfo getAllByPage(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(this.moduleMapper.findAll());
     }
 }

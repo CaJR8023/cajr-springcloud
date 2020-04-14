@@ -9,6 +9,8 @@ import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.Module;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserPref;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -135,5 +137,11 @@ public class UserServiceImpl implements UserService {
             }
         });
         return activeUserIds;
+    }
+
+    @Override
+    public PageInfo getAllByPage(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(this.userMapper.findAll());
     }
 }

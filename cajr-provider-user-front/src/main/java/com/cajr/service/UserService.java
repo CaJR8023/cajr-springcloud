@@ -2,6 +2,7 @@ package com.cajr.service;
 
 import com.cajr.util.CustomHashMap;
 import com.cajr.vo.user.User;
+import com.github.pagehelper.PageInfo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,5 +35,7 @@ public interface UserService {
     public List<User> findSection(List<Integer> userIds);
 
     public List<Integer> findAllActiveUserId();
+
+    PageInfo getAllByPage(int page, int pageSize);
 
 }

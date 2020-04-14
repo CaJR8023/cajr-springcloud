@@ -2,6 +2,8 @@ package com.cajr.mapper;
 
 import com.cajr.vo.tag.Tag;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/3/16 9:55 上午
@@ -22,5 +24,7 @@ public interface TagMapper {
     int updateByPrimaryKey(Tag record);
 
     int checkIsExistedByName(String name);
+
+    List<Tag> selectAll();
 
 }

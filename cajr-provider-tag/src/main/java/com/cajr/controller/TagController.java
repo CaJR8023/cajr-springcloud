@@ -5,6 +5,7 @@ import com.cajr.util.Result;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,5 +40,11 @@ public class TagController {
         Integer result = this.tagService.addOneTag(tag);
 
         return new Result<>(result);
+    }
+
+    @GetMapping("/")
+    public PageInfo getAllTag(@RequestParam(value = "page",defaultValue = "1") int page,
+                              @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.tagService.getAllByPage(page, pageSize);
     }
 }

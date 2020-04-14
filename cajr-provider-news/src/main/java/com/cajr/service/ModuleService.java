@@ -2,6 +2,7 @@ package com.cajr.service;
 
 import com.cajr.vo.news.Module;
 import com.cajr.vo.news.ModuleCountResult;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface ModuleService {
     List<Module> findAll();
 
     List<ModuleCountResult> findAllModuleAndNews();
+
+    PageInfo getAllByPage(int page, int pageSize);
 }

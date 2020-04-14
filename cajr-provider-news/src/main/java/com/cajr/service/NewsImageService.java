@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.vo.news.NewsImage;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author CAJR
@@ -8,4 +9,6 @@ import com.cajr.vo.news.NewsImage;
  */
 public interface NewsImageService {
     Integer add(NewsImage newsImage);
+
+    PageInfo getAllByPage(int page, int pageSize);
 }

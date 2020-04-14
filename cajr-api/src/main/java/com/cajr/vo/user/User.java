@@ -36,6 +36,9 @@ public class User implements Serializable {
     @ApiModelProperty(hidden = true)
     private UserPref userPref;
 
+    @ApiModelProperty(hidden = true)
+    private UserInfo userInfo;
+
     public int getId() {
         return id;
     }
@@ -106,5 +109,13 @@ public class User implements Serializable {
 
     public void setUserPref(UserPref userPref) {
         this.userPref = userPref;
+    }
+
+    public UserInfo getUserInfo() {
+        return userInfo;
+    }
+
+    public void setUserInfo(UserInfo userInfo) {
+        this.userInfo = userInfo;
     }
 }

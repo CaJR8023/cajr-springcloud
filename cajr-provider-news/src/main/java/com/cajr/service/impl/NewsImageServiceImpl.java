@@ -3,6 +3,8 @@ package com.cajr.service.impl;
 import com.cajr.mapper.NewsImageMapper;
 import com.cajr.service.NewsImageService;
 import com.cajr.vo.news.NewsImage;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,11 @@ public class NewsImageServiceImpl implements NewsImageService {
         newsImage.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         newsImage.setStatus(1);
         return newsImageMapper.insertSelective(newsImage);
+    }
+
+    @Override
+    public PageInfo getAllByPage(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(this.newsImageMapper.findAll());
     }
 }

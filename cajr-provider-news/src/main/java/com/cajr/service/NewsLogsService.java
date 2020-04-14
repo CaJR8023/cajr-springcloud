@@ -2,6 +2,7 @@ package com.cajr.service;
 
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -24,5 +25,7 @@ public interface NewsLogsService {
     Integer checkExistByUserIdAndNewsId(Integer userId, Integer newsId);
 
     Integer delete(Integer id);
+
+    PageInfo getAllByPage(int page, int pageSize);
 
 }

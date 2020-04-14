@@ -57,6 +57,9 @@ public class AdminController {
         roles.add("RecommendTable");
         roles.add("ColumnTable");
         roles.add("RecommendTable");
+        roles.add("UserTable");
+        roles.add("UserPrefTable");
+        roles.add("UserReviewTable");
         roles.add("*404");
     }
 }

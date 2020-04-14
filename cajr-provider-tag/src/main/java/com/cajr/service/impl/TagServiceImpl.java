@@ -3,6 +3,8 @@ package com.cajr.service.impl;
 import com.cajr.mapper.TagMapper;
 import com.cajr.service.TagService;
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,11 @@ public class TagServiceImpl implements TagService {
     @Override
     public Integer checkTagIsExistedByName(String name) {
         return this.tagMapper.checkIsExistedByName(name);
+    }
+
+    @Override
+    public PageInfo getAllByPage(int page, int pageSize) {
+        PageHelper.startPage(page, pageSize);
+        return new PageInfo<>(this.tagMapper.selectAll());
     }
 }

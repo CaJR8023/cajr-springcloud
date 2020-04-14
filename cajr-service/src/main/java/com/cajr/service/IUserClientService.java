@@ -5,6 +5,7 @@ import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserPref;
+import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,10 @@ public interface IUserClientService {
 
     @PostMapping("/user/")
     public Result addOneUser(@RequestBody User user);
+
+    @GetMapping("/user/page")
+    public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 
     @GetMapping("/user/all_user_id")
     public List<Integer> findAllUserId();

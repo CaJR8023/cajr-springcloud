@@ -3,6 +3,7 @@ package com.cajr.service.fallbak;
 import com.cajr.service.IModuleService;
 import com.cajr.util.Result;
 import com.cajr.vo.news.Module;
+import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,11 @@ public class IModuleServiceFallBackFactory implements FallbackFactory<IModuleSer
 
             @Override
             public Result getAllModuleAndNews() {
+                return null;
+            }
+
+            @Override
+            public PageInfo getAllByPage(int page, int pageSize) {
                 return null;
             }
         };

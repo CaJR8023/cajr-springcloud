@@ -4,6 +4,7 @@ import com.cajr.service.CodeService;
 import com.cajr.service.UserService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -87,6 +88,11 @@ public class UserController {
             return null;
         }
         return this.userService.findSection(userIds);
+    }
+    @GetMapping("/page")
+    public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.userService.getAllByPage(page, pageSize);
     }
 
 }

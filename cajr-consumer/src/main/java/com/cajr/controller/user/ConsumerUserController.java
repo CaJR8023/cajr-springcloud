@@ -3,6 +3,7 @@ package com.cajr.controller.user;
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -33,6 +34,12 @@ public class ConsumerUserController {
     @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getOneUser")
     public Result getOneUserByTel(@RequestParam("tel")@ApiParam(value = "用户手机号",required = true,type = "string") String tel ){
         return this.iUserClientService.getOneUserByTel(tel);
+    }
+
+    @GetMapping("/page")
+    public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.iUserClientService.getAllByPage(page, pageSize);
     }
 
     @PostMapping("/")

@@ -4,6 +4,7 @@ import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserPref;
+import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,11 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             @Override
             public Result addOneUser(User user) {
                 return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public PageInfo getAllByPage(int page, int pageSize) {
+                return null;
             }
 
             @Override

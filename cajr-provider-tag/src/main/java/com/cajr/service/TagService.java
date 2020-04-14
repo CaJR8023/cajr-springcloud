@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageInfo;
 
 /**
  * @author CAJR
@@ -15,4 +16,6 @@ public interface TagService {
     Tag getOneTagById(int id);
 
     Integer checkTagIsExistedByName(String name);
+
+    PageInfo getAllByPage(int page, int pageSize);
 }

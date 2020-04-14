@@ -5,6 +5,7 @@ import com.cajr.util.Result;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
@@ -30,6 +31,11 @@ public class ITagClientServiceFallBackFactory implements FallbackFactory<ITagCli
             @Override
             public Result addOneTag(Tag tag) {
                 return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public PageInfo getAllTag(int page, int pageSize) {
+                return null;
             }
         };
     }
