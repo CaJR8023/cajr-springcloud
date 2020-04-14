@@ -1,5 +1,6 @@
 package com.cajr.service;
 
+import com.cajr.vo.news.CountNewsRecommendResult;
 import com.cajr.vo.news.NewsRecommend;
 
 import java.util.List;
@@ -12,6 +13,10 @@ import java.util.Map;
 public interface NewsRecommendService {
 
     List<NewsRecommend> findAllByUserId(int userId);
+
+    List<NewsRecommend> findAllByFeedback(int feedback);
+
+    CountNewsRecommendResult countRecNewsNum();
 
     List<NewsRecommend> findAllByUserIds(List<Integer> userIds);
 

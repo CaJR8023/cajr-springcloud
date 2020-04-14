@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author CAJR
@@ -18,6 +19,7 @@ public class Admin implements Serializable {
 
     private String password;
 
+    @ApiModelProperty(hidden = true)
     private Integer status;
 
     @ApiModelProperty(hidden = true)
@@ -25,6 +27,16 @@ public class Admin implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
+
+    private List<String> roles;
+
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 
     public Integer getId() {
         return id;

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.SpecialColumnNewsMapper">
+  <resultMap id="BaseResultMap" type="com.cajr.vo.user.SpecialColumnNews">
+    <!--@mbg.generated-->
+    <!--@Table special_column_news-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="special_column_id" jdbcType="INTEGER" property="specialColumnId" />
+    <result column="news_id" jdbcType="INTEGER" property="newsId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, special_column_id, news_id, `status`, created_at, updated_at
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from special_column_news
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from special_column_news
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.SpecialColumnNews" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into special_column_news (special_column_id, news_id, `status`, 
+      created_at, updated_at)
+    values (#{specialColumnId,jdbcType=INTEGER}, #{newsId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.SpecialColumnNews" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into special_column_news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="specialColumnId != null">
+        special_column_id,
+      </if>
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="specialColumnId != null">
+        #{specialColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="newsId != null">
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.user.SpecialColumnNews">
+    <!--@mbg.generated-->
+    update special_column_news
+    <set>
+      <if test="specialColumnId != null">
+        special_column_id = #{specialColumnId,jdbcType=INTEGER},
+      </if>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.SpecialColumnNews">
+    <!--@mbg.generated-->
+    update special_column_news
+    set special_column_id = #{specialColumnId,jdbcType=INTEGER},
+      news_id = #{newsId,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

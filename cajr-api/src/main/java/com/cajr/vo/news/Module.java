@@ -24,6 +24,7 @@ public class Module {
     /**
     * ????
     */
+    @ApiModelProperty(hidden = true)
     private String sign;
 
     public int getId() {

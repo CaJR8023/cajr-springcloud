@@ -10,12 +10,16 @@ import com.cajr.vo.news.News;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.ansj.app.keyword.Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,5 +80,37 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> findAll() {
         return this.newsMapper.selectAll();
+    }
+
+    @Override
+    public List<News> findAllByModuleId(int moduleId) {
+        return this.newsMapper.selectAllByModuleId(moduleId);
+    }
+
+    @Override
+    public PageInfo<News> findAllByPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(this.newsMapper.selectAll());
+    }
+
+    @Override
+    public List<Integer> findAllNewsId() {
+        return this.newsMapper.selectAllId();
+    }
+
+    @Override
+    public Integer update(News news) {
+        news.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return this.newsMapper.updateByPrimaryKey(news);
+    }
+
+    @Override
+    public Integer deleteOne(Integer id) {
+        return this.newsMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public News getOne(int id) {
+        return this.newsMapper.selectByPrimaryKey(id);
     }
 }

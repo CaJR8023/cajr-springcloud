@@ -29,10 +29,28 @@ public class ConsumerUserController {
         return this.iUserClientService.getOneUser(id);
     }
 
+    @GetMapping("/_name")
+    @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getOneUser")
+    public Result getOneUserByTel(@RequestParam("tel")@ApiParam(value = "用户手机号",required = true,type = "string") String tel ){
+        return this.iUserClientService.getOneUserByTel(tel);
+    }
+
     @PostMapping("/")
     @ApiOperation(value = "添加用户接口",httpMethod = "POST",nickname = "addOneUser")
     public Result addOneUser(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
-
         return this.iUserClientService.addOneUser(user);
     }
+
+//    @PostMapping("/")
+//    @ApiOperation(value = "添加用户接口",httpMethod = "POST",nickname = "addOneUser")
+//    public Result addUser(@RequestParam("tel") @ApiParam(value = "用户手机号", required = true, type = "string") String tel,
+//                          @RequestParam("password")@ApiParam(value = "用户密码", required = true, type = "string") String password,
+//                          @RequestParam("username")@ApiParam(value = "用户名", required = true, type = "string") String userName){
+//        User user = new User();
+//        user.setUsername(userName);
+//        user.setPassword(password);
+//        user.setTel(tel);
+//        user.setStatus(1);
+//        return this.iUserClientService.addOneUser(user);
+//    }
 }

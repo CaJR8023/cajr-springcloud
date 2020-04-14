@@ -45,7 +45,10 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers("/code/**").permitAll()
                 .antMatchers("/oauth/check_token/**").permitAll()
                 .antMatchers("/tokens/**").permitAll()
-                .antMatchers(HttpMethod.POST,"/user/").permitAll()
+                .antMatchers(HttpMethod.POST,"/user/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/news/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/tag/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/column/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/admin/").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/forget_password").permitAll()
                 //swagger

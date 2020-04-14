@@ -24,7 +24,13 @@ public interface NewsRecommendMapper {
 
     List<NewsRecommend> findAllByUserId(int userId);
 
+    List<NewsRecommend> findAllByFeedback(int feedback);
+
+    List<NewsRecommend> findAll();
+
     List<NewsRecommend> findAllByUserIds(@Param("userIds")List<Integer> userIds);
 
     int checkRecommendByUserIdAndNewsId(@Param("userId")int userId, @Param("newsId")int newsId);
+
+
 }

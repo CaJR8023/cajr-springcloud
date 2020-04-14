@@ -24,4 +24,6 @@ public interface NewsLogsMapper {
     List<NewsLogs> findAllByUserId(int userId);
 
     List<NewsLogs> findAll();
+
+    int checkExistByUserIdAndNewsId(Integer userId, Integer newsId);
 }

@@ -1,5 +1,6 @@
 package com.cajr.service;
 
+import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
 
 import java.util.List;
@@ -17,5 +18,11 @@ public interface NewsLogsService {
     Integer add(NewsLogs newsLogs);
 
     Integer update(NewsLogs newsLogs);
+
+    List<News> getAllNewsByUserId(Integer userId);
+
+    Integer checkExistByUserIdAndNewsId(Integer userId, Integer newsId);
+
+    Integer delete(Integer id);
 
 }

@@ -28,6 +28,7 @@ public class NewsLogs {
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
+    @ApiModelProperty(hidden = true)
     private News news;
 
     public Integer getId() {

@@ -25,7 +25,7 @@ public class NewsDataCaptureJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         try {
             logger.info("新闻第三方数据定时获取  开始于" + new Date());
-            this.newsDataService.crawlChannelData();
+//            this.newsDataService.crawlChannelData();
         } catch (Exception e) {
             e.printStackTrace();
         }

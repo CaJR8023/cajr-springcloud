@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.vo.news.Module;
+import com.cajr.vo.news.ModuleCountResult;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface ModuleService {
     Integer addList(List<Module> modules);
 
     List<Module> findAll();
+
+    List<ModuleCountResult> findAllModuleAndNews();
 }

@@ -41,11 +41,20 @@ public class UserController {
 
     @GetMapping("/one")
     @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getUser")
-    public User getUser(@RequestParam("userId")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") int userId ){
+    public User getUser(@RequestParam("userId")@ApiParam(value = "用户手机号",required = true,type = "integer" ,example = "1") int userId ){
         if ( this.userService.checkIsExistById(userId).get() <= 0){
             System.out.println(this.userService.checkIsExistById(userId).get());
         }
         return this.userService.getUser(userId);
+    }
+
+    @GetMapping("/by_name")
+    @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getUserByTel")
+    public Result getUserByTel(@RequestParam("tel")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") String tel ){
+        if ( this.userService.checkIsExistByTel(tel).get() <= 0){
+            return new Result<>("用户不存在","");
+        }
+        return new Result<>(this.userService.getUserByTel(tel));
     }
 
     @PostMapping("/")

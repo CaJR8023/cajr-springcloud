@@ -21,6 +21,9 @@ public interface IUserClientService {
     @GetMapping("/user/{id}")
     public Result getOneUser(@PathVariable("id") int id);
 
+    @GetMapping("/user/by_name")
+    public Result getOneUserByTel(@RequestParam("tel") String tel);
+
     @GetMapping("/user/one")
     public User getUser(@RequestParam("userId") int userId);
 

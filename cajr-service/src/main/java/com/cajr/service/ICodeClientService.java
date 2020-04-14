@@ -16,4 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ICodeClientService {
     @GetMapping("/code/send")
     public Result sendCode(@RequestParam("phone") String phone);
+
+    @GetMapping("/code/verify")
+    public Result verifyCode(@RequestParam("mobile") String mobile, @RequestParam("code") String code);
 }

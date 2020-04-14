@@ -1,6 +1,7 @@
 package com.cajr.service.fallbak;
 
 import com.cajr.service.IModuleService;
+import com.cajr.util.Result;
 import com.cajr.vo.news.Module;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,11 @@ public class IModuleServiceFallBackFactory implements FallbackFactory<IModuleSer
                 module.setId(-1);
                 modules.add(module);
                 return modules;
+            }
+
+            @Override
+            public Result getAllModuleAndNews() {
+                return null;
             }
         };
     }

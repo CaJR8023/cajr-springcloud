@@ -26,4 +26,8 @@ public interface NewsMapper {
     List<News> selectSectionByNewsIds(List<Integer> newsId);
 
     List<News> selectAll();
+
+    List<News> selectAllByModuleId(Integer moduleId);
+
+    List<Integer> selectAllId();
 }

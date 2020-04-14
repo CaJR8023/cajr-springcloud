@@ -28,4 +28,11 @@ public class CodeController {
     public Result sendCode(@RequestParam("mobile") @ApiParam(value = "手机号",required = true,type = "string") String mobile){
         return this.iCodeClientService.sendCode(mobile);
     }
+
+    @ApiOperation(value = "验证手机验证码", httpMethod = "GET", nickname = "verifyCode")
+    @GetMapping("/verify")
+    public Result verifyCode(@RequestParam("tel") @ApiParam(value = "手机号",required = true,type = "string") String mobile,
+                             @RequestParam("regCode") @ApiParam(value = "要验证的验证码",required = true,type = "string") String code){
+        return this.iCodeClientService.verifyCode(mobile,code);
+    }
 }

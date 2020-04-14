@@ -53,6 +53,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByTel(String tel) {
+        return this.userMapper.selectByTel(tel);
+    }
+
+    @Override
     @Transactional(propagation= Propagation.REQUIRED,rollbackFor = Exception.class)
     public Optional<Integer> add(User user) {
         user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));

@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.vo.news.News;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -14,4 +15,16 @@ public interface NewsService {
     List<News> findSectionNews(List<Integer> newsIds);
 
     List<News> findAll();
+
+    List<News> findAllByModuleId(int moduleId);
+
+    PageInfo<News> findAllByPage(int pageNum, int pageSize);
+
+    List<Integer> findAllNewsId();
+
+    Integer update(News news);
+
+    Integer deleteOne(Integer id);
+
+    News getOne(int id);
 }

@@ -26,4 +26,10 @@ public class CodeController {
     public Result sendCode(@RequestParam("phone") @ApiParam(value = "手机号",required = true,type = "string") String phone){
         return new Result<>(this.codeService.sendCode(phone));
     }
+
+    @GetMapping("/verify")
+    public Result verifyCode(@RequestParam("mobile") @ApiParam(value = "手机号",required = true,type = "string") String mobile,
+                             @RequestParam("code") @ApiParam(value = "要验证的验证码",required = true,type = "string") String code){
+        return new Result<>(this.codeService.checkCode(code, mobile));
+    }
 }

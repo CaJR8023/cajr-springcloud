@@ -18,6 +18,11 @@ public class ICodeClientServiceFallBackFactory implements FallbackFactory<ICodeC
             public Result sendCode(String phone) {
                 return new Result<>("hystrix",-1);
             }
+
+            @Override
+            public Result verifyCode(String mobile, String code) {
+                return new Result<>("hystrix",-2);
+            }
         };
     }
 }

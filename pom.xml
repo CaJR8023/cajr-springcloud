@@ -24,6 +24,7 @@
       <module>cajr-provider-news</module>
       <module>cajr-provider-tag</module>
       <module>cajr-provider-img</module>
+      <module>cajr-provider-column</module>
   </modules>
 
   <properties>
@@ -238,6 +239,12 @@
       <dependency>
         <groupId>CAJR</groupId>
         <artifactId>cajr-provider-user-front</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-provider-user-after</artifactId>
         <version>1.0.0</version>
       </dependency>
 

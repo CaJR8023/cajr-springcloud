@@ -1,6 +1,7 @@
 package com.cajr.controller;
 
 import com.cajr.service.ModuleService;
+import com.cajr.util.Result;
 import com.cajr.vo.news.Module;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,5 +26,11 @@ public class ModuleController {
     @GetMapping("/")
     public List<Module> getAllModule(){
         return this.moduleService.findAll();
+    }
+
+
+    @GetMapping("/count")
+    public Result getAllModuleAndNews(){
+        return new Result<>(this.moduleService.findAllModuleAndNews());
     }
 }

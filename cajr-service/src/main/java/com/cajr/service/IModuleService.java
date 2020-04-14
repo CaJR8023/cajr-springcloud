@@ -2,6 +2,7 @@ package com.cajr.service;
 
 import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.IModuleServiceFallBackFactory;
+import com.cajr.util.Result;
 import com.cajr.vo.news.Module;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,4 +19,7 @@ public interface IModuleService {
 
     @GetMapping("/module/")
     public List<Module> getAllModule();
+
+    @GetMapping("/module/count")
+    public Result getAllModuleAndNews();
 }

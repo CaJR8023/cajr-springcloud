@@ -22,8 +22,16 @@
     updated_at, news_data_sign
   </sql>
 
+  <select id="selectAllId" resultType="integer">
+    select id from news where status = 1
+  </select>
+
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from news where status = 1
+  </select>
+
+  <select id="selectAllByModuleId" parameterType="integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from news where module_id = #{moduleId,jdbcType=INTEGER} and status = 1
   </select>
 
   <select id="selectSectionByNewsIds" parameterType="list" resultMap="BaseResultMap">

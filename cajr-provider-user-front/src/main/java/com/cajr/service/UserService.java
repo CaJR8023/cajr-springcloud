@@ -17,6 +17,8 @@ public interface UserService {
 
     public User getUser(int id);
 
+    public User getUserByTel(String tel);
+
     public Optional<Integer> add(User user);
 
     public Optional<Integer> update(User user);

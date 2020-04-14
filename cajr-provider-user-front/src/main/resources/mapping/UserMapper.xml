@@ -48,6 +48,14 @@
     select exists (select 1 from user where tel = #{tel,jdbcType=VARCHAR} limit 1)
   </select>
 
+  <select id="selectByTel" parameterType="string" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where tel = #{tel,jdbcType=VARCHAR} and status = 1
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="int" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 

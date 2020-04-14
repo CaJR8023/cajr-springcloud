@@ -15,6 +15,13 @@
     <!--@mbg.generated-->
     id, account, `password`, `status`, created_at, updated_at
   </sql>
+  <select id="selectByAccount" parameterType="string" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from admin
+    where account = #{account,jdbcType=VARCHAR}
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 

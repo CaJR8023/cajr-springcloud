@@ -7,6 +7,7 @@ package com.cajr.util;
 public class CommonParam {
     //redis key name
     public static final String HOT_NEWS_REDIS_KEY = "hotNewsTop";
+    public static final String NEWEST_NEWS_REDIS_KEY = "newestNewsTop";
 
 
     //Common Param other
@@ -25,4 +26,19 @@ public class CommonParam {
 
     //最近的新闻的天数
     public static final int RECENT_NEWS_BEFORE_DAYS = 90;
+
+    //定时任务相关
+    public static final String REC_JOB_GROUP_NAME = "RECOMMEND-GROUP";
+    public static final String REC_JOB_NAME = "RECOMMEND-JOB";
+    public static final String NEWS_DATA_JOB_GROUP_NAME = "NEWS-DATA-GROUP";
+    public static final String NEWS_DATA_JOB_NAME = "NEWS-DATA-JOB";
+
+    //时间
+    public static final int MON = 1;
+    public static final int TUE = 2;
+    public static final int WED = 3;
+    public static final int THU = 4;
+    public static final int FRI = 5;
+    public static final int SAT = 6;
+    public static final int SUN = 7;
 }
