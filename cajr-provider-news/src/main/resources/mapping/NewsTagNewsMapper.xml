@@ -16,9 +16,6 @@
         id, news_id, tag_id, `status`, created_at, updated_at
     </sql>
 
-    <select id="selectAllTagByNewsId" resultMap="BaseResultMap">
-        select <include refid="Base_Column_List"/>  from news_tag where news_id = #{newsId} and status = 1
-    </select>
 
     <select id="checkIsExistedByNewsIdAndTagId" resultType="int">
         SELECT  EXISTS(SELECT 1 FROM news_tag WHERE news_id = #{param1} AND tag_id = #{param2} LIMIT 1)

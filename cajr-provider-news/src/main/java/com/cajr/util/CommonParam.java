@@ -32,6 +32,8 @@ public class CommonParam {
     public static final String REC_JOB_NAME = "RECOMMEND-JOB";
     public static final String NEWS_DATA_JOB_GROUP_NAME = "NEWS-DATA-GROUP";
     public static final String NEWS_DATA_JOB_NAME = "NEWS-DATA-JOB";
+    public static final String COUNT_HOTTEST_TAG_GROUP_NAME = "COUNT_HOTTEST_TAG-GROUP";
+    public static final String COUNT_HOTTEST_TAG_JOB_NAME = "COUNT_HOTTEST_TAG-JOB";
 
     //时间
     public static final int MON = 1;
@@ -41,4 +43,10 @@ public class CommonParam {
     public static final int FRI = 5;
     public static final int SAT = 6;
     public static final int SUN = 7;
+
+    //判断是否图片
+    public static final String IS_IMG_STRING = "url";
+    public static final String IS_IMG_STRING1 = "width";
+    public static final String IMG_HTML_FRONT = "<img src=\"";
+    public static final String IMG_HTML_AFTER = "\" width=\"100%\" height=\"100%\"/>";
 }

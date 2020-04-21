@@ -25,6 +25,7 @@
       <module>cajr-provider-tag</module>
       <module>cajr-provider-img</module>
       <module>cajr-provider-column</module>
+      <module>cajr-quartz</module>
   </modules>
 
   <properties>
@@ -295,6 +296,13 @@
         <artifactId>cajr-redis</artifactId>
         <version>1.0.0</version>
       </dependency>
+
+      <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-quartz</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
       <dependency>
         <groupId>com.aliyun</groupId>
         <artifactId>aliyun-java-sdk-core</artifactId>

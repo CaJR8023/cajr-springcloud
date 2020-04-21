@@ -22,6 +22,6 @@ public class CBRecommendJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
+        logger.info("开启基于内容推荐");
     }
 }

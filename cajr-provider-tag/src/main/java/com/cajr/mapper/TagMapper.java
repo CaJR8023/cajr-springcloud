@@ -27,4 +27,7 @@ public interface TagMapper {
 
     List<Tag> selectAll();
 
+    List<Tag> findAll();
+
+    List<Tag> selectAllByIds(List<Integer> ids);
 }

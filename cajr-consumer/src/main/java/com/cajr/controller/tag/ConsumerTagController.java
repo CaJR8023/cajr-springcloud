@@ -1,13 +1,11 @@
 package com.cajr.controller.tag;
 
 import com.cajr.service.ITagClientService;
+import com.cajr.util.Result;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author CAJR
@@ -25,5 +23,15 @@ public class ConsumerTagController {
     public PageInfo getAllTag(@RequestParam(value = "page",defaultValue = "1") int page,
                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return this.iTagClientService.getAllTag(page, pageSize);
+    }
+
+    @GetMapping("/hottest")
+    public Result getHottestTags(){
+        return this.iTagClientService.getHottestTags();
+    }
+
+    @GetMapping("/{id}")
+    public Result getOneTag(@PathVariable("id") int id){
+        return new Result<>(this.iTagClientService.getOneById(id));
     }
 }

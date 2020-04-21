@@ -37,6 +37,16 @@ public class ITagClientServiceFallBackFactory implements FallbackFactory<ITagCli
             public PageInfo getAllTag(int page, int pageSize) {
                 return null;
             }
+
+            @Override
+            public Result countHottestTag() {
+                return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public Result getHottestTags() {
+                return new Result<>("hystrix fail",0);
+            }
         };
     }
 }

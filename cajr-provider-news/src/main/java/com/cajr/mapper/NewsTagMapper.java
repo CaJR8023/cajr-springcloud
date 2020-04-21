@@ -1,13 +1,10 @@
 package com.cajr.mapper;
 
 import com.cajr.vo.tag.NewsTag;
-import com.cajr.vo.tag.Tag;
-
-import java.util.List;
 
 /**
  * @author CAJR
- * @date 2020/3/16 2:00 下午
+ * @date 2020/4/20 4:08 下午
  */
 public interface NewsTagMapper {
     int deleteByPrimaryKey(Integer id);
@@ -23,7 +20,4 @@ public interface NewsTagMapper {
     int updateByPrimaryKey(NewsTag record);
 
     int checkIsExistedByNewsIdAndTagId(int newsId, int tagId);
-
-    List<NewsTag> selectAllTagByNewsId(int newsId);
-
 }

@@ -15,6 +15,11 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+
+    <association property="reviewCount" column="id" select="com.cajr.mapper.ReviewMapper.findNumByNewsId"/>
+    <association property="visitorCount" column="id" select="com.cajr.mapper.NewsLogsMapper.findNumByNewsId"/>
+
+    <collection property="newsImages" ofType="com.cajr.vo.news.NewsImage" column="id" select="com.cajr.mapper.NewsImageMapper.findAllByNewsId"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -28,6 +33,10 @@
 
   <select id="selectAll" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from news where status = 1
+  </select>
+
+  <select id="selectAllSortByTime" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from news order by created_at desc
   </select>
 
   <select id="selectAllByModuleId" parameterType="integer" resultMap="BaseResultMap">

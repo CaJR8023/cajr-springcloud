@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.TagNewsMapper">
+    <resultMap id="BaseResultMap1" type="com.cajr.vo.tag.NewsTag">
+        <!--@mbg.generated-->
+        <!--@Table news_tag-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="news_id" jdbcType="INTEGER" property="newsId" />
+        <result column="tag_id" jdbcType="INTEGER" property="tagId" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, news_id, tag_id, `status`, created_at, updated_at
+    </sql>
+
+    <select id="countNewsNumByTagId" resultType="int">
+        SELECT  EXISTS(SELECT 1 FROM news_tag WHERE tag_id = #{tagId} LIMIT 1)
+    </select>
+
+    <select id="getAllNewsIdByTagId" parameterType="integer" resultType="integer">
+        select news_id from news_tag where tag_id =#{tagId}
+    </select>
+
+</mapper>

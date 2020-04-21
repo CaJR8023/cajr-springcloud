@@ -9,6 +9,8 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    <association property="newsNum" javaType="java.lang.Integer" column="id" select="com.cajr.mapper.TagNewsMapper.countNewsNumByTagId"/>
+    <association property="newsIds" javaType="java.util.List" column="id" select="com.cajr.mapper.TagNewsMapper.getAllNewsIdByTagId"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
@@ -20,7 +22,16 @@
   </select>
 
   <select id="selectAll" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from tag
+    select <include refid="Base_Column_List"/> from tag order by created_at desc limit 1 ,5000
+  </select>
+  <select id="findAll" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from tag order by created_at desc
+  </select>
+  <select id="selectAllByIds" parameterType="list" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from tag where id in <foreach collection="list" item="item" open="(" separator="," close=")">
+    #{item,jdbcType=INTEGER}
+  </foreach>
   </select>
 
   <select id="selectByPrimaryName" parameterType="string" resultMap="BaseResultMap">

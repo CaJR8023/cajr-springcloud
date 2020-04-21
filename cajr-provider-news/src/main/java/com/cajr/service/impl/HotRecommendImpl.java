@@ -51,7 +51,7 @@ public class HotRecommendImpl implements RecommendService {
         //转换成List
         List<Integer> hotNewsTopIds = new ArrayList<>();
         for (ZSetOperations.TypedTuple<Object> hotNewsTopId : hotNewsRedisTopIds) {
-            hotNewsTopIds.add((Integer) hotNewsTopId.getValue());
+            hotNewsTopIds.add(Integer.parseInt((String) Objects.requireNonNull(hotNewsTopId.getValue())));
         }
 
         if (userIds.isEmpty()){

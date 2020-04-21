@@ -13,6 +13,8 @@ import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +90,11 @@ public class NewsDataServiceImpl implements NewsDataService {
     }
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "cajr::module::count::SimpleKey")
+            }
+    )
     public String crawlNewsData() throws Exception {
         //查询参数
         Map<String, String> queryParams = new HashMap<>(16);
@@ -132,30 +139,31 @@ public class NewsDataServiceImpl implements NewsDataService {
         JSONArray contentList = JSONArray.parseArray(jsonPageBean.getString("contentlist"));
         contentList.forEach(contentObject -> {
             JSONObject content = JSON.parseObject(contentObject.toString());
-            News news = new News();
-            System.out.println("news==>"+module.getId());
-            news.setModuleId(module.getId());
-            news.setDesc(content.getString("desc"));
-            news.setAllContent(content.getString("allList"));
-            news.setContent(content.getString("content"));
-            news.setTitle(content.getString("title"));
-            news.setSource(content.getString("source"));
-            news.setCreatedAt(content.getTimestamp("pubDate"));
-            news.setNewsDataSign(content.getString("id"));
-            news.setStatus(1);
-            int newsId = this.newsService.add(news);
-
             JSONArray jsonImageUrls = JSONArray.parseArray(content.getString("imageurls"));
-            jsonImageUrls.forEach(imageObject -> {
-                JSONObject jsonImage = JSON.parseObject(imageObject.toString());
-                NewsImage newsImage = new NewsImage();
-                newsImage.setNewsId(newsId);
-                newsImage.setUrl(jsonImage.getString("url"));
-                if (newsImage.getNewsId() > 0){
-                    this.newsImageService.add(newsImage);
-                }
-            });
+            if (!jsonImageUrls.isEmpty()){
+                News news = new News();
+                System.out.println("news==>"+module.getId());
+                news.setModuleId(module.getId());
+                news.setDesc(content.getString("desc"));
+                news.setAllContent(content.getString("allList"));
+                news.setContent(content.getString("content"));
+                news.setTitle(content.getString("title"));
+                news.setSource(content.getString("source"));
+                news.setCreatedAt(content.getTimestamp("pubDate"));
+                news.setNewsDataSign(content.getString("id"));
+                news.setStatus(1);
+                int newsId = this.newsService.add(news);
 
+                jsonImageUrls.forEach(imageObject -> {
+                    JSONObject jsonImage = JSON.parseObject(imageObject.toString());
+                    NewsImage newsImage = new NewsImage();
+                    newsImage.setNewsId(newsId);
+                    newsImage.setUrl(jsonImage.getString("url"));
+                    if (newsImage.getNewsId() > 0){
+                        this.newsImageService.add(newsImage);
+                    }
+                });
+            }
         });
     }
 

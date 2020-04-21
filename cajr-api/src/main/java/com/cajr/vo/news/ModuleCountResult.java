@@ -1,11 +1,17 @@
 package com.cajr.vo.news;
 
+import java.io.Serializable;
+
 /**
  * @author CAJR
  * @date 2020/4/13 7:23 下午
  */
-public class ModuleCountResult {
+public class ModuleCountResult implements Serializable {
 
+    public ModuleCountResult() {
+    }
+
+    private static final long serialVersionUID = -8158207873944440756L;
     private String name;
 
     private int value;

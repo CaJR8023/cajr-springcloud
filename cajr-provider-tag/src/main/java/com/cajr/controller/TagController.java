@@ -47,4 +47,9 @@ public class TagController {
                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return this.tagService.getAllByPage(page, pageSize);
     }
+
+    @GetMapping("/hottest")
+    public Result getHottestTags(){
+        return new Result<>(this.tagService.getHottestTags());
+    }
 }

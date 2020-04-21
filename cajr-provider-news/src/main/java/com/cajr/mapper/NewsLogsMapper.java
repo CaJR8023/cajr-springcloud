@@ -26,4 +26,6 @@ public interface NewsLogsMapper {
     List<NewsLogs> findAll();
 
     int checkExistByUserIdAndNewsId(Integer userId, Integer newsId);
+
+    int findNumByNewsId(Integer newsId);
 }

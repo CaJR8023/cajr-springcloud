@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.vo.news.News;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
 
@@ -11,5 +12,9 @@ import java.util.List;
 public interface NewsHotAndNewestService {
     void hotNewsExtract();
 
-    List<News> newestNewsExtract(int page, int pageSize);
+    void newestNews();
+
+    PageInfo newestNewsExtract(int page, int pageSize);
+
+    List<News> get24HoursHotNews();
 }

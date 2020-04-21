@@ -1,10 +1,13 @@
 package com.cajr.vo.tag;
 
+import com.cajr.vo.news.News;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author CAJR
@@ -22,6 +25,16 @@ public class Tag implements Serializable {
 
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
+
+    @ApiModelProperty(hidden = true)
+    private Integer newsNum;
+
+    @ApiModelProperty(hidden = true)
+    private List<News> newsList;
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private List<Integer> newsIds;
 
     public Integer getId() {
         return id;
@@ -61,5 +74,29 @@ public class Tag implements Serializable {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getNewsNum() {
+        return newsNum;
+    }
+
+    public void setNewsNum(Integer newsNum) {
+        this.newsNum = newsNum;
+    }
+
+    public List<News> getNewsList() {
+        return newsList;
+    }
+
+    public void setNewsList(List<News> newsList) {
+        this.newsList = newsList;
+    }
+
+    public List<Integer> getNewsIds() {
+        return newsIds;
+    }
+
+    public void setNewsIds(List<Integer> newsIds) {
+        this.newsIds = newsIds;
     }
 }

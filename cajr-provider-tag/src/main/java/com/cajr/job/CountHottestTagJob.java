@@ -1,28 +1,29 @@
 package com.cajr.job;
 
-import org.apache.log4j.Logger;
+import com.cajr.service.ITagClientService;
+import com.cajr.service.TagNewsService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
+import org.apache.log4j.Logger;
+
 /**
- * 定时把热点的新闻存进redis
  * @author CAJR
- * @date 2020/3/13 6:13 下午
+ * @date 2020/4/20 4:37 下午
  */
 @Component
-public class HotNewsMemoryJob extends QuartzJobBean {
-    private static final Logger logger = Logger.getLogger(HotNewsMemoryJob.class);
+public class CountHottestTagJob extends QuartzJobBean {
+    private static final Logger logger = Logger.getLogger(CountHottestTagJob.class);
 
     @Autowired
-    private RedisTemplate redisTemplate;
-
+    private TagNewsService tagNewsService;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
+        logger.info("统计热门标签任务启动");
+        this.tagNewsService.countHottestTag();
     }
 }

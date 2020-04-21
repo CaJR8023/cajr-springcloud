@@ -17,8 +17,8 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
     public INewsClientService create(Throwable throwable) {
         return new INewsClientService() {
             @Override
-            public Result getNewestNews(int page, int pageSize) {
-                return new Result<>("hystrix", -1);
+            public PageInfo getNewestNews(int page, int pageSize) {
+                return null;
             }
 
             @Override

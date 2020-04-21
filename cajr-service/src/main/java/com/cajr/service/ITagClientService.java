@@ -30,4 +30,10 @@ public interface ITagClientService {
     @GetMapping("/tag/")
     public PageInfo getAllTag(@RequestParam(value = "page",defaultValue = "1") int page,
                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
+
+    @GetMapping("/tag_news/count_hot_tag")
+    public Result countHottestTag();
+
+    @GetMapping("/tag/hottest")
+    public Result getHottestTags();
 }

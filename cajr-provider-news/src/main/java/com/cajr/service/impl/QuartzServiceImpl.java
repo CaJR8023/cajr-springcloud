@@ -222,7 +222,7 @@ public class QuartzServiceImpl implements QuartzService {
         List<Map<String, Object>> jobList = null;
         try {
             List<JobExecutionContext> executingJobs = scheduler.getCurrentlyExecutingJobs();
-            jobList = new ArrayList<Map<String, Object>>(executingJobs.size());
+            jobList = new ArrayList<>(executingJobs.size());
             for (JobExecutionContext executingJob : executingJobs) {
                 Map<String, Object> map = new HashMap<String, Object>();
                 JobDetail jobDetail = executingJob.getJobDetail();

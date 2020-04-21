@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.cajr.mapper.ReviewMapper">
-  <resultMap id="BaseResultMap" type="com.cajr.vo.user.Review">
+<mapper namespace="com.cajr.mapper.ReplyMapper">
+  <resultMap id="BaseResultMap" type="com.cajr.vo.news.Reply">
     <!--@mbg.generated-->
-    <!--@Table review-->
+    <!--@Table reply-->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="news_id" jdbcType="INTEGER" property="newsId" />
+    <result column="review_id" jdbcType="INTEGER" property="reviewId" />
     <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="replied_user_id" jdbcType="INTEGER" property="repliedUserId" />
     <result column="content" jdbcType="VARCHAR" property="content" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
@@ -14,38 +15,41 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, news_id, user_id, content, `status`, created_at, updated_at
+    id, review_id, user_id, replied_user_id, content, `status`, created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
     <include refid="Base_Column_List" />
-    from review
+    from reply
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
-    delete from review
+    delete from reply
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.Review" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.news.Reply" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into review (news_id, user_id, content, 
-      `status`, created_at, updated_at
-      )
-    values (#{newsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{content,jdbcType=VARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
-      )
+    insert into reply (review_id, user_id, replied_user_id, 
+      content, `status`, created_at, 
+      updated_at)
+    values (#{reviewId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{repliedUserId,jdbcType=INTEGER}, 
+      #{content,jdbcType=VARCHAR}, #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.Review" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.news.Reply" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into review
+    insert into reply
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="newsId != null">
-        news_id,
+      <if test="reviewId != null">
+        review_id,
       </if>
       <if test="userId != null">
         user_id,
+      </if>
+      <if test="repliedUserId != null">
+        replied_user_id,
       </if>
       <if test="content != null">
         content,
@@ -59,11 +63,14 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="newsId != null">
-        #{newsId,jdbcType=INTEGER},
+      <if test="reviewId != null">
+        #{reviewId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="repliedUserId != null">
+        #{repliedUserId,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         #{content,jdbcType=VARCHAR},
@@ -77,15 +84,18 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.user.Review">
+  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.news.Reply">
     <!--@mbg.generated-->
-    update review
+    update reply
     <set>
-      <if test="newsId != null">
-        news_id = #{newsId,jdbcType=INTEGER},
+      <if test="reviewId != null">
+        review_id = #{reviewId,jdbcType=INTEGER},
       </if>
       <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="repliedUserId != null">
+        replied_user_id = #{repliedUserId,jdbcType=INTEGER},
       </if>
       <if test="content != null">
         content = #{content,jdbcType=VARCHAR},
@@ -102,11 +112,12 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.Review">
+  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.news.Reply">
     <!--@mbg.generated-->
-    update review
-    set news_id = #{newsId,jdbcType=INTEGER},
+    update reply
+    set review_id = #{reviewId,jdbcType=INTEGER},
       user_id = #{userId,jdbcType=INTEGER},
+      replied_user_id = #{repliedUserId,jdbcType=INTEGER},
       content = #{content,jdbcType=VARCHAR},
       `status` = #{status,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},

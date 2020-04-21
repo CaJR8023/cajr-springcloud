@@ -1,9 +1,13 @@
 package com.cajr.vo.news;
 
+import com.alibaba.fastjson.JSONArray;
+import com.cajr.vo.user.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author CAJR
@@ -20,19 +24,47 @@ public class News {
 
     private String desc;
 
+    @JsonIgnore
     private String content;
 
+    @JsonIgnore
     private String allContent;
+
+    private List<String> contentList;
 
     private String newsDataSign;
 
     private int status;
 
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
+
+    @ApiModelProperty(hidden = true)
+    private String time;
+
+    @ApiModelProperty(hidden = true)
+    private String banner;
+
+    @ApiModelProperty(hidden = true)
+    private boolean existBanner;
+
+    @ApiModelProperty(hidden = true)
+    private  int visitorCount;
+
+    @ApiModelProperty(hidden = true)
+    private  int reviewCount;
+
+    @ApiModelProperty(hidden = true)
+    private User user;
+
+    @JsonIgnore
+    @ApiModelProperty(hidden = true)
+    private List<NewsImage> newsImages;
 
     public int getId() {
         return id;
@@ -120,5 +152,69 @@ public class News {
 
     public void setNewsDataSign(String newsDataSign) {
         this.newsDataSign = newsDataSign;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getBanner() {
+        return banner;
+    }
+
+    public void setBanner(String banner) {
+        this.banner = banner;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<NewsImage> getNewsImages() {
+        return newsImages;
+    }
+
+    public void setNewsImages(List<NewsImage> newsImages) {
+        this.newsImages = newsImages;
+    }
+
+    public void setExistBanner(boolean existBanner) {
+        this.existBanner = existBanner;
+    }
+
+    public boolean getExistBanner() {
+        return existBanner;
+    }
+
+    public int getVisitorCount() {
+        return visitorCount;
+    }
+
+    public void setVisitorCount(int visitorCount) {
+        this.visitorCount = visitorCount;
+    }
+
+    public int getReviewCount() {
+        return reviewCount;
+    }
+
+    public void setReviewCount(int reviewCount) {
+        this.reviewCount = reviewCount;
+    }
+
+    public List<String> getContentList() {
+        return contentList;
+    }
+
+    public void setContentList(List<String> contentList) {
+        this.contentList = contentList;
     }
 }

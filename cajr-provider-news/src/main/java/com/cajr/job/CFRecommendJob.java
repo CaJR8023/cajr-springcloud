@@ -16,6 +16,6 @@ public class CFRecommendJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-
+        logger.info("开启协同过滤推荐");
     }
 }

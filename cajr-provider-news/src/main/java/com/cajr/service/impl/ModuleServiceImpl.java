@@ -9,6 +9,10 @@ import com.cajr.vo.news.News;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -21,6 +25,7 @@ import java.util.List;
  * @date 2020/1/17 4:02 下午
  */
 @Service
+@CacheConfig(cacheNames = "cajr::module")
 public class ModuleServiceImpl implements ModuleService {
 
     @Autowired
@@ -30,6 +35,11 @@ public class ModuleServiceImpl implements ModuleService {
     private NewsService newsService;
 
     @Override
+    @Caching(
+            evict = {
+                    @CacheEvict(value = "cajr::module::count")
+            }
+    )
     public Integer add(Module module) {
         if (this.moduleMapper.checkExistByName(module.getName()) >= 1){
             return -1;
@@ -51,6 +61,7 @@ public class ModuleServiceImpl implements ModuleService {
     }
 
     @Override
+    @Cacheable(value = "cajr::module::count")
     public List<ModuleCountResult> findAllModuleAndNews() {
         List<Module> modules = this.findAll();
         List<ModuleCountResult> moduleCountResults = new ArrayList<>();

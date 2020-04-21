@@ -24,9 +24,9 @@ public class NewsController {
     NewsHotAndNewestService newsHotAndNewestService;
 
     @GetMapping("/newest")
-    public Result getNewestNews(@RequestParam(value = "page",defaultValue = "1") int page,
+    public PageInfo getNewestNews(@RequestParam(value = "page",defaultValue = "1") int page,
                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        return new Result<>(this.newsHotAndNewestService.newestNewsExtract(page, pageSize));
+        return this.newsHotAndNewestService.newestNewsExtract(page, pageSize);
     }
 
     @GetMapping("/")

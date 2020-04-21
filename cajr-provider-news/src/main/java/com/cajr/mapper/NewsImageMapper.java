@@ -22,4 +22,6 @@ public interface NewsImageMapper {
     int updateByPrimaryKey(NewsImage record);
 
     List<NewsImage> findAll();
+
+    List<NewsImage> findAllByNewsId(int newsId);
 }

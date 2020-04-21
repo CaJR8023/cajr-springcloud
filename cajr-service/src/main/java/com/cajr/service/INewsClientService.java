@@ -8,6 +8,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/4/13 7:07 下午
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
         fallbackFactory = INewsClientServiceFallBackFactory.class)
 public interface INewsClientService {
     @GetMapping("/news/newest")
-    public Result getNewestNews(@RequestParam(value = "page",defaultValue = "1") int page,
+    public PageInfo getNewestNews(@RequestParam(value = "page",defaultValue = "1") int page,
                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 
     @GetMapping("/news/")
@@ -34,4 +36,5 @@ public interface INewsClientService {
 
     @DeleteMapping("/news/{id}")
     public Result deleteOne(@PathVariable("id") int id);
+
 }

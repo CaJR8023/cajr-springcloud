@@ -20,12 +20,6 @@ public class ConsumerNewsController {
     @Autowired
     private INewsClientService iNewsClientService;
 
-    @GetMapping("/newest")
-    public Result getNewestNews(@RequestParam(value = "page",defaultValue = "1") int page,
-                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        return this.iNewsClientService.getNewestNews(page, pageSize);
-    }
-
     @GetMapping("/")
     public PageInfo getAll(@RequestParam(value = "page",defaultValue = "1") int page,
                            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){

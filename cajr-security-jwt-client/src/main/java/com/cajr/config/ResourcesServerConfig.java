@@ -50,6 +50,7 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/tag/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/column/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/admin/").permitAll()
+                .antMatchers("/visitor/**").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/forget_password").permitAll()
                 //swagger
                 .antMatchers("/swagger-ui.html").permitAll()

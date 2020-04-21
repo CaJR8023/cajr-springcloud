@@ -1,10 +1,14 @@
 package com.cajr.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.cajr.algorithm.TFIDF;
 import com.cajr.mapper.NewsMapper;
 import com.cajr.service.ITagClientService;
 import com.cajr.service.NewsService;
 import com.cajr.service.NewsTagService;
+import com.cajr.util.NewsFillDataUtil;
+import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.Module;
 import com.cajr.vo.news.News;
 import com.cajr.vo.tag.ModuleTag;
@@ -20,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +79,11 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> findSectionNews(List<Integer> newsIds) {
-        return this.newsMapper.selectSectionByNewsIds(newsIds);
+        List<News> newsList = this.newsMapper.selectSectionByNewsIds(newsIds);
+        if (!newsList.isEmpty()){
+            newsList.forEach(NewsFillDataUtil::fillNews);
+        }
+        return newsList;
     }
 
     @Override
@@ -111,6 +120,8 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public News getOne(int id) {
-        return this.newsMapper.selectByPrimaryKey(id);
+        News news = this.newsMapper.selectByPrimaryKey(id);
+        NewsFillDataUtil.fillNews(news);
+        return news;
     }
 }
