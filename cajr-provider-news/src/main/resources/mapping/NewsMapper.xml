@@ -6,6 +6,7 @@
     <!--@Table news-->
     <id column="id" jdbcType="INTEGER" property="id" />
     <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId"/>
     <result column="title" jdbcType="VARCHAR" property="title" />
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="desc" jdbcType="VARCHAR" property="desc" />
@@ -24,7 +25,7 @@
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, module_id, title, `source`, `desc`, content, all_content, `status`, created_at, 
-    updated_at, news_data_sign
+    updated_at, news_data_sign, user_id
   </sql>
 
   <select id="selectAllId" resultType="integer">
@@ -73,11 +74,12 @@
     <!--@mbg.generated-->
     insert into news (module_id, title, `source`, 
       `desc`, content, all_content, 
-      `status`, created_at, updated_at,news_data_sign
+      `status`, created_at, updated_at,news_data_sign, user_id
       )
     values (#{moduleId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR}, 
       #{desc,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR}, #{allContent,jdbcType=LONGVARCHAR}, 
-      #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{newsDataSign,jdbcType=VARCHAR}
+      #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},#{newsDataSign,jdbcType=VARCHAR},
+    #{userId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.news.News" useGeneratedKeys="true">
@@ -114,6 +116,9 @@
       <if test="newsDataSign != null">
         news_data_sign,
       </if>
+      <if test="userId != null">
+        user_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="moduleId != null">
@@ -145,6 +150,9 @@
       </if>
       <if test="newsDataSign != null ">
         #{newsDataSign,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER}
       </if>
     </trim>
     <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
@@ -185,6 +193,9 @@
       <if test="newsDataSign != null">
         news_data_sign = #{newsDataSign,jdbcType=VARCHAR},
       </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -200,7 +211,8 @@
       `status` = #{status,jdbcType=TINYINT},
       created_at = #{createdAt,jdbcType=TIMESTAMP},
       updated_at = #{updatedAt,jdbcType=TIMESTAMP},
-    news_data_sign = #{newsDataSign,jdbcType=VARCHAR}
+    news_data_sign = #{newsDataSign,jdbcType=VARCHAR},
+    user_id = #{userId,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>

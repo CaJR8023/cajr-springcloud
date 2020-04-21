@@ -49,6 +49,8 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/news/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/tag/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/column/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/review/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/reply/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/admin/").permitAll()
                 .antMatchers("/visitor/**").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/forget_password").permitAll()

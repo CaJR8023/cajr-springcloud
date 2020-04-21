@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cajr.algorithm.TFIDF;
 import com.cajr.mapper.NewsMapper;
 import com.cajr.service.ITagClientService;
+import com.cajr.service.IUserClientService;
 import com.cajr.service.NewsService;
 import com.cajr.service.NewsTagService;
 import com.cajr.util.NewsFillDataUtil;
@@ -14,6 +15,7 @@ import com.cajr.vo.news.News;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
 import com.cajr.vo.tag.Tag;
+import com.cajr.vo.user.User;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.ansj.app.keyword.Keyword;
@@ -48,6 +50,9 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private NewsTagService newsTagService;
 
+    @Autowired
+    private IUserClientService iUserClientService;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(News news) {
@@ -56,11 +61,19 @@ public class NewsServiceImpl implements NewsService {
         }
         newsMapper.insertSelective(news);
         initTag(news);
+        initNewsUser(news);
         return news.getId();
     }
 
+    private void initNewsUser(News news) {
+        User user = new User();
+        user.setUsername(news.getSource());
+        Integer userId = (Integer) this.iUserClientService.addOneUserNewsInit(user).getData();
+        news.setUserId(userId);
+    }
+
     private void initTag(News news) {
-        List<Keyword> keywordList = TFIDF.getTfidf(news.getTitle(),news.getContent(),keyWordsNum);
+        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),keyWordsNum);
         if (keywordList.isEmpty()){
             return;
         }
@@ -79,6 +92,9 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> findSectionNews(List<Integer> newsIds) {
+        if(newsIds.isEmpty()){
+            return null;
+        }
         List<News> newsList = this.newsMapper.selectSectionByNewsIds(newsIds);
         if (!newsList.isEmpty()){
             newsList.forEach(NewsFillDataUtil::fillNews);
@@ -122,6 +138,15 @@ public class NewsServiceImpl implements NewsService {
     public News getOne(int id) {
         News news = this.newsMapper.selectByPrimaryKey(id);
         NewsFillDataUtil.fillNews(news);
+        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),5);
+        List<String> tags = new ArrayList<>();
+        if (!keywordList.isEmpty()){
+            for (Keyword keyword : keywordList){
+                tags.add(keyword.getName());
+            }
+            news.setTags(tags);
+        }
+        news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
         return news;
     }
 }

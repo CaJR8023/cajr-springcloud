@@ -37,4 +37,6 @@ public interface INewsClientService {
     @DeleteMapping("/news/{id}")
     public Result deleteOne(@PathVariable("id") int id);
 
+    @GetMapping("/news/hot_24_hours")
+    public Result get24HoursNews();
 }

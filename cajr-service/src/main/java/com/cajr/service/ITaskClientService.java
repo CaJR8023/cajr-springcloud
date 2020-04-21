@@ -14,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "cajr-provider-basic-data",configuration = FeignClientConfig.class,
         fallbackFactory = ITaskClientServiceFallBackFactory.class)
 public interface ITaskClientService {
-    @GetMapping("/rec")
+    @GetMapping("/qtz/rec")
     public Result startRecommend(@RequestParam("isStart") int isStart);
 
-    @GetMapping("/news_data")
+    @GetMapping("/qtz/news_data")
     public Result startCrawlNewsData(@RequestParam("isStart") int isStart);
 
-    @GetMapping("/runtime_job")
+    @GetMapping("/qtz/runtime_job")
     public Result getRunTimeJob();
+
+    @GetMapping("/qtz/newest_news")
+    public Result startCrawlNewestNews(@RequestParam("isStart") int isStart);
 }

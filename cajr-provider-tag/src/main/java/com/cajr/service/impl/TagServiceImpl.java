@@ -103,4 +103,9 @@ public class TagServiceImpl implements TagService {
         tags = this.tagMapper.selectAllByIds(hottestTagIds);
         return tags;
     }
+
+    @Override
+    public List<Tag> getAllTagByIds(List<Integer> tagIds) {
+        return this.tagMapper.selectAllByIds(tagIds);
+    }
 }

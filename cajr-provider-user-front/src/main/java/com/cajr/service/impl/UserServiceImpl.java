@@ -8,6 +8,7 @@ import com.cajr.util.CustomHashMap;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.Module;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -50,6 +51,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserOther getOneUserOther(int id) {
+        User user = this.userMapper.selectByPrimaryKey(id);
+        UserOther userOther = new UserOther();
+        if (user!= null){
+            userOther.setId(user.getId());
+            userOther.setUsername(user.getUsername());
+            userOther.setAvatar(user.getUserInfo().getAvatar());
+            userOther.setSignature(user.getUserInfo().getSignature());
+        }
+        return userOther;
+    }
+
+    @Override
     public User getUser(int id) {
         return this.userMapper.selectByPrimaryKey(id);
     }
@@ -57,6 +71,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByTel(String tel) {
         return this.userMapper.selectByTel(tel);
+    }
+
+    @Override
+    public User getUserByUserName(String userName) {
+        return this.userMapper.selectByUserName(userName);
     }
 
     @Override
@@ -75,8 +94,20 @@ public class UserServiceImpl implements UserService {
         userPref.setStatus(1);
         userPref.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.userPrefService.add(userPref);
 
-        return Optional.of(this.userPrefService.add(userPref));
+
+        return Optional.of(user.getId());
+    }
+
+    @Override
+    public Integer addNewsInit(User user) {
+        user.setTel(" ");
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.userMapper.insertSelective(user);
+        return user.getId();
     }
 
     private String getDefaultUserPref() {
@@ -107,6 +138,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public Optional<Integer> checkIsExistByTel(String tel) {
         return Optional.of(this.userMapper.checkIsExistsByTel(tel));
+    }
+
+    @Override
+    public Optional<Integer> checkIsExistByUserName(String userName) {
+        return Optional.of(this.userMapper.checkIsExistsByUserName(userName));
     }
 
     @Override

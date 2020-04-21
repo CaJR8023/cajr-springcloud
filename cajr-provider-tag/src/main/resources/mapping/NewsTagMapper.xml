@@ -24,4 +24,7 @@
         select news_id from news_tag where tag_id =#{tagId}
     </select>
 
+    <select id="getTagIdsByNewsId" parameterType="integer" resultType="integer">
+        select tag_id from news_tag where news_id =#{newsId}
+    </select>
 </mapper>

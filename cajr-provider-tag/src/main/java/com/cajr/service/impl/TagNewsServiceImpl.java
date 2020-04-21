@@ -47,4 +47,13 @@ public class TagNewsServiceImpl implements TagNewsService {
             this.redisTemplate.opsForZSet().add(CommonParam.HOT_TAG_REDIS_KEY, String.valueOf(m.getKey()), m.getValue());
         }
     }
+
+    @Override
+    public List<Tag> getNewsTag(Integer newsId) {
+        List<Integer> tagIds = this.tagNewsMapper.getTagIdsByNewsId(newsId);
+        if (tagIds.isEmpty()){
+            return null;
+        }
+        return this.tagService.getAllTagByIds(tagIds);
+    }
 }

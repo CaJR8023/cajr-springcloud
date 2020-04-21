@@ -4,6 +4,7 @@ import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -31,6 +32,9 @@ public interface IUserClientService {
     @PostMapping("/user/")
     public Result addOneUser(@RequestBody User user);
 
+    @PostMapping("/user/news_init")
+    public Result addOneUserNewsInit(@RequestBody User user);
+
     @GetMapping("/user/page")
     public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
@@ -40,6 +44,9 @@ public interface IUserClientService {
 
     @GetMapping("/user/active")
     public List<Integer> findActiveUserId();
+
+    @GetMapping("/user/user_other")
+    public UserOther getOneUserOther(@RequestParam("userId") int userId);
 
     @GetMapping("/user/section")
     public List<User> findSectionUserId(@RequestParam("userIds") List<Integer> userIds);

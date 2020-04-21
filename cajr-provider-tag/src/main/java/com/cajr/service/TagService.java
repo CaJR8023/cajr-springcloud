@@ -24,4 +24,6 @@ public interface TagService {
     List<Tag> getAll();
 
     List<Tag> getHottestTags();
+
+    List<Tag> getAllTagByIds(List<Integer> tagIds);
 }

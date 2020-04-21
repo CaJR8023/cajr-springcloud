@@ -11,11 +11,21 @@
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
     <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+
+    <collection property="replyList" ofType="com.cajr.vo.news.Reply" column="id" select="com.cajr.mapper.ReplyMapper.selectAllByReviewId"/>
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, news_id, user_id, content, `status`, created_at, updated_at
   </sql>
+  <select id="selectAllByUserId" parameterType="integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from review where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <select id="selectAllByNewsId" parameterType="integer" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from review where news_id = #{newsId,jdbcType=INTEGER}
+  </select>
   <select id="findNumByNewsId" resultType="integer">
     select exists (SELECT 1 FROM review WHERE news_id = #{newsId,jdbcType=INTEGER} and status = 1 LIMIT 1)
   </select>

@@ -1,5 +1,7 @@
 package com.cajr.vo.user;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -10,16 +12,16 @@ import java.util.Date;
 public class UserLikeReview {
     private Integer id;
 
-    private Integer newsId;
-
     private Integer reviewId;
 
     private int isLike;
 
     private int status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
     public Integer getId() {
@@ -28,14 +30,6 @@ public class UserLikeReview {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getNewsId() {
-        return newsId;
-    }
-
-    public void setNewsId(Integer newsId) {
-        this.newsId = newsId;
     }
 
     public Integer getReviewId() {

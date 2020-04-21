@@ -28,6 +28,11 @@ public class ITaskClientServiceFallBackFactory implements FallbackFactory<ITaskC
             public Result getRunTimeJob() {
                 return new Result<>("hystrix", -1);
             }
+
+            @Override
+            public Result startCrawlNewestNews(int isStart) {
+                return new Result<>("hystrix", -1);
+            }
         };
     }
 }

@@ -33,4 +33,9 @@ public class ConsumerTaskController {
     public Result getRunTimeJob(){
         return this.iTaskClientService.getRunTimeJob();
     }
+
+    @GetMapping("/newest_news")
+    public Result startCrawlNewestNews(@RequestParam("isStart") int isStart){
+        return this.iTaskClientService.startCrawlNewestNews(isStart);
+    }
 }

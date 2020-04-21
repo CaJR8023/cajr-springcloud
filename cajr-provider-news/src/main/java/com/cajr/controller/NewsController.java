@@ -54,4 +54,9 @@ public class NewsController {
     public Result deleteOne(@PathVariable("id") int id){
         return new Result<>(this.newsService.deleteOne(id));
     }
+
+    @GetMapping("/hot_24_hours")
+    public Result get24HoursNews(){
+        return new Result<>(this.newsHotAndNewestService.get24HoursHotNews());
+    }
 }

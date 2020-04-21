@@ -32,8 +32,8 @@ public class CommonParam {
     public static final String REC_JOB_NAME = "RECOMMEND-JOB";
     public static final String NEWS_DATA_JOB_GROUP_NAME = "NEWS-DATA-GROUP";
     public static final String NEWS_DATA_JOB_NAME = "NEWS-DATA-JOB";
-    public static final String COUNT_HOTTEST_TAG_GROUP_NAME = "COUNT_HOTTEST_TAG-GROUP";
-    public static final String COUNT_HOTTEST_TAG_JOB_NAME = "COUNT_HOTTEST_TAG-JOB";
+    public static final String COUNT_NEWEST_NEWS_GROUP_NAME = "COUNT_HOTTEST_TAG-GROUP";
+    public static final String COUNT_NEWEST_NEWS_JOB_NAME = "COUNT_HOTTEST_TAG-JOB";
 
     //时间
     public static final int MON = 1;

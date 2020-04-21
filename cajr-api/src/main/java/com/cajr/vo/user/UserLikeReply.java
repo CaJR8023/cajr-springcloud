@@ -1,23 +1,21 @@
-package com.cajr.vo.news;
+package com.cajr.vo.user;
 
-import com.cajr.vo.user.User;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 /**
  * @author CAJR
- * @date 2020/4/20 1:18 下午
+ * @date 2020/4/21 4:35 下午
  */
-public class Review {
+public class UserLikeReply {
     private Integer id;
 
-    private Integer newsId;
+    private Integer replyId;
 
     private Integer userId;
 
-    private String content;
+    private int isLike;
 
     private int status;
 
@@ -27,18 +25,6 @@ public class Review {
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
-    @ApiModelProperty(hidden = true)
-    private List<Reply> replyList;
-
-    @ApiModelProperty(hidden = true)
-    private Integer likeNum;
-
-    @ApiModelProperty(hidden = true)
-    private Integer unlikeNum;
-
-    @ApiModelProperty(hidden = true)
-    private User user;
-
     public Integer getId() {
         return id;
     }
@@ -47,12 +33,12 @@ public class Review {
         this.id = id;
     }
 
-    public Integer getNewsId() {
-        return newsId;
+    public Integer getReplyId() {
+        return replyId;
     }
 
-    public void setNewsId(Integer newsId) {
-        this.newsId = newsId;
+    public void setReplyId(Integer replyId) {
+        this.replyId = replyId;
     }
 
     public Integer getUserId() {
@@ -63,12 +49,12 @@ public class Review {
         this.userId = userId;
     }
 
-    public String getContent() {
-        return content;
+    public int getIsLike() {
+        return isLike;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setIsLike(int isLike) {
+        this.isLike = isLike;
     }
 
     public int getStatus() {
@@ -93,13 +79,5 @@ public class Review {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public List<Reply> getReplyList() {
-        return replyList;
-    }
-
-    public void setReplyList(List<Reply> replyList) {
-        this.replyList = replyList;
     }
 }

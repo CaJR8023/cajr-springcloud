@@ -4,6 +4,7 @@ import com.cajr.service.CodeService;
 import com.cajr.service.UserService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +41,11 @@ public class UserController {
         return new Result<>(result.get());
     }
 
+    @GetMapping("/user_other")
+    public UserOther getOneUserOther(@RequestParam("userId")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") int userId ){
+        return this.userService.getOneUserOther(userId);
+    }
+
     @GetMapping("/one")
     @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getUser")
     public User getUser(@RequestParam("userId")@ApiParam(value = "用户手机号",required = true,type = "integer" ,example = "1") int userId ){
@@ -63,6 +69,21 @@ public class UserController {
     public Result addOneUser(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
         if (this.userService.checkIsExistByTel(user.getTel()).get() >= 1){
             return new Result<>("该手机号码已注册！","");
+        }
+        if (this.userService.checkIsExistByUserName(user.getUsername()).get() >= 1){
+            return new Result<>("该用户名已注册！","");
+        }
+            Optional<Integer> result = this.userService.add(user);
+        if (!result.isPresent()){
+            return new Result<>("添加失败","");
+        }
+        return new Result<>(result.get());
+    }
+
+    @PostMapping("/news_init")
+    public Result addOneUserNewsInit(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
+        if (this.userService.checkIsExistByUserName(user.getUsername()).get() >= 1){
+            return new Result<>(this.userService.getUserByUserName(user.getUsername()).getId());
         }
         Optional<Integer> result = this.userService.add(user);
         if (!result.isPresent()){

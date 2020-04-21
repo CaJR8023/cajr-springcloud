@@ -5,7 +5,6 @@
     <!--@mbg.generated-->
     <!--@Table user_like_review-->
     <id column="id" jdbcType="INTEGER" property="id" />
-    <result column="news_id" jdbcType="INTEGER" property="newsId" />
     <result column="review_id" jdbcType="INTEGER" property="reviewId" />
     <result column="is_like" jdbcType="TINYINT" property="isLike" />
     <result column="status" jdbcType="TINYINT" property="status" />
@@ -14,7 +13,7 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, news_id, review_id, is_like, `status`, created_at, updated_at
+    id, review_id, is_like, `status`, created_at, updated_at
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
@@ -30,10 +29,10 @@
   </delete>
   <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.UserLikeReview" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into user_like_review (news_id, review_id, is_like, 
+    insert into user_like_review (review_id, is_like,
       `status`, created_at, updated_at
       )
-    values (#{newsId,jdbcType=INTEGER}, #{reviewId,jdbcType=INTEGER}, #{isLike,jdbcType=TINYINT}, 
+    values (#{reviewId,jdbcType=INTEGER}, #{isLike,jdbcType=TINYINT},
       #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
       )
   </insert>
@@ -41,9 +40,6 @@
     <!--@mbg.generated-->
     insert into user_like_review
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="newsId != null">
-        news_id,
-      </if>
       <if test="reviewId != null">
         review_id,
       </if>
@@ -61,9 +57,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="newsId != null">
-        #{newsId,jdbcType=INTEGER},
-      </if>
       <if test="reviewId != null">
         #{reviewId,jdbcType=INTEGER},
       </if>
@@ -85,9 +78,6 @@
     <!--@mbg.generated-->
     update user_like_review
     <set>
-      <if test="newsId != null">
-        news_id = #{newsId,jdbcType=INTEGER},
-      </if>
       <if test="reviewId != null">
         review_id = #{reviewId,jdbcType=INTEGER},
       </if>
@@ -109,7 +99,7 @@
   <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.UserLikeReview">
     <!--@mbg.generated-->
     update user_like_review
-    set news_id = #{newsId,jdbcType=INTEGER},
+    set
       review_id = #{reviewId,jdbcType=INTEGER},
       is_like = #{isLike,jdbcType=TINYINT},
       `status` = #{status,jdbcType=TINYINT},

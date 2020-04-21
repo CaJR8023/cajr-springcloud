@@ -1,6 +1,9 @@
 package com.cajr.service;
 
+import com.cajr.vo.tag.Tag;
 import com.cajr.vo.tag.TagOther;
+
+import java.util.List;
 
 /**
  * @author CAJR
@@ -11,4 +14,6 @@ public interface TagNewsService {
     TagOther getNewsList(int tagId);
 
     void countHottestTag();
+
+    List<Tag> getNewsTag(Integer newsId);
 }

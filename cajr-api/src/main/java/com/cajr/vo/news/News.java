@@ -1,12 +1,12 @@
 package com.cajr.vo.news;
 
-import com.alibaba.fastjson.JSONArray;
+import com.cajr.vo.tag.Tag;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,6 +17,8 @@ public class News {
     private int id;
 
     private int moduleId;
+
+    private int userId;
 
     private String title;
 
@@ -60,11 +62,14 @@ public class News {
     private  int reviewCount;
 
     @ApiModelProperty(hidden = true)
-    private User user;
+    private UserOther userOther;
 
     @JsonIgnore
     @ApiModelProperty(hidden = true)
     private List<NewsImage> newsImages;
+
+    @ApiModelProperty(hidden = true)
+    private List<String> tags;
 
     public int getId() {
         return id;
@@ -80,6 +85,14 @@ public class News {
 
     public void setModuleId(int moduleId) {
         this.moduleId = moduleId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {
@@ -170,12 +183,12 @@ public class News {
         this.banner = banner;
     }
 
-    public User getUser() {
-        return user;
+    public UserOther getUserOther() {
+        return userOther;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserOther(UserOther userOther) {
+        this.userOther = userOther;
     }
 
     public List<NewsImage> getNewsImages() {
@@ -216,5 +229,13 @@ public class News {
 
     public void setContentList(List<String> contentList) {
         this.contentList = contentList;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
     }
 }

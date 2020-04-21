@@ -5,6 +5,7 @@ import com.cajr.service.QuartzService;
 import com.cajr.service.TagNewsService;
 import com.cajr.util.CommonParam;
 import com.cajr.util.Result;
+import com.cajr.vo.tag.Tag;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -49,5 +51,10 @@ public class TagNewsController {
             quartzService.pauseJob(CommonParam.COUNT_HOTTEST_TAG_JOB_NAME, CommonParam.COUNT_HOTTEST_TAG_GROUP_NAME);
             return new Result<>(1);
         }
+    }
+
+    @GetMapping("/news")
+    public List<Tag> getNewsTag(@RequestParam("newsId") Integer newsId){
+        return this.tagNewsService.getNewsTag(newsId);
     }
 }

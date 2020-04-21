@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.cajr.mapper.NewsMapper;
+import com.cajr.service.IUserClientService;
 import com.cajr.service.NewsHotAndNewestService;
 import com.cajr.service.NewsLogsService;
 import com.cajr.service.NewsService;
@@ -44,6 +45,9 @@ public class NewsHotAndNewestServiceImpl implements NewsHotAndNewestService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private IUserClientService iUserClientService;
+
     @Override
     public void hotNewsExtract() {
 
@@ -53,7 +57,7 @@ public class NewsHotAndNewestServiceImpl implements NewsHotAndNewestService {
     public void newestNews() {
         List<News> newsList = this.newsService.findAllByPage(1, 5000).getList();
         newsList.forEach(news -> {
-            this.redisTemplate.opsForZSet().add(CommonParam.HOT_NEWS_REDIS_KEY, String.valueOf(news.getId()), news.getVisitorCount());
+            this.redisTemplate.opsForZSet().add(CommonParam.HOT_NEWS_REDIS_KEY, String.valueOf(news.getId()), news.getVisitorCount()+news.getReviewCount());
         });
     }
 
@@ -63,7 +67,10 @@ public class NewsHotAndNewestServiceImpl implements NewsHotAndNewestService {
         PageInfo<News> pageInfo = new PageInfo<>(this.newsMapper.selectAllSortByTime());
         if (!pageInfo.getList().isEmpty()){
             List<News> newsList = pageInfo.getList();
-            newsList.forEach(NewsFillDataUtil::fillNews);
+            newsList.forEach(news -> {
+                NewsFillDataUtil.fillNews(news);
+                news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
+            });
             pageInfo.setList(newsList);
         }
 
@@ -83,7 +90,11 @@ public class NewsHotAndNewestServiceImpl implements NewsHotAndNewestService {
                 break;
             }
         }
-        return this.newsService.findSectionNews(hotNewsTopIds);
+        List<News> newsList = this.newsService.findSectionNews(hotNewsTopIds);
+        if (!newsList.isEmpty()) {
+            newsList.forEach(NewsFillDataUtil::fillNews);
+        }
+        return newsList;
     }
 
     private void sortByTime(List<News> newsList){

@@ -19,11 +19,15 @@ public interface UserMapper {
 
     User selectByTel(String tel);
 
+    User selectByUserName(String userName);
+
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);
 
     int checkIsExistsByTel(String tel);
+
+    int checkIsExistsByUserName(String userName);
 
     int checkIsExistsById(int id);
 

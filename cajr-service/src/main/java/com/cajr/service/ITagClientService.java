@@ -10,6 +10,8 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/3/16 11:20 上午
@@ -36,4 +38,7 @@ public interface ITagClientService {
 
     @GetMapping("/tag/hottest")
     public Result getHottestTags();
+
+    @GetMapping("/tag_news/news")
+    public List<Tag> getNewsTag(@RequestParam("newsId") Integer newsId);
 }

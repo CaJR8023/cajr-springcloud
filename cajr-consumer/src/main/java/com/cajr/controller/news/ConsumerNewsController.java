@@ -43,6 +43,11 @@ public class ConsumerNewsController {
 
     @DeleteMapping("/{id}")
     public Result deleteOne(@PathVariable("id") int id){
-        return this.deleteOne(id);
+        return this.iNewsClientService.deleteOne(id);
+    }
+
+    @GetMapping("/hot_24_hours")
+    public Result get24HoursNews(){
+        return this.iNewsClientService.get24HoursNews();
     }
 }

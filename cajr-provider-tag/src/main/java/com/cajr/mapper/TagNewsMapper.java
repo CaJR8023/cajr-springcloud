@@ -13,4 +13,6 @@ public interface TagNewsMapper {
     int countNewsNumByTagId(int tagId);
 
     List<Integer> getAllNewsIdByTagId(int tagId);
+
+    List<Integer> getTagIdsByNewsId(int newsId);
 }

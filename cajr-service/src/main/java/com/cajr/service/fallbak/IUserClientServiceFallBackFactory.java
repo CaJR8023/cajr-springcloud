@@ -3,6 +3,7 @@ package com.cajr.service.fallbak;
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
@@ -43,6 +44,11 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             }
 
             @Override
+            public Result addOneUserNewsInit(User user) {
+                return new Result<>("hystrix fail",0);
+            }
+
+            @Override
             public PageInfo getAllByPage(int page, int pageSize) {
                 return null;
             }
@@ -59,6 +65,13 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
                 List<Integer> hystrixList = new ArrayList<>();
                 hystrixList.add(-1);
                 return hystrixList;
+            }
+
+            @Override
+            public UserOther getOneUserOther(int userId) {
+                UserOther userOther = new UserOther();
+                userOther.setId(-1);
+                return userOther;
             }
 
             @Override

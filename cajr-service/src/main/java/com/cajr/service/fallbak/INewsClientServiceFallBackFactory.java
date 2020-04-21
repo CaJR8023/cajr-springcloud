@@ -47,6 +47,11 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
             public Result deleteOne(int id) {
                 return new Result<>("hystrix", -1);
             }
+
+            @Override
+            public Result get24HoursNews() {
+                return new Result<>("hystrix", -1);
+            }
         };
     }
 }

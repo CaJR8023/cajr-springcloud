@@ -1,6 +1,7 @@
 package com.cajr.controller;
 
 import com.cajr.job.NewsDataCaptureJob;
+import com.cajr.job.NewsHotDataCountJob;
 import com.cajr.job.TestJob;
 import com.cajr.service.QuartzService;
 import com.cajr.util.CommonParam;
@@ -60,5 +61,20 @@ public class TaskController {
     @GetMapping("/runtime_job")
     public Result getRunTimeJob(){
         return new Result<>(this.quartzService.queryRunJob());
+    }
+
+    @GetMapping("/newest_news")
+    public Result startCrawlNewestNews(@RequestParam("isStart") int isStart){
+        if (isStart == 1){
+            Map<String, Long> map = new HashMap<>(2);
+            map.put("id", 1L);
+            // 先删除，再新增加
+            quartzService.deleteJob(CommonParam.COUNT_NEWEST_NEWS_JOB_NAME, CommonParam.COUNT_NEWEST_NEWS_GROUP_NAME);
+            quartzService.addJob(NewsHotDataCountJob.class, CommonParam.COUNT_NEWEST_NEWS_JOB_NAME, CommonParam.COUNT_NEWEST_NEWS_GROUP_NAME, "0/30 * * * * ?", map);
+            return new Result<>(1);
+        }else {
+            quartzService.pauseJob(CommonParam.COUNT_NEWEST_NEWS_JOB_NAME, CommonParam.COUNT_NEWEST_NEWS_GROUP_NAME);
+            return new Result<>(1);
+        }
     }
 }

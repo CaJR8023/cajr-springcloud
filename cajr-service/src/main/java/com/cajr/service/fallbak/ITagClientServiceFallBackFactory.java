@@ -9,6 +9,9 @@ import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author CAJR
  * @date 2020/3/16 11:21 上午
@@ -46,6 +49,16 @@ public class ITagClientServiceFallBackFactory implements FallbackFactory<ITagCli
             @Override
             public Result getHottestTags() {
                 return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public List<Tag> getNewsTag(Integer newsId) {
+                List<Tag> tags = new ArrayList<>();
+                Tag tag = new Tag();
+                tag.setName("hystrix");
+                tag.setId(0);
+                tags.add(tag);
+                return tags;
             }
         };
     }
