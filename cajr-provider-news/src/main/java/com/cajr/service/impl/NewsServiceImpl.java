@@ -1,16 +1,13 @@
 package com.cajr.service.impl;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.cajr.algorithm.TFIDF;
 import com.cajr.mapper.NewsMapper;
+import com.cajr.mapper.UserInitMapper;
 import com.cajr.service.ITagClientService;
 import com.cajr.service.IUserClientService;
 import com.cajr.service.NewsService;
 import com.cajr.service.NewsTagService;
 import com.cajr.util.NewsFillDataUtil;
-import com.cajr.util.TimeUtil;
-import com.cajr.vo.news.Module;
 import com.cajr.vo.news.News;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
@@ -21,15 +18,14 @@ import com.github.pagehelper.PageInfo;
 import org.ansj.app.keyword.Keyword;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author CAJR
@@ -53,23 +49,33 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private IUserClientService iUserClientService;
 
+    @Autowired
+    private UserInitMapper userMapper;
+
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(News news) {
         if (this.newsMapper.checkExistBySign(news.getNewsDataSign()) > 0){
             return -1;
         }
+        initNewsUser(news);
         newsMapper.insertSelective(news);
         initTag(news);
-        initNewsUser(news);
         return news.getId();
     }
 
     private void initNewsUser(News news) {
+        if (this.userMapper.checkIsExistsByUserName(news.getSource()) > 0) {
+            return;
+        }
         User user = new User();
         user.setUsername(news.getSource());
-        Integer userId = (Integer) this.iUserClientService.addOneUserNewsInit(user).getData();
-        news.setUserId(userId);
+        user.setTel("12345612345");
+        user.setPassword(new BCryptPasswordEncoder().encode("123456"));
+        user.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.userMapper.insertNewsUser(user);
+        news.setUserId(user.getId());
     }
 
     private void initTag(News news) {

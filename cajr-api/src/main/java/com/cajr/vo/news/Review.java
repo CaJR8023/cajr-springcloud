@@ -1,6 +1,8 @@
 package com.cajr.vo.news;
 
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserOther;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.sql.Timestamp;
@@ -21,9 +23,11 @@ public class Review {
 
     private int status;
 
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @JsonIgnore
     @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
@@ -37,7 +41,19 @@ public class Review {
     private Integer unlikeNum;
 
     @ApiModelProperty(hidden = true)
-    private User user;
+    private Integer replyNum;
+
+    @ApiModelProperty(hidden = true)
+    private UserOther userOther;
+
+    @ApiModelProperty(hidden = true)
+    private String time;
+
+    @ApiModelProperty(hidden = true)
+    private List<Integer> likeUserIds;
+
+    @ApiModelProperty(hidden = true)
+    private List<Integer> unlikeUserIds;
 
     public Integer getId() {
         return id;
@@ -101,5 +117,61 @@ public class Review {
 
     public void setReplyList(List<Reply> replyList) {
         this.replyList = replyList;
+    }
+
+    public Integer getLikeNum() {
+        return likeNum;
+    }
+
+    public void setLikeNum(Integer likeNum) {
+        this.likeNum = likeNum;
+    }
+
+    public Integer getUnlikeNum() {
+        return unlikeNum;
+    }
+
+    public void setUnlikeNum(Integer unlikeNum) {
+        this.unlikeNum = unlikeNum;
+    }
+
+    public Integer getReplyNum() {
+        return replyNum;
+    }
+
+    public void setReplyNum(Integer replyNum) {
+        this.replyNum = replyNum;
+    }
+
+    public UserOther getUserOther() {
+        return userOther;
+    }
+
+    public void setUserOther(UserOther userOther) {
+        this.userOther = userOther;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public List<Integer> getLikeUserIds() {
+        return likeUserIds;
+    }
+
+    public void setLikeUserIds(List<Integer> likeUserIds) {
+        this.likeUserIds = likeUserIds;
+    }
+
+    public List<Integer> getUnlikeUserIds() {
+        return unlikeUserIds;
+    }
+
+    public void setUnlikeUserIds(List<Integer> unlikeUserIds) {
+        this.unlikeUserIds = unlikeUserIds;
     }
 }

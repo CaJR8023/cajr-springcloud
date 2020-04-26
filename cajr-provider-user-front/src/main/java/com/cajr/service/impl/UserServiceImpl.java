@@ -57,8 +57,10 @@ public class UserServiceImpl implements UserService {
         if (user!= null){
             userOther.setId(user.getId());
             userOther.setUsername(user.getUsername());
-            userOther.setAvatar(user.getUserInfo().getAvatar());
-            userOther.setSignature(user.getUserInfo().getSignature());
+            if (user.getUserInfo() != null){
+                userOther.setAvatar(user.getUserInfo().getAvatar());
+                userOther.setSignature(user.getUserInfo().getSignature());
+            }
         }
         return userOther;
     }

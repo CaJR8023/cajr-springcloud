@@ -1,11 +1,13 @@
 package com.cajr.controller;
 
 import com.cajr.service.UserLikeReviewService;
+import com.cajr.util.Result;
 import com.cajr.vo.user.UserLikeReview;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author CAJR
@@ -19,5 +21,18 @@ public class UserLikeReviewController {
     @Autowired
     private UserLikeReviewService userLikeReviewService;
 
+    @GetMapping("/review")
+    public List<UserLikeReview> getByReviewId(@RequestParam("reviewId") int reviewId){
+        return this.userLikeReviewService.getByReviewId(reviewId);
+    }
 
+    @PostMapping("/")
+    public Result addOne(@RequestBody UserLikeReview userLikeReview){
+        return new Result<>(this.userLikeReviewService.add(userLikeReview));
+    }
+
+    @PutMapping("/")
+    public Result updateOne(@RequestBody UserLikeReview userLikeReview){
+        return new Result<>(this.userLikeReviewService.update(userLikeReview));
+    }
 }

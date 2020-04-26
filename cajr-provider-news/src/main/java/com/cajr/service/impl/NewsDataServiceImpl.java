@@ -7,6 +7,7 @@ import com.cajr.service.ModuleService;
 import com.cajr.service.NewsDataService;
 import com.cajr.service.NewsImageService;
 import com.cajr.service.NewsService;
+import com.cajr.util.TimeUtil;
 import com.cajr.util.URLRequestUtils;
 import com.cajr.vo.news.Module;
 import com.cajr.vo.news.News;
@@ -140,6 +141,9 @@ public class NewsDataServiceImpl implements NewsDataService {
         contentList.forEach(contentObject -> {
             JSONObject content = JSON.parseObject(contentObject.toString());
             JSONArray jsonImageUrls = JSONArray.parseArray(content.getString("imageurls"));
+            if (content.getTimestamp("pubDate").before(TimeUtil.getInRecTimestamp(3))){
+                return;
+            }
             if (!jsonImageUrls.isEmpty()){
                 News news = new News();
                 System.out.println("news==>"+module.getId());

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.UserInitMapper">
+    <resultMap id="BaseResultMap" type="com.cajr.vo.user.User">
+        <!--@mbg.generated-->
+        <!--@Table user-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="tel" jdbcType="VARCHAR" property="tel" />
+        <result column="password" jdbcType="VARCHAR" property="password" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+
+        <association property="userLog" javaType="com.cajr.vo.user.UserLog" column="id" select="com.cajr.mapper.UserLogMapper.selectOneByUserId"/>
+        <association property="userPref" javaType="com.cajr.vo.user.UserPref" column="id" select="com.cajr.mapper.UserPrefMapper.selectByUserId"/>
+        <association property="userInfo" javaType="com.cajr.vo.user.UserInfo" column="id" select="com.cajr.mapper.UserInfoMapper.selectByUserId"/>
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, username, tel, `password`, `status`, created_at, updated_at
+    </sql>
+    <select id="checkIsExistsByUserName" resultType="int">
+        select exists (select 1 from user where username = #{userName,jdbcType=VARCHAR} limit 1)
+    </select>
+
+    <insert id="insertNewsUser" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.User" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            `status`,
+            <if test="createdAt != null">
+                created_at,
+            </if>
+            <if test="updatedAt != null">
+                updated_at,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            #{status,jdbcType=TINYINT},
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+        <selectKey resultType="int" keyProperty="id" keyColumn="id" order="AFTER">
+            select  LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+</mapper>

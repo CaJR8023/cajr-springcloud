@@ -14,6 +14,8 @@ public class UserLikeReview {
 
     private Integer reviewId;
 
+    private Integer userId;
+
     private int isLike;
 
     private int status;
@@ -70,5 +72,13 @@ public class UserLikeReview {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 }

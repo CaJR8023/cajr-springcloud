@@ -26,6 +26,7 @@
       <module>cajr-provider-img</module>
       <module>cajr-provider-column</module>
       <module>cajr-quartz</module>
+      <module>cajr-search</module>
   </modules>
 
   <properties>
@@ -185,6 +186,13 @@
         <groupId>com.aliyun.oss</groupId>
         <artifactId>aliyun-sdk-oss</artifactId>
         <version>3.4.2</version>
+      </dependency>
+
+<!--      aliyun open search-->
+      <dependency>
+        <groupId>com.aliyun.opensearch</groupId>
+        <artifactId>aliyun-sdk-opensearch</artifactId>
+        <version>3.4.1</version>
       </dependency>
 
       <dependency>

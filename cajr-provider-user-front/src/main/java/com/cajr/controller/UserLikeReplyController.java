@@ -1,10 +1,13 @@
 package com.cajr.controller;
 
 import com.cajr.service.UserLikeReplyService;
+import com.cajr.util.Result;
+import com.cajr.vo.user.UserLikeReply;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author CAJR
@@ -17,4 +20,19 @@ public class UserLikeReplyController {
 
     @Autowired
     private UserLikeReplyService userLikeReplyService;
+
+    @GetMapping("/reply_like_num")
+    public List<UserLikeReply> getAllUserLikeReplyByReplyId(@RequestParam("replyId") Integer replyId){
+        return this.userLikeReplyService.getAllByReplyId(replyId);
+    }
+
+    @PostMapping("/")
+    public Result addOne(@RequestBody UserLikeReply userLikeReply){
+        return new Result<>(this.userLikeReplyService.add(userLikeReply));
+    }
+
+    @PutMapping("/")
+    public Result updateOne(@RequestBody UserLikeReply userLikeReply){
+        return new Result<>(this.userLikeReplyService.update(userLikeReply));
+    }
 }

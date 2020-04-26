@@ -13,3 +13,7 @@ spring:
 mybatis:
   mapper-locations:
     - classpath:mapping/*.xml
+
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000

@@ -85,11 +85,11 @@ public class UserController {
         if (this.userService.checkIsExistByUserName(user.getUsername()).get() >= 1){
             return new Result<>(this.userService.getUserByUserName(user.getUsername()).getId());
         }
-        Optional<Integer> result = this.userService.add(user);
-        if (!result.isPresent()){
+        Integer result = this.userService.addNewsInit(user);
+        if (result <= 0){
             return new Result<>("添加失败","");
         }
-        return new Result<>(result.get());
+        return new Result<>(result);
     }
 
 

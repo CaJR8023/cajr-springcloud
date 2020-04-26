@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.UserInfoInitMapper">
+    <resultMap id="BaseResultMap" type="com.cajr.vo.user.UserInfo">
+        <!--@mbg.generated-->
+        <!--@Table user_info-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="avatar" jdbcType="VARCHAR" property="avatar" />
+        <result column="profession" jdbcType="VARCHAR" property="profession" />
+        <result column="location" jdbcType="VARCHAR" property="location" />
+        <result column="signature" jdbcType="VARCHAR" property="signature" />
+        <result column="status" jdbcType="TINYINT" property="status" />
+        <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id, user_id, avatar, profession, `location`, signature, `status`, created_at, updated_at
+    </sql>
+
+
+</mapper>

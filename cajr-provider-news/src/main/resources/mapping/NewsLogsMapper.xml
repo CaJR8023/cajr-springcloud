@@ -28,7 +28,7 @@
   </select>
 
   <select id="findNumByNewsId" resultType="integer">
-    select exists (SELECT 1 FROM news_logs WHERE news_id = #{newsId,jdbcType=INTEGER} and status = 1 LIMIT 1)
+    SELECT count(id) FROM news_logs WHERE news_id = #{newsId,jdbcType=INTEGER} and status = 1
   </select>
 
   <select id="checkExistByUserIdAndNewsId"  resultType="integer">
