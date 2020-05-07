@@ -2,6 +2,7 @@ package com.cajr.service.fallbak;
 
 import com.cajr.service.INewsClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
@@ -51,6 +52,11 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
             @Override
             public Result get24HoursNews() {
                 return new Result<>("hystrix", -1);
+            }
+
+            @Override
+            public SearchPage searchNews(String keyWord, int page, int pageSize) {
+                return null;
             }
         };
     }

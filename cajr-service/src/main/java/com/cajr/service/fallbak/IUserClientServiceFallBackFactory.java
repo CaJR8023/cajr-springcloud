@@ -2,6 +2,7 @@ package com.cajr.service.fallbak;
 
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
@@ -91,6 +92,11 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             @Override
             public Result updateUserPref(UserPref userPref) {
                 return new Result<>("hystrix fail",0);
+            }
+
+            @Override
+            public SearchPage searchUsers(String keyWord, int page, int pageSize) {
+                return null;
             }
         };
     }

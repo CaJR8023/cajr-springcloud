@@ -25,6 +25,10 @@
         select exists (select 1 from user where username = #{userName,jdbcType=VARCHAR} limit 1)
     </select>
 
+    <select id="getUserIdByUserName" resultType="int">
+        select id from user where username = #{userName,jdbcType=VARCHAR}
+    </select>
+
     <insert id="insertNewsUser" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.User" useGeneratedKeys="true">
         <!--@mbg.generated-->
         insert into user

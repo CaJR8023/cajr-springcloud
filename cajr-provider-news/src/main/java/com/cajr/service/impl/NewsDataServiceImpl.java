@@ -141,7 +141,7 @@ public class NewsDataServiceImpl implements NewsDataService {
         contentList.forEach(contentObject -> {
             JSONObject content = JSON.parseObject(contentObject.toString());
             JSONArray jsonImageUrls = JSONArray.parseArray(content.getString("imageurls"));
-            if (content.getTimestamp("pubDate").before(TimeUtil.getInRecTimestamp(3))){
+            if (content.getTimestamp("pubDate").before(TimeUtil.getInRecTimestamp(100))){
                 return;
             }
             if (!jsonImageUrls.isEmpty()){

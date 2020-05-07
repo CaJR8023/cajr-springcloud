@@ -82,6 +82,7 @@ public class NewsHotAndNewestServiceImpl implements NewsHotAndNewestService {
         int index = 0;
         Set<ZSetOperations.TypedTuple<Object>> hotNewsRedisTopIds = redisTemplate.opsForZSet().reverseRangeWithScores(CommonParam.HOT_NEWS_REDIS_KEY,0,-1);
         List<Integer> hotNewsTopIds = new ArrayList<>();
+        assert hotNewsRedisTopIds != null;
         for (ZSetOperations.TypedTuple<Object> hotNewsTopId : hotNewsRedisTopIds) {
             if (index < 5){
                 hotNewsTopIds.add(Integer.parseInt((String) Objects.requireNonNull(hotNewsTopId.getValue())));

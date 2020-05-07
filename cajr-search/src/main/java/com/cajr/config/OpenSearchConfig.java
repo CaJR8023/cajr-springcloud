@@ -6,13 +6,14 @@ import com.aliyun.opensearch.SearcherClient;
 import com.aliyun.opensearch.sdk.generated.OpenSearch;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 /**
  * @author CAJR
  * @date 2020/4/26 12:41 下午
  */
-
+@Configuration
 public class OpenSearchConfig {
     @Value("${aliyun.access-key}")
     private String accessKey;
@@ -22,9 +23,6 @@ public class OpenSearchConfig {
 
     @Value("${aliyun.open-search.host}")
     private String host;
-
-    @Value("${aliyun.open-search.app-name}")
-    private String appName;
 
     @Bean(name = "openSearchClient")
     public OpenSearchClient openSearchClient(){

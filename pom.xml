@@ -312,6 +312,12 @@
       </dependency>
 
       <dependency>
+        <groupId>CAJR</groupId>
+        <artifactId>cajr-search</artifactId>
+        <version>1.0.0</version>
+      </dependency>
+
+      <dependency>
         <groupId>com.aliyun</groupId>
         <artifactId>aliyun-java-sdk-core</artifactId>
         <version>4.0.3</version>

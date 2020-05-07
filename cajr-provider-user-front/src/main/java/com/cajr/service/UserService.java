@@ -1,6 +1,7 @@
 package com.cajr.service;
 
 import com.cajr.util.CustomHashMap;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserOther;
 import com.github.pagehelper.PageInfo;
@@ -46,5 +47,7 @@ public interface UserService {
     public List<Integer> findAllActiveUserId();
 
     PageInfo getAllByPage(int page, int pageSize);
+
+    SearchPage search(String keyWord, int pageNum, int pageSize);
 
 }

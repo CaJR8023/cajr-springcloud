@@ -3,6 +3,7 @@ package com.cajr.controller;
 import com.cajr.service.CodeService;
 import com.cajr.service.UserService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserOther;
 import com.github.pagehelper.PageInfo;
@@ -114,6 +115,13 @@ public class UserController {
     public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return this.userService.getAllByPage(page, pageSize);
+    }
+
+    @GetMapping("/search")
+    public SearchPage searchUsers(@RequestParam("keyWord") String keyWord,
+                                 @RequestParam(value = "page",defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.userService.search(keyWord, page, pageSize);
     }
 
 }

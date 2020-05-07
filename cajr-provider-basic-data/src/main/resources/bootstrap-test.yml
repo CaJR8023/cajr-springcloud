@@ -20,3 +20,5 @@ spring:
           data-id: cajr-quartz-config.yml
         ext-config[5]:
           data-id: cajr-oss-config.yml
+        ext-config[6]:
+          data-id: cajr-open-search-config.yml

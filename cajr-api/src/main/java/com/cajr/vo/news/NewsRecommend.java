@@ -23,6 +23,9 @@ public class NewsRecommend {
     private int status;
 
     @ApiModelProperty(hidden = true)
+    private News news;
+
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
     @ApiModelProperty(hidden = true)
@@ -90,5 +93,13 @@ public class NewsRecommend {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public News getNews() {
+        return news;
+    }
+
+    public void setNews(News news) {
+        this.news = news;
     }
 }

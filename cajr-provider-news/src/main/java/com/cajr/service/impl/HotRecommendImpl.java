@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -27,7 +28,7 @@ public class HotRecommendImpl implements RecommendService {
 
     public static int beforeDays = -3;
 
-    public static int TOTAL_REC_NUM = 50;
+    public static int TOTAL_REC_NUM = 80;
 
     @Autowired
     private NewsRecommendService newsRecommendService;
@@ -42,6 +43,9 @@ public class HotRecommendImpl implements RecommendService {
     public void recommend(List<Integer> userIds) {
         logger.info("热点补充算法开始 " + Timestamp.valueOf(LocalDateTime.now()));
 
+        if (userIds.isEmpty()){
+            return;
+        }
         //将每天生成的“热点新闻”ID，按照新闻的热点程度从高到低放入redis,取出来
         Set<ZSetOperations.TypedTuple<Object>> hotNewsRedisTopIds = redisTemplate.opsForZSet().reverseRangeWithScores(CommonParam.HOT_NEWS_REDIS_KEY,0,-1);
         if (hotNewsRedisTopIds == null || hotNewsRedisTopIds.size() == 0){
@@ -54,18 +58,13 @@ public class HotRecommendImpl implements RecommendService {
             hotNewsTopIds.add(Integer.parseInt((String) Objects.requireNonNull(hotNewsTopId.getValue())));
         }
 
-        if (userIds.isEmpty()){
-            return;
-        }
         int count = 0;
-
         //时间
         Calendar calendar = Calendar.getInstance();
         Date date = TimeUtil.getCertainTimestamp(calendar.get(Calendar.YEAR), calendar.get(Calendar.DAY_OF_MONTH)+1, beforeDays, 0, 0, 0);
         Map<Integer, Integer> userIdToNewsRecommendNumMap = new HashMap<>(16);
         //数据库取出用户的推荐新闻，并统计各个用户的推荐新闻的数量
         List<NewsRecommend> newsRecommends = this.newsRecommendService.findAllByUserIds(userIds);
-        if (!newsRecommends.isEmpty()){
             for (Integer userId: userIds){
                 int num = 0;
                 for (NewsRecommend newsRecommend : newsRecommends) {
@@ -75,10 +74,8 @@ public class HotRecommendImpl implements RecommendService {
                 }
                 userIdToNewsRecommendNumMap.put(userId,num);
             }
-        }
 
         for (Integer userId : userIds) {
-
             int tmpRecNums = userIdToNewsRecommendNumMap.get(userId);
             boolean flag = (tmpRecNums!=0);
             int delta = flag?TOTAL_REC_NUM - tmpRecNums : TOTAL_REC_NUM;

@@ -3,6 +3,7 @@ package com.cajr.controller;
 import com.cajr.service.NewsHotAndNewestService;
 import com.cajr.service.NewsService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -59,4 +60,13 @@ public class NewsController {
     public Result get24HoursNews(){
         return new Result<>(this.newsHotAndNewestService.get24HoursHotNews());
     }
+
+    @GetMapping("/search")
+    public SearchPage searchNews(@RequestParam("keyWord") String keyWord,
+                                 @RequestParam(value = "page",defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.newsService.searchNews(keyWord, page, pageSize);
+    }
+
+
 }

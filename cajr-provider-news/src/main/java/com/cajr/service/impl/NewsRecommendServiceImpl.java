@@ -2,12 +2,17 @@ package com.cajr.service.impl;
 
 import com.cajr.mapper.NewsRecommendMapper;
 import com.cajr.service.NewsRecommendService;
+import com.cajr.service.NewsService;
 import com.cajr.util.CommonParam;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.CountNewsRecommendResult;
+import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsRecommend;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -24,9 +29,28 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
     @Autowired
     private NewsRecommendMapper newsRecommendMapper;
 
+    @Autowired
+    private NewsService newsService;
+
     @Override
     public List<NewsRecommend> findAllByUserId(int userId) {
         return this.newsRecommendMapper.findAllByUserId(userId);
+    }
+
+    @Override
+    public PageInfo recNewsList(int userId, int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        PageInfo pageInfo = new PageInfo<>(this.newsRecommendMapper.findAllByUserId(userId));
+        List<NewsRecommend> recommends = pageInfo.getList();
+        if (CollectionUtils.isEmpty(recommends)){
+            return pageInfo;
+        }
+        recommends.forEach(recommend -> {
+            News news = this.newsService.getOne(recommend.getNewsId());
+            recommend.setNews(news);
+        });
+        pageInfo.setList(recommends);
+        return pageInfo;
     }
 
     @Override

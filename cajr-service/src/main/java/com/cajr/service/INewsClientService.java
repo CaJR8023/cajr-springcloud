@@ -3,6 +3,7 @@ package com.cajr.service;
 import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.INewsClientServiceFallBackFactory;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -39,4 +40,10 @@ public interface INewsClientService {
 
     @GetMapping("/news/hot_24_hours")
     public Result get24HoursNews();
+
+    @GetMapping("/news/search")
+    public SearchPage searchNews(@RequestParam("keyWord") String keyWord,
+                                  @RequestParam(value = "page",defaultValue = "1") int page,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
+
 }

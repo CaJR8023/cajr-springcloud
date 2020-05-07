@@ -90,6 +90,10 @@
       <artifactId>cajr-service</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>CAJR</groupId>
+      <artifactId>cajr-search</artifactId>
+    </dependency>
   </dependencies>
 
 

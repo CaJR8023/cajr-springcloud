@@ -3,6 +3,7 @@ package com.cajr.service;
 import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
 import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
@@ -56,4 +57,9 @@ public interface IUserClientService {
 
     @PutMapping("/user_pref/")
     public Result updateUserPref(@RequestBody UserPref userPref);
+
+    @GetMapping("/user/search")
+    public SearchPage searchUsers(@RequestParam("keyWord") String keyWord,
+                                  @RequestParam(value = "page",defaultValue = "1") int page,
+                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 }

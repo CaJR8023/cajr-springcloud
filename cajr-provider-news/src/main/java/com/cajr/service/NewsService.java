@@ -1,5 +1,6 @@
 package com.cajr.service;
 
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @date 2020/1/15 4:38 下午
  */
 public interface NewsService {
+
     Integer add(News news);
 
     List<News> findSectionNews(List<Integer> newsIds);
@@ -27,4 +29,7 @@ public interface NewsService {
     Integer deleteOne(Integer id);
 
     News getOne(int id);
+
+    SearchPage searchNews(String keyWord, int pageNum, int pageSize);
+
 }

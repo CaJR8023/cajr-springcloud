@@ -11,4 +11,6 @@ public interface UserInitMapper {
     int insertNewsUser(User record);
 
     int checkIsExistsByUserName(String userName);
+
+    int getUserIdByUserName(String userName);
 }

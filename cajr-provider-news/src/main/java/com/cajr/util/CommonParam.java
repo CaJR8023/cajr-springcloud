@@ -1,5 +1,9 @@
 package com.cajr.util;
 
+import com.aliyun.opensearch.sdk.dependencies.com.google.common.collect.Lists;
+
+import java.util.ArrayList;
+
 /**
  * @author CAJR
  * @date 2020/3/2 2:57 下午
@@ -45,8 +49,15 @@ public class CommonParam {
     public static final int SUN = 7;
 
     //判断是否图片
-    public static final String IS_IMG_STRING = "url";
-    public static final String IS_IMG_STRING1 = "width";
-    public static final String IMG_HTML_FRONT = "<img src=\"";
-    public static final String IMG_HTML_AFTER = "\" width=\"100%\" height=\"100%\"/>";
+    static final String IS_IMG_STRING = "url";
+    static final String IS_IMG_STRING1 = "width";
+    static final String IMG_HTML_FRONT = "<img src=\"";
+    static final String IMG_HTML_AFTER = "\" width=\"100%\" height=\"100%\"/>";
+
+    //news Search
+    public static final String NEWS_TABLE_NAME = "news";
+    public static final ArrayList<String> openSearchFetchFieldFormat = Lists.newArrayList("news_id","title","content","created_at");
+    public static final String DISTINCT_STATEMENT = "&&distinct=dist_key:order_group_id,dist_count:1,dist_times:1,reserved:false && sort= -created_at";
+
+
 }

@@ -2,6 +2,7 @@ package com.cajr.controller.news;
 
 import com.cajr.service.INewsClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -49,5 +50,12 @@ public class ConsumerNewsController {
     @GetMapping("/hot_24_hours")
     public Result get24HoursNews(){
         return this.iNewsClientService.get24HoursNews();
+    }
+
+    @GetMapping("/search")
+    public SearchPage searchNews(@RequestParam("keyWord") String keyWord,
+                                 @RequestParam(value = "page",defaultValue = "1") int page,
+                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return this.iNewsClientService.searchNews(keyWord, page, pageSize);
     }
 }

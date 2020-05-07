@@ -2,6 +2,7 @@ package com.cajr.controller.user;
 
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
@@ -29,6 +30,8 @@ public class ConsumerUserController {
     public Result getOneUser(@PathVariable("id")@ApiParam(value = "用户id",required = true,type = "integer" ,example = "1") int id ){
         return this.iUserClientService.getOneUser(id);
     }
+
+
 
     @GetMapping("/_name")
     @ApiOperation(value = "获取用户接口",httpMethod = "GET",nickname = "getOneUser")
@@ -60,4 +63,10 @@ public class ConsumerUserController {
 //        user.setStatus(1);
 //        return this.iUserClientService.addOneUser(user);
 //    }
+
+    @GetMapping("/visitor/search")
+    public SearchPage searchUser(@RequestParam("keyWord") String keyWord,
+                                 @RequestParam(value = "page",defaultValue = "1") int page){
+        return this.iUserClientService.searchUsers(keyWord, page, 10);
+    }
 }

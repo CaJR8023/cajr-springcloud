@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: cajr-search
+
+server:
+  port: 6200

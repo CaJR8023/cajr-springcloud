@@ -45,7 +45,7 @@ public class TagNewsController {
             map.put("id", 1L);
             // 先删除，再新增加
             quartzService.deleteJob(CommonParam.COUNT_HOTTEST_TAG_JOB_NAME, CommonParam.COUNT_HOTTEST_TAG_GROUP_NAME);
-            quartzService.addJob(CountHottestTagJob.class, CommonParam.COUNT_HOTTEST_TAG_JOB_NAME, CommonParam.COUNT_HOTTEST_TAG_GROUP_NAME, "0/60 * * * * ?", map);
+            quartzService.addJob(CountHottestTagJob.class, CommonParam.COUNT_HOTTEST_TAG_JOB_NAME, CommonParam.COUNT_HOTTEST_TAG_GROUP_NAME, "0/30 * * * * ?", map);
             return new Result<>(1);
         }else {
             quartzService.pauseJob(CommonParam.COUNT_HOTTEST_TAG_JOB_NAME, CommonParam.COUNT_HOTTEST_TAG_GROUP_NAME);
