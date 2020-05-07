@@ -17,6 +17,8 @@ public interface NewsLogsMapper {
 
     NewsLogs selectByPrimaryKey(Integer id);
 
+    NewsLogs selectByUserIdAndNewsId(Integer userId, Integer newsId);
+
     int updateByPrimaryKeySelective(NewsLogs record);
 
     int updateByPrimaryKey(NewsLogs record);

@@ -25,4 +25,8 @@ public interface NewsRecommendService {
     List<NewsRecommend> findAllByUserIds(List<Integer> userIds);
 
     Integer insertRecommend(List<Integer> newsId, int userId, int recAlgorithm, Map<Integer, Double> tempMatchMap);
+
+    Integer checkNumByUserId(Integer userId);
+
+    void recommend(Integer userId);
 }

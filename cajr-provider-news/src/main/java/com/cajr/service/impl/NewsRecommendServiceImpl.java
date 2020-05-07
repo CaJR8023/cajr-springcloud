@@ -1,8 +1,12 @@
 package com.cajr.service.impl;
 
+import com.cajr.lock.DistributedLock;
+import com.cajr.lock.impl.RedisDistributedLock;
 import com.cajr.mapper.NewsRecommendMapper;
+import com.cajr.service.NewsLogsService;
 import com.cajr.service.NewsRecommendService;
 import com.cajr.service.NewsService;
+import com.cajr.service.RecommendService;
 import com.cajr.util.CommonParam;
 import com.cajr.util.TimeUtil;
 import com.cajr.vo.news.CountNewsRecommendResult;
@@ -11,6 +15,7 @@ import com.cajr.vo.news.NewsRecommend;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -32,6 +37,25 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
     @Autowired
     private NewsService newsService;
 
+    @Autowired
+    private NewsLogsService newsLogsService;
+
+    @Autowired
+    private RecommendService hotNewsRecommend;
+
+    @Autowired
+    private RecommendService contentBasedRecommend;
+
+    @Autowired
+    private RecommendService userCFRecommendImpl;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    private static final String LOCK_KEY = "news_rec_lock";
+
+    public static final String REC_REQUEST_NUM_KEY = "news-rec-request-";
+
     @Override
     public List<NewsRecommend> findAllByUserId(int userId) {
         return this.newsRecommendMapper.findAllByUserId(userId);
@@ -47,6 +71,7 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
         }
         recommends.forEach(recommend -> {
             News news = this.newsService.getOne(recommend.getNewsId());
+            news.setBrowseStatus(this.newsLogsService.checkExistByUserIdAndNewsId(userId, news.getId()));
             recommend.setNews(news);
         });
         pageInfo.setList(recommends);
@@ -140,5 +165,36 @@ public class NewsRecommendServiceImpl implements NewsRecommendService {
             return CommonParam.RETURN_SUCCESS;
         }
         return CommonParam.RETURN_FAIL;
+    }
+
+    @Override
+    public Integer checkNumByUserId(Integer userId) {
+        return this.newsRecommendMapper.findAllByUserId(userId).size();
+    }
+
+    @Override
+    public void recommend(Integer userId) {
+        String lockLogo = null;
+        //加锁
+        DistributedLock distributedLock = new RedisDistributedLock(redisTemplate,LOCK_KEY,60);
+        try {
+            do {
+                lockLogo = distributedLock.acquireLock();
+                this.redisTemplate.opsForValue().set(REC_REQUEST_NUM_KEY+userId, "false");
+            } while (lockLogo == null);
+            List<Integer> userIds = new ArrayList<>();
+            userIds.add(userId);
+            this.contentBasedRecommend.recommend(userIds);
+            this.userCFRecommendImpl.recommend(userIds);
+            this.hotNewsRecommend.recommend(userIds);
+        }finally {
+            this.redisTemplate.opsForValue().set(REC_REQUEST_NUM_KEY+userId, "true");
+            while(true){
+                boolean unLock = distributedLock.releaseLock(lockLogo);
+                if (unLock){
+                    break;
+                }
+            }
+        }
     }
 }

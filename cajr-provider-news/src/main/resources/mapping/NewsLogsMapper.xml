@@ -49,6 +49,12 @@
     from news_logs
     where id = #{id,jdbcType=INTEGER}
   </select>
+  <select id="selectByUserIdAndNewsId" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from news_logs
+    where user_id = #{param1,jdbcType=INTEGER} and news_id = #{param2,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->
     delete from news_logs

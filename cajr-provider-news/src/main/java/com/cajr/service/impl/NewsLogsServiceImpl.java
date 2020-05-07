@@ -70,7 +70,28 @@ public class NewsLogsServiceImpl implements NewsLogsService {
 
     @Override
     public Integer update(NewsLogs newsLogs) {
-        return this.newsLogsMapper.updateByPrimaryKeySelective(newsLogs);
+        String lockLogo = null;
+        Integer result;
+        //加锁
+        DistributedLock distributedLock = new RedisDistributedLock(redisTemplate,LOCK_KEY,60);
+        try {
+            do {
+                lockLogo = distributedLock.acquireLock();
+            } while (lockLogo == null);
+            //对redis中的热点新闻zset的分数进行加一
+            BoundZSetOperations boundGeoOperations = redisTemplate.boundZSetOps(CommonParam.HOT_NEWS_REDIS_KEY);
+            boundGeoOperations.incrementScore(String.valueOf(newsLogs.getNewsId()), 1);
+            result = this.newsLogsMapper.updateByPrimaryKeySelective(newsLogs);
+        }finally {
+            while(true){
+                boolean unLock = distributedLock.releaseLock(lockLogo);
+                if (unLock){
+                    break;
+                }
+            }
+        }
+        return result;
+
     }
 
     @Override
@@ -90,6 +111,11 @@ public class NewsLogsServiceImpl implements NewsLogsService {
     @Override
     public Integer checkExistByUserIdAndNewsId(Integer userId, Integer newsId) {
         return this.newsLogsMapper.checkExistByUserIdAndNewsId(userId, newsId);
+    }
+
+    @Override
+    public NewsLogs getByUserIdAndNewsId(Integer userId, Integer newsId) {
+        return this.newsLogsMapper.selectByUserIdAndNewsId(userId, newsId);
     }
 
     @Override

@@ -24,6 +24,8 @@ public interface NewsLogsService {
 
     Integer checkExistByUserIdAndNewsId(Integer userId, Integer newsId);
 
+    NewsLogs getByUserIdAndNewsId(Integer userId, Integer newsId);
+
     Integer delete(Integer id);
 
     PageInfo getAllByPage(int page, int pageSize);

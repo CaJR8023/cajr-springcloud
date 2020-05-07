@@ -30,8 +30,12 @@ public class NewsLogsController {
     @PostMapping("/")
     public Result addNewsLogs(@RequestBody NewsLogs newsLogs){
         if (this.newsLogsService.checkExistByUserIdAndNewsId(newsLogs.getUserId(), newsLogs.getNewsId()) >0){
+            NewsLogs newsLogs1 = this.newsLogsService.getByUserIdAndNewsId(newsLogs.getUserId(), newsLogs.getNewsId());
+            newsLogs1.setViewTime(Timestamp.valueOf(LocalDateTime.now()));
+            this.newsLogsService.update(newsLogs1);
             return new Result<>("浏览记录已存在");
         }
+        newsLogs.setStatus(1);
         newsLogs.setViewTime(Timestamp.valueOf(LocalDateTime.now()));
         newsLogs.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         newsLogs.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));

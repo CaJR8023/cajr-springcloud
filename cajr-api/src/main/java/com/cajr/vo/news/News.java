@@ -62,6 +62,9 @@ public class News {
     private  int reviewCount;
 
     @ApiModelProperty(hidden = true)
+    private  int browseStatus;
+
+    @ApiModelProperty(hidden = true)
     private UserOther userOther;
 
     @JsonIgnore
@@ -237,5 +240,13 @@ public class News {
 
     public void setTags(List<String> tags) {
         this.tags = tags;
+    }
+
+    public int getBrowseStatus() {
+        return browseStatus;
+    }
+
+    public void setBrowseStatus(int browseStatus) {
+        this.browseStatus = browseStatus;
     }
 }

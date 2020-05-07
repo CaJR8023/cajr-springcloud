@@ -1,11 +1,13 @@
 package com.cajr.controller;
 
 import com.cajr.service.*;
+import com.cajr.service.impl.NewsRecommendServiceImpl;
 import com.cajr.util.Result;
 import com.cajr.vo.news.CountNewsRecommendResult;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,13 +36,10 @@ public class NewsRecommendController {
     private RecommendService hotNewsRecommend;
 
     @Autowired
-    private RecommendService contentBasedRecommend;
-
-    @Autowired
-    private RecommendService userCFRecommendImpl;
-
-    @Autowired
     private UserPrefRefresherService userPrefRefresherService;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
 
 
     @GetMapping("/count")
@@ -62,16 +61,21 @@ public class NewsRecommendController {
     public PageInfo getRecNewsList(@RequestParam("userId") Integer userId,
                                    @RequestParam(value = "page",defaultValue = "1") int page,
                                    @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        if (this.newsRecommendService.checkNumByUserId(userId) <= 50){
+            List<Integer> userIds = new ArrayList<>();
+            userIds.add(userId);
+            this.hotNewsRecommend.recommend(userIds);
+            return this.newsRecommendService.recNewsList(userId, page, pageSize);
+        }
         return this.newsRecommendService.recNewsList(userId, page, pageSize);
     }
 
     @GetMapping("/user_rec")
     public Result userRec(@RequestParam("userId") Integer userId){
-        List<Integer> userIds = new ArrayList<>();
-        userIds.add(userId);
-        this.contentBasedRecommend.recommend(userIds);
-        this.userCFRecommendImpl.recommend(userIds);
-        this.hotNewsRecommend.recommend(userIds);
+        if ("false".equals(this.redisTemplate.opsForValue().get(NewsRecommendServiceImpl.REC_REQUEST_NUM_KEY+userId))){
+            return new Result<>(0);
+        }
+        this.newsRecommendService.recommend(userId);
         return new Result<>(1);
     }
 }
