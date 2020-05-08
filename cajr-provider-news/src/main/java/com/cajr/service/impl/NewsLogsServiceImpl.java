@@ -39,7 +39,7 @@ public class NewsLogsServiceImpl implements NewsLogsService {
     private static final String LOCK_KEY = "news_logs_lock";
 
     @Override
-    public List<News> findAllByUserId(Integer userId) {
+    public List<News> findAllNewsByUserId(Integer userId) {
         List<NewsLogs> newsLogsList = this.newsLogsMapper.findAllByUserId(userId);
         List<News> newsList = new ArrayList<>();
         if (CollectionUtils.isEmpty(newsLogsList)){
@@ -49,6 +49,11 @@ public class NewsLogsServiceImpl implements NewsLogsService {
             newsList.add(this.newsService.getOne(newsLogs.getNewsId()));
         });
         return newsList;
+    }
+
+    @Override
+    public List<NewsLogs> findAllByUserId(Integer userId) {
+        return this.newsLogsMapper.findAllByUserId(userId);
     }
 
     @Override

@@ -39,7 +39,7 @@
     select
     <include refid="Base_Column_List"/>
     from news_logs
-    where status = 1 and user_id = #{userId,jdbcType=INTEGER}
+    where status = 1 and user_id = #{userId,jdbcType=INTEGER} order by updated_at desc
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">

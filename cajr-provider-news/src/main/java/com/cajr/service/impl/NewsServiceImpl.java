@@ -47,6 +47,8 @@ import javax.annotation.Resource;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @author CAJR
@@ -91,7 +93,14 @@ public class NewsServiceImpl implements NewsService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(News news) {
-        newsMapper.insertSelective(news);
+        news.setSource(" ");
+        news.setModuleId(1);
+        news.setNewsDataSign(" ");
+        news.setDesc(" ");
+        news.setContent(news.getAllContent());
+        news.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        news.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        newsMapper.insert(news);
         initTag(news);
         initSearchNewsData(news);
         NewsImage newsImage = new NewsImage();
@@ -165,12 +174,16 @@ public class NewsServiceImpl implements NewsService {
         for (Keyword keyword : keywordList){
             Tag tag = new Tag();
             tag.setName(keyword.getName());
-            Integer tagId = (Integer) this.iTagClientService.addOneTag(tag).getData();
-            if (tagId > 0){
-                NewsTag newsTag = new NewsTag(news.getId(),tagId);
-                ModuleTag moduleTag = new ModuleTag(news.getModuleId(), tagId);
-                this.newsTagService.addOneNewsTag(newsTag);
-                this.newsTagService.addOneModuleTag(moduleTag);
+            String reg = "^[\\u4e00-\\u9fa5_a-zA-Z0-9]+$";
+            boolean isMatch = Pattern.matches(keyword.getName(), reg);
+            if (isMatch){
+                Integer tagId = (Integer) this.iTagClientService.addOneTag(tag).getData();
+                if (tagId > 0){
+                    NewsTag newsTag = new NewsTag(news.getId(),tagId);
+                    ModuleTag moduleTag = new ModuleTag(news.getModuleId(), tagId);
+                    this.newsTagService.addOneNewsTag(newsTag);
+                    this.newsTagService.addOneModuleTag(moduleTag);
+                }
             }
         }
     }
@@ -195,10 +208,14 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<News> findAllByUserId(int userId) {
         List<News> newsList = this.newsMapper.selectAllByUserId(userId);
+        newsList = newsList.stream().filter(n -> n.getStatus()>= 1).collect(Collectors.toList());
         if (CollectionUtils.isEmpty(newsList)){
             return newsList;
         }
-        newsList.forEach(NewsFillDataUtil::fillNews);
+        newsList.forEach(news->{
+            NewsFillDataUtil.fillNews(news);
+            news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
+        });
         return newsList;
     }
 
@@ -208,7 +225,11 @@ public class NewsServiceImpl implements NewsService {
         if (CollectionUtils.isEmpty(newsList)){
             return newsList;
         }
-        newsList.forEach(NewsFillDataUtil::fillNews);
+        newsList.forEach(news->{
+            NewsFillDataUtil.fillNews(news);
+            news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
+        });
+
         return newsList;
     }
 
@@ -238,6 +259,9 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public News getOne(int id) {
         News news = this.newsMapper.selectByPrimaryKey(id);
+        if (news == null){
+            return null;
+        }
         NewsFillDataUtil.fillNews(news);
 //        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),5);
         List<String> tags = new ArrayList<>();
@@ -355,7 +379,7 @@ public class NewsServiceImpl implements NewsService {
         if (news == null){
             return 0;
         }
-        news.setStatus(1);
+        news.setStatus(2);
         news.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return this.newsMapper.updateByPrimaryKeySelective(news);
     }

@@ -6,6 +6,7 @@ import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsUser;
+import com.cajr.vo.news.Reply;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -96,6 +97,12 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
             public Result collect(NewsUser newsUser) {
                 return null;
             }
+
+            @Override
+            public Result addOneReply(Reply reply) {
+                return null;
+            }
+
         };
     }
 }

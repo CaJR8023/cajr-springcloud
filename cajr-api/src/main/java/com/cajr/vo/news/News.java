@@ -29,7 +29,7 @@ public class News {
     @JsonIgnore
     private String content;
 
-    @JsonIgnore
+    @ApiModelProperty(hidden = true)
     private String allContent;
 
     private List<String> contentList;

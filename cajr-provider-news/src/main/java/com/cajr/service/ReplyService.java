@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface ReplyService {
     List<Reply> getAllByReviewId(Integer reviewId);
+
+    int addOneReply(Reply reply);
 }

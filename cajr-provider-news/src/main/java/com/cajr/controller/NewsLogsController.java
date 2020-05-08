@@ -24,7 +24,7 @@ public class NewsLogsController {
 
     @GetMapping("/user")
     public Result getAllByUserId(@RequestParam("userId") int userId){
-        return new Result<>(this.newsLogsService.findAllByUserId(userId));
+        return new Result<>(this.newsLogsService.findAllNewsByUserId(userId));
     }
 
     @PostMapping("/")

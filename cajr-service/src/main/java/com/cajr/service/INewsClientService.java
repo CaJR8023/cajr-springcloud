@@ -7,6 +7,7 @@ import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsUser;
+import com.cajr.vo.news.Reply;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -67,5 +68,8 @@ public interface INewsClientService {
 
     @PostMapping("/collect/")
     public Result collect(@RequestBody NewsUser newsUser);
+
+    @PostMapping("/reply/")
+    public Result addOneReply(@RequestBody Reply reply);
 
 }

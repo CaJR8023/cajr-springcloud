@@ -1,5 +1,7 @@
 package com.cajr.vo.user;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * @author CAJR
  * @date 2020/4/21 3:59 下午
@@ -13,7 +15,13 @@ public class UserOther {
 
     private String signature;
 
-    private boolean isFollow;
+    private int isFollow;
+
+    @ApiModelProperty(hidden = true)
+    private int followNum;
+
+    @ApiModelProperty(hidden = true)
+    private int followedNum;
 
     public int getId() {
         return id;
@@ -47,7 +55,27 @@ public class UserOther {
         this.signature = signature;
     }
 
-    public void setFollow(boolean follow) {
-        this.isFollow = follow;
+    public int getIsFollow() {
+        return isFollow;
+    }
+
+    public void setIsFollow(int isFollow) {
+        this.isFollow = isFollow;
+    }
+
+    public int getFollowNum() {
+        return followNum;
+    }
+
+    public void setFollowNum(int followNum) {
+        this.followNum = followNum;
+    }
+
+    public int getFollowedNum() {
+        return followedNum;
+    }
+
+    public void setFollowedNum(int followedNum) {
+        this.followedNum = followedNum;
     }
 }

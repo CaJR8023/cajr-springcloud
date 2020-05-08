@@ -12,7 +12,9 @@ import java.util.List;
  */
 public interface NewsLogsService {
 
-    List<News> findAllByUserId(Integer userId);
+    List<News> findAllNewsByUserId(Integer userId);
+
+    List<NewsLogs> findAllByUserId(Integer userId);
 
     List<NewsLogs> findAll();
 

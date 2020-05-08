@@ -22,12 +22,12 @@ public class ConsumerFollowController {
     @Autowired
     private IUserClientService iUserClientService;
 
-    @GetMapping("/follow/followed_users")
+    @GetMapping("/followed_users")
     public List<User> getFollowedUsers(@RequestParam("userId") Integer userId){
         return this.iUserClientService.getFollowedUsers(userId);
     }
 
-    @PostMapping("/follow/")
+    @PostMapping("/")
     public Result follow(@RequestBody Follow follow){
         return this.iUserClientService.follow(follow);
     }
