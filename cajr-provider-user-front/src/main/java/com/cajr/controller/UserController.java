@@ -81,6 +81,11 @@ public class UserController {
         return new Result<>(result.get());
     }
 
+    @PutMapping("/")
+    public Result updateOneUser(@RequestBody  User user){
+        return new Result<>(this.userService.update(user));
+    }
+
     @PostMapping("/news_init")
     public Result addOneUserNewsInit(@RequestBody @ApiParam(value = "",required = true,type = "string") User user){
         if (this.userService.checkIsExistByUserName(user.getUsername()).get() >= 1){

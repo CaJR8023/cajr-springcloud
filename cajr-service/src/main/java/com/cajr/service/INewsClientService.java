@@ -11,8 +11,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 /**
  * @author CAJR
  * @date 2020/4/13 7:07 下午
@@ -50,4 +48,7 @@ public interface INewsClientService {
 
     @PostMapping("/img/news/upload")
     public ImageResult uploadNewsImg(@RequestParam("file") MultipartFile multipartFile);
+
+
+
 }

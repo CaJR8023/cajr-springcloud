@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
         fallbackFactory = ICodeClientServiceFallBackFactory.class)
 public interface ICodeClientService {
     @GetMapping("/code/send")
-    public Result sendCode(@RequestParam("phone") String phone);
+    public Result sendCode(@RequestParam("phone") String phone,@RequestParam("type") String type);
 
     @GetMapping("/code/verify")
-    public Result verifyCode(@RequestParam("mobile") String mobile, @RequestParam("code") String code);
+    public Result verifyCode(@RequestParam("mobile") String mobile, @RequestParam("code") String code,@RequestParam("type") String type);
 }

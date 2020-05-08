@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.FollowMapper">
+  <resultMap id="BaseResultMap" type="com.cajr.vo.user.Follow">
+    <!--@mbg.generated-->
+    <!--@Table follow-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="followed_id" jdbcType="INTEGER" property="followedId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, followed_id, user_id, `status`, created_at, updated_at
+  </sql>
+  <select id="countFollowNum" resultType="integer">
+    select id from follow where user_id = #{userId} and status = 1
+  </select>
+  <select id="countFollowedNum" resultType="integer">
+    select id from follow where followed_id = #{followedId} and status = 1
+  </select>
+  <select id="checkExisted" resultType="integer">
+    select exists (select 1 from follow where user_id = #{userId,jdbcType=INTEGER} and followed_id = #{followedId,jdbcType=INTEGER})
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from follow
+    where user_id = #{userId} and status = 1
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from follow
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from follow
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.Follow" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into follow (followed_id, user_id, `status`, 
+      created_at, updated_at)
+    values (#{followedId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.Follow" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into follow
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="followedId != null">
+        followed_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      `status`,
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="followedId != null">
+        #{followedId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      #{status,jdbcType=TINYINT},
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.user.Follow">
+    <!--@mbg.generated-->
+    update follow
+    <set>
+      <if test="followedId != null">
+        followed_id = #{followedId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.Follow">
+    <!--@mbg.generated-->
+    update follow
+    set followed_id = #{followedId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      `status` = #{status,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

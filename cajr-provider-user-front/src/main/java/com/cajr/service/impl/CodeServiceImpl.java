@@ -35,13 +35,13 @@ public class CodeServiceImpl implements CodeService {
     private RedisTemplate redisTemplate;
 
     @Override
-    public Integer sendCode(String phone) {
+    public Integer sendCode(String phone, String type) {
         try {
             Map<String,Object> codeTemplateMap = new HashMap<>(8);
             String code = (String) redisTemplate.opsForValue().get(phone);
             if ( code == null){
                 code = getFourRandom();
-                redisTemplate.opsForValue().set(phone,code, Duration.ofMinutes(2));
+                redisTemplate.opsForValue().set(type+"-"+phone,code, Duration.ofMinutes(2));
             }
             codeTemplateMap.put("code",code);
             JSONObject codeJson = new JSONObject(codeTemplateMap);
@@ -61,8 +61,8 @@ public class CodeServiceImpl implements CodeService {
     }
 
     @Override
-    public Integer checkCode(String code, String phone) {
-        String redisCode = (String) this.redisTemplate.opsForValue().get(phone);
+    public Integer checkCode(String code, String phone, String type) {
+        String redisCode = (String) this.redisTemplate.opsForValue().get(type+"-"+phone);
         if (redisCode == null){
             return -1;
         }

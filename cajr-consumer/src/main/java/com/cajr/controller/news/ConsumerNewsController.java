@@ -34,7 +34,10 @@ public class ConsumerNewsController {
 
     @PostMapping("/")
     public Result addOne(@RequestBody News news){
-        return this.addOne(news);
+        if (news.getId() > 0){
+            return updateOne(news);
+        }
+        return this.iNewsClientService.addOne(news);
     }
 
     @PutMapping("/")

@@ -5,7 +5,7 @@ package com.cajr.service;
  * @date 2020/1/10 3:32 下午
  */
 public interface CodeService {
-    Integer sendCode(String phone);
+    Integer sendCode(String phone, String type);
 
-    Integer checkCode(String code, String phone);
+    Integer checkCode(String code, String phone, String type);
 }

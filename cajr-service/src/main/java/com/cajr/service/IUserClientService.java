@@ -5,10 +5,7 @@ import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
 import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
-import com.cajr.vo.user.User;
-import com.cajr.vo.user.UserInfo;
-import com.cajr.vo.user.UserOther;
-import com.cajr.vo.user.UserPref;
+import com.cajr.vo.user.*;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +32,9 @@ public interface IUserClientService {
 
     @PostMapping("/user/")
     public Result addOneUser(@RequestBody User user);
+
+    @PutMapping("/user/")
+    public Result updateOneUser(@RequestBody User user);
 
     @PostMapping("/user/news_init")
     public Result addOneUserNewsInit(@RequestBody User user);
@@ -71,4 +71,17 @@ public interface IUserClientService {
 
     @PostMapping("/img/avatar/upload")
     public ImageResult uploadAvatarImg(@RequestParam("file") MultipartFile multipartFile);
+
+    @PostMapping("/user_news_star/star")
+    public Result star(@RequestBody UserNewsStar userNewsStar);
+
+    @GetMapping("/user_news_star/")
+    public UserNewsStar getByUserIdAndNewsId(@RequestParam("userId") int userId,
+                                             @RequestParam("newsId") int newsId);
+
+    @GetMapping("/follow/followed_users")
+    public List<User> getFollowedUsers(@RequestParam("userId") Integer userId);
+
+    @PostMapping("/follow/")
+    public Result follow(@RequestBody Follow follow);
 }

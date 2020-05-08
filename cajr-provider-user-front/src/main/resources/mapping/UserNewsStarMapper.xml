@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cajr.mapper.UserNewsStarMapper">
+  <resultMap id="BaseResultMap" type="com.cajr.vo.user.UserNewsStar">
+    <!--@mbg.generated-->
+    <!--@Table user_news_star-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="news_id" jdbcType="INTEGER" property="newsId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="is_like" jdbcType="TINYINT" property="isLike" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="created_at" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="updated_at" jdbcType="TIMESTAMP" property="updatedAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, news_id, user_id, is_like, `status`, created_at, updated_at
+  </sql>
+
+  <select id="checkExisted" resultType="integer">
+    select exists (select 1 from user_news_star where user_id =#{userId,jdbcType=INTEGER} and news_id =#{newsId,jdbcType=INTEGER})
+  </select>
+
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user_news_star
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByUserIdAndNewsId"  resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from user_news_star
+    where user_id = #{param1} and news_id = #{param2}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from user_news_star
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.UserNewsStar" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_news_star (news_id, user_id, is_like, 
+      `status`, created_at, updated_at
+      )
+    values (#{newsId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{isLike,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.cajr.vo.user.UserNewsStar" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_news_star
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        news_id,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      is_like,
+      `status`,
+      <if test="createdAt != null">
+        created_at,
+      </if>
+      <if test="updatedAt != null">
+        updated_at,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsId != null">
+        #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      #{isLike,jdbcType=TINYINT},
+      #{status,jdbcType=TINYINT},
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.cajr.vo.user.UserNewsStar">
+    <!--@mbg.generated-->
+    update user_news_star
+    <set>
+      <if test="newsId != null">
+        news_id = #{newsId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="isLike != null">
+        is_like = #{isLike,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="createdAt != null">
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.cajr.vo.user.UserNewsStar">
+    <!--@mbg.generated-->
+    update user_news_star
+    set news_id = #{newsId,jdbcType=INTEGER},
+      user_id = #{userId,jdbcType=INTEGER},
+      is_like = #{isLike,jdbcType=TINYINT},
+      `status` = #{status,jdbcType=TINYINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

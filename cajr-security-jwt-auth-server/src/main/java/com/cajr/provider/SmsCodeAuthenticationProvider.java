@@ -28,6 +28,8 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private RedisTemplate redisTemplate;
 
+    public static final String CODE_TYPE = "login";
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         CustomSmsCodeAuthenticationToken smsCodeAuthenticationToken = (CustomSmsCodeAuthenticationToken) authentication;
@@ -46,7 +48,7 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         HttpServletRequest request = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getRequest();
         String inputCode = request.getParameter("inputCode");
 
-        String redisCode = (String) this.redisTemplate.opsForValue().get(mobile);
+        String redisCode = (String) this.redisTemplate.opsForValue().get(CODE_TYPE+"-"+mobile);
         if (redisCode == null){
             throw new BadCredentialsException("验证码已过期，请重新发送！");
         }

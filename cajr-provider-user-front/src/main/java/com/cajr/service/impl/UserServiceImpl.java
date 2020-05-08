@@ -14,6 +14,7 @@ import com.aliyun.opensearch.sdk.generated.search.general.SearchResult;
 import com.aliyun.opensearch.search.SearchParamsBuilder;
 import com.cajr.mapper.UserMapper;
 import com.cajr.service.IModuleService;
+import com.cajr.service.UserInfoService;
 import com.cajr.service.UserPrefService;
 import com.cajr.service.UserService;
 import com.cajr.util.CustomHashMap;
@@ -23,10 +24,7 @@ import com.cajr.vo.OpenSearchField;
 import com.cajr.vo.OpenSearchFormat;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.Module;
-import com.cajr.vo.user.User;
-import com.cajr.vo.user.UserOther;
-import com.cajr.vo.user.UserPref;
-import com.cajr.vo.user.UserSearch;
+import com.cajr.vo.user.*;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.google.common.collect.Lists;
@@ -62,6 +60,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserPrefService userPrefService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     @Value("${news.recommend.activeDays}")
     private int activeDays;
@@ -128,6 +129,17 @@ public class UserServiceImpl implements UserService {
         userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         this.userPrefService.add(userPref);
 
+        //同时初始化用户信息
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserId(user.getId());
+        userInfo.setStatus(1);
+        userInfo.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        userInfo.setAvatar("/default/avatar/defaultAvatar.jpg");
+        userInfo.setLocation("广东省-广州市");
+        userInfo.setProfession(" ");
+        userInfo.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.userInfoService.update(userInfo);
+
         initSearchNewsData(user);
         return Optional.of(user.getId());
     }
@@ -180,9 +192,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<Integer> update(User user) {
-
-        user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        return Optional.of(this.userMapper.updateByPrimaryKeySelective(user));
+        User user1 = this.userMapper.selectByPrimaryKey(user.getId());
+        user1.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user1.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return Optional.of(this.userMapper.updateByPrimaryKeySelective(user1));
     }
 
     @Override

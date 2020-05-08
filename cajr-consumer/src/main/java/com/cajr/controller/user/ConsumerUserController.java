@@ -9,15 +9,18 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.validation.constraints.Min;
 
 /**
  * @author CAJR
  * @date 2019/11/26 6:19 下午
  */
 @RestController
+@Validated
 @RequestMapping("/user")
 @Api(tags = "用户接口",value = "提供增删改查 rest接口")
 public class ConsumerUserController {
@@ -43,6 +46,15 @@ public class ConsumerUserController {
     public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return this.iUserClientService.getAllByPage(page, pageSize);
+    }
+
+    @GetMapping("/reset_pwd")
+    public Result resetPwd(@RequestParam(value = "userId") @Min(1) int userId,
+                                 @RequestParam(value = "newPwd") String newPwd){
+        User user = new User();
+        user.setId(userId);
+        user.setPassword(newPwd);
+        return this.iUserClientService.updateOneUser(user);
     }
 
     @PostMapping("/")

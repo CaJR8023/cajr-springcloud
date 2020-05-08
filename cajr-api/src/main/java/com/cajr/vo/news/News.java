@@ -74,6 +74,15 @@ public class News {
     @ApiModelProperty(hidden = true)
     private List<String> tags;
 
+    @ApiModelProperty(hidden = true)
+    private int isStar;
+
+    @ApiModelProperty(hidden = true)
+    private int unLike;
+
+    @ApiModelProperty(hidden = true)
+    private int isCollect;
+
     public int getId() {
         return id;
     }
@@ -248,5 +257,29 @@ public class News {
 
     public void setBrowseStatus(int browseStatus) {
         this.browseStatus = browseStatus;
+    }
+
+    public int getIsStar() {
+        return isStar;
+    }
+
+    public void setIsStar(int isStar) {
+        this.isStar = isStar;
+    }
+
+    public int getUnLike() {
+        return unLike;
+    }
+
+    public void setUnLike(int unLike) {
+        this.unLike = unLike;
+    }
+
+    public int getIsCollect() {
+        return isCollect;
+    }
+
+    public void setIsCollect(int isCollect) {
+        this.isCollect = isCollect;
     }
 }

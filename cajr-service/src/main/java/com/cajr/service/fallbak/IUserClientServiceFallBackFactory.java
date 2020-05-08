@@ -48,6 +48,11 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             }
 
             @Override
+            public Result updateOneUser(User user) {
+                return new Result<>("hystrix fail",0);
+            }
+
+            @Override
             public Result addOneUserNewsInit(User user) {
                 return new Result<>("hystrix fail",0);
             }

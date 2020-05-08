@@ -35,6 +35,12 @@ public class UserInfoServiceImpl implements UserInfoService {
             user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
             this.userService.update(user);
         }
+        if (this.userInfoMapper.selectByUserId(userInfo.getUserId()) == null){
+            userInfo.setStatus(1);
+            userInfo.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+            userInfo.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+            return this.userInfoMapper.insertSelective(userInfo);
+        }
         userInfo.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         return this.userInfoMapper.updateByUserId(userInfo);
     }

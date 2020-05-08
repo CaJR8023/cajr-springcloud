@@ -13,6 +13,8 @@ public class UserOther {
 
     private String signature;
 
+    private boolean isFollow;
+
     public int getId() {
         return id;
     }
@@ -43,5 +45,9 @@ public class UserOther {
 
     public void setSignature(String signature) {
         this.signature = signature;
+    }
+
+    public void setFollow(boolean follow) {
+        this.isFollow = follow;
     }
 }

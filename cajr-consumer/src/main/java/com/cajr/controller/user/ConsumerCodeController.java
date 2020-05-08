@@ -18,21 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/code")
 @Api(tags = "用户接口",value = "提供增删改查 rest接口")
-public class CodeController {
+public class ConsumerCodeController {
 
     @Autowired
     ICodeClientService iCodeClientService;
 
     @ApiOperation(value = "获取手机验证码", httpMethod = "GET", nickname = "sendCode")
     @GetMapping("/send")
-    public Result sendCode(@RequestParam("mobile") @ApiParam(value = "手机号",required = true,type = "string") String mobile){
-        return this.iCodeClientService.sendCode(mobile);
+    public Result sendCode(@RequestParam("mobile") @ApiParam(value = "手机号",required = true,type = "string") String mobile,
+                           @RequestParam("type") String type){
+        return this.iCodeClientService.sendCode(mobile, type);
     }
 
     @ApiOperation(value = "验证手机验证码", httpMethod = "GET", nickname = "verifyCode")
     @GetMapping("/verify")
     public Result verifyCode(@RequestParam("tel") @ApiParam(value = "手机号",required = true,type = "string") String mobile,
-                             @RequestParam("regCode") @ApiParam(value = "要验证的验证码",required = true,type = "string") String code){
-        return this.iCodeClientService.verifyCode(mobile,code);
+                             @RequestParam("regCode") @ApiParam(value = "要验证的验证码",required = true,type = "string") String code,
+                             @RequestParam("type") String type){
+        return this.iCodeClientService.verifyCode(mobile,code, type);
     }
 }

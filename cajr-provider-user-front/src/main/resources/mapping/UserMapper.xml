@@ -15,6 +15,8 @@
     <association property="userLog" javaType="com.cajr.vo.user.UserLog" column="id" select="com.cajr.mapper.UserLogMapper.selectOneByUserId"/>
     <association property="userPref" javaType="com.cajr.vo.user.UserPref" column="id" select="com.cajr.mapper.UserPrefMapper.selectByUserId"/>
     <association property="userInfo" javaType="com.cajr.vo.user.UserInfo" column="id" select="com.cajr.mapper.UserInfoMapper.selectByUserId"/>
+    <association property="followNum" javaType="integer" column="id" select="com.cajr.mapper.FollowMapper.countFollowNum"/>
+    <association property="followedNum" javaType="integer" column="id" select="com.cajr.mapper.FollowMapper.countFollowedNum"/>
 
   </resultMap>
   <sql id="Base_Column_List">

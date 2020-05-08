@@ -40,6 +40,12 @@ public class User implements Serializable {
     @ApiModelProperty(hidden = true)
     private UserInfo userInfo;
 
+    @ApiModelProperty(hidden = true)
+    private int followNum;
+
+    @ApiModelProperty(hidden = true)
+    private int followedNum;
+
     public int getId() {
         return id;
     }
@@ -118,5 +124,21 @@ public class User implements Serializable {
 
     public void setUserInfo(UserInfo userInfo) {
         this.userInfo = userInfo;
+    }
+
+    public int getFollowNum() {
+        return followNum;
+    }
+
+    public void setFollowNum(int followNum) {
+        this.followNum = followNum;
+    }
+
+    public int getFollowedNum() {
+        return followedNum;
+    }
+
+    public void setFollowedNum(int followedNum) {
+        this.followedNum = followedNum;
     }
 }
