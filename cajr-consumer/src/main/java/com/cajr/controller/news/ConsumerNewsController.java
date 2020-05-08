@@ -61,4 +61,18 @@ public class ConsumerNewsController {
                                  @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return this.iNewsClientService.searchNews(keyWord, page, pageSize);
     }
+    @GetMapping("/distributed")
+    public Result distributed(@RequestParam("id") int id){
+        return this.iNewsClientService.distributed(id);
+    }
+
+    @GetMapping("/module")
+    public Result getListByModuleId(@RequestParam("moduleId") int moduleId){
+        return this.iNewsClientService.getListByModuleId(moduleId);
+    }
+
+    @GetMapping("/my")
+    public Result getMyNews(@RequestParam("userId") int userId){
+        return this.iNewsClientService.getMyNews(userId);
+    }
 }

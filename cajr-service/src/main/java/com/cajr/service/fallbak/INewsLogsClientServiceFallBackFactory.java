@@ -25,6 +25,11 @@ public class INewsLogsClientServiceFallBackFactory implements FallbackFactory<IN
             public Result addNewsLogs(NewsLogs newsLogs) {
                 return null;
             }
+
+            @Override
+            public Result getAllByUserId(int userId) {
+                return null;
+            }
         };
     }
 }

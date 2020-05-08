@@ -156,7 +156,7 @@ public class NewsDataServiceImpl implements NewsDataService {
                 news.setCreatedAt(content.getTimestamp("pubDate"));
                 news.setNewsDataSign(content.getString("id"));
                 news.setStatus(1);
-                int newsId = this.newsService.add(news);
+                int newsId = this.newsService.init(news);
 
                 jsonImageUrls.forEach(imageObject -> {
                     JSONObject jsonImage = JSON.parseObject(imageObject.toString());

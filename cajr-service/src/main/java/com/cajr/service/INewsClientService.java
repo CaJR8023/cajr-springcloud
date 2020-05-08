@@ -6,6 +6,7 @@ import com.cajr.util.Result;
 import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
+import com.cajr.vo.news.NewsUser;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -46,9 +47,25 @@ public interface INewsClientService {
                                   @RequestParam(value = "page",defaultValue = "1") int page,
                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 
+    @GetMapping("/news/undistributed")
+    public News getUndistributedOne(@RequestParam("userId") int userId);
+
+    @GetMapping("/news/distributed")
+    public Result distributed(@RequestParam("id") int id);
+
+    @GetMapping("/news/module")
+    public Result getListByModuleId(@RequestParam("moduleId") int moduleId);
+
+    @GetMapping("/news/my")
+    public Result getMyNews(@RequestParam("userId") int userId);
+
     @PostMapping("/img/news/upload")
     public ImageResult uploadNewsImg(@RequestParam("file") MultipartFile multipartFile);
 
+    @GetMapping("/collect/news")
+    public Result getCollectNewsList(@RequestParam("userId") int userId);
 
+    @PostMapping("/collect/")
+    public Result collect(@RequestBody NewsUser newsUser);
 
 }

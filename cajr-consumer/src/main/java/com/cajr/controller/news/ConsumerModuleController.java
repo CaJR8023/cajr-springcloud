@@ -37,7 +37,7 @@ public class ConsumerModuleController {
 
     @GetMapping("/page")
     public PageInfo getAllByPage(@RequestParam(value = "page", defaultValue = "1") int page,
-                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+                                 @RequestParam(value = "pageSize", defaultValue = "8") int pageSize){
         return this.iModuleService.getAllByPage(page, pageSize);
     }
 }

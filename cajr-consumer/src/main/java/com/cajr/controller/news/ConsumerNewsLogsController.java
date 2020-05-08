@@ -34,4 +34,9 @@ public class ConsumerNewsLogsController {
     public Result addNewsLogs(@RequestBody @NotNull NewsLogs newsLogs){
         return this.iNewsLogsClientService.addNewsLogs(newsLogs);
     }
+
+    @GetMapping("/user")
+    public Result getAllByUserId(@RequestParam("userId") int userId){
+        return this.iNewsLogsClientService.getAllByUserId(userId);
+    }
 }

@@ -15,10 +15,7 @@ import com.aliyun.opensearch.search.SearchParamsBuilder;
 import com.cajr.algorithm.TFIDF;
 import com.cajr.mapper.NewsMapper;
 import com.cajr.mapper.UserInitMapper;
-import com.cajr.service.ITagClientService;
-import com.cajr.service.IUserClientService;
-import com.cajr.service.NewsService;
-import com.cajr.service.NewsTagService;
+import com.cajr.service.*;
 import com.cajr.util.CommonParam;
 import com.cajr.util.NewsFillDataUtil;
 import com.cajr.vo.OpenSearchExecuteResult;
@@ -26,6 +23,7 @@ import com.cajr.vo.OpenSearchField;
 import com.cajr.vo.OpenSearchFormat;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
+import com.cajr.vo.news.NewsImage;
 import com.cajr.vo.news.NewsSearch;
 import com.cajr.vo.tag.ModuleTag;
 import com.cajr.vo.tag.NewsTag;
@@ -43,6 +41,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.sql.Timestamp;
@@ -76,6 +75,9 @@ public class NewsServiceImpl implements NewsService {
     @Autowired
     private UserInitMapper userMapper;
 
+    @Autowired
+    private NewsImageService newsImageService;
+
     @Resource
     private DocumentClient documentClient;
 
@@ -86,10 +88,24 @@ public class NewsServiceImpl implements NewsService {
     private String newsAppName;
 
 
-
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Integer add(News news) {
+        newsMapper.insertSelective(news);
+        initTag(news);
+        initSearchNewsData(news);
+        NewsImage newsImage = new NewsImage();
+        newsImage.setUrl(news.getBanner());
+        newsImage.setNewsId(news.getId());
+        newsImage.setStatus(1);
+        newsImage.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        this.newsImageService.add(newsImage);
+        return news.getId();
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Integer init(News news) {
         if (this.newsMapper.checkExistBySign(news.getNewsDataSign()) > 0){
             return -1;
         }
@@ -177,8 +193,23 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public List<News> findAllByUserId(int userId) {
+        List<News> newsList = this.newsMapper.selectAllByUserId(userId);
+        if (CollectionUtils.isEmpty(newsList)){
+            return newsList;
+        }
+        newsList.forEach(NewsFillDataUtil::fillNews);
+        return newsList;
+    }
+
+    @Override
     public List<News> findAllByModuleId(int moduleId) {
-        return this.newsMapper.selectAllByModuleId(moduleId);
+        List<News> newsList =  this.newsMapper.selectAllByModuleId(moduleId);
+        if (CollectionUtils.isEmpty(newsList)){
+            return newsList;
+        }
+        newsList.forEach(NewsFillDataUtil::fillNews);
+        return newsList;
     }
 
     @Override
@@ -208,14 +239,47 @@ public class NewsServiceImpl implements NewsService {
     public News getOne(int id) {
         News news = this.newsMapper.selectByPrimaryKey(id);
         NewsFillDataUtil.fillNews(news);
-        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),5);
+//        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),5);
         List<String> tags = new ArrayList<>();
-        if (!keywordList.isEmpty()){
-            for (Keyword keyword : keywordList){
-                tags.add(keyword.getName());
-            }
-            news.setTags(tags);
+//        if (!keywordList.isEmpty()){
+//            for (Keyword keyword : keywordList){
+//                tags.add(keyword.getName());
+//            }
+//            news.setTags(tags);
+//        }
+        List<Tag> tagList = this.iTagClientService.getNewsTag(id);
+        if (!CollectionUtils.isEmpty(tagList)){
+            tagList.forEach(tag -> {
+                tags.add(tag.getName());
+            });
         }
+        news.setTags(tags);
+        news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
+        return news;
+    }
+
+    @Override
+    public News getUndistributedOne(int userId) {
+        News news = this.newsMapper.selectByUserId(userId);
+        if (news == null){
+            return null;
+        }
+        NewsFillDataUtil.fillNews(news);
+//        List<Keyword> keywordList = TFIDF.getTfidf(news.getContent(),5);
+        List<String> tags = new ArrayList<>();
+//        if (!keywordList.isEmpty()){
+//            for (Keyword keyword : keywordList){
+//                tags.add(keyword.getName());
+//            }
+//            news.setTags(tags);
+//        }
+        List<Tag> tagList = this.iTagClientService.getNewsTag(news.getId());
+        if (!CollectionUtils.isEmpty(tagList)){
+            tagList.forEach(tag -> {
+                tags.add(tag.getName());
+            });
+        }
+        news.setTags(tags);
         news.setUserOther(this.iUserClientService.getOneUserOther(news.getUserId()));
         return news;
     }
@@ -279,4 +343,21 @@ public class NewsServiceImpl implements NewsService {
         page.countTotalPages();
         return page;
     }
+
+    @Override
+    public int checkExistedByUserId(int userId) {
+        return this.newsMapper.checkExistedByUserId(userId);
+    }
+
+    @Override
+    public int distributedNews(Integer id) {
+        News news = this.newsMapper.selectByPrimaryKey(id);
+        if (news == null){
+            return 0;
+        }
+        news.setStatus(1);
+        news.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        return this.newsMapper.updateByPrimaryKeySelective(news);
+    }
+
 }

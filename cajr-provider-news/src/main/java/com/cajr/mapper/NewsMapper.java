@@ -17,6 +17,8 @@ public interface NewsMapper {
 
     News selectByPrimaryKey(Integer id);
 
+    News selectByUserId(Integer id);
+
     int updateByPrimaryKeySelective(News record);
 
     int updateByPrimaryKey(News record);
@@ -27,9 +29,13 @@ public interface NewsMapper {
 
     List<News> selectAll();
 
+    List<News> selectAllByUserId(Integer userId);
+
     List<News> selectAllSortByTime();
 
     List<News> selectAllByModuleId(Integer moduleId);
 
     List<Integer> selectAllId();
+
+    int checkExistedByUserId(Integer userId);
 }

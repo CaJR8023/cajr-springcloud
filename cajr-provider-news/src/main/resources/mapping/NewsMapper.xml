@@ -28,6 +28,10 @@
     updated_at, news_data_sign, user_id
   </sql>
 
+  <select id="checkExistedByUserId" resultType="integer">
+    select exists (select 1 from news where user_id = #{userId,jdbcType=INTEGER} and status = 2 limit 1)
+  </select>
+
   <select id="selectAllId" resultType="integer">
     select id from news where status = 1
   </select>
@@ -36,13 +40,18 @@
     select <include refid="Base_Column_List"/> from news where status = 1
   </select>
 
+  <select id="selectAllByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from news where user_id = #{userId,jdbcType=INTEGER} and status = 1
+  </select>
+
   <select id="selectAllSortByTime" resultMap="BaseResultMap">
     select <include refid="Base_Column_List"/> from news order by created_at desc
   </select>
 
   <select id="selectAllByModuleId" parameterType="integer" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/> from news where module_id = #{moduleId,jdbcType=INTEGER} and status = 1
+    select <include refid="Base_Column_List"/> from news where module_id = #{moduleId,jdbcType=INTEGER} and status = 1 limit 1,50
   </select>
+
 
   <select id="selectSectionByNewsIds" parameterType="list" resultMap="BaseResultMap">
     select
@@ -64,6 +73,13 @@
     <include refid="Base_Column_List" />
     from news
     where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select
+    <include refid="Base_Column_List" />
+    from news
+    where user_id = #{id,jdbcType=INTEGER} and  status = 2
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--@mbg.generated-->

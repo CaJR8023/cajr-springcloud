@@ -3,6 +3,7 @@ package com.cajr.controller;
 import com.cajr.service.ModuleService;
 import com.cajr.util.Result;
 import com.cajr.vo.news.Module;
+import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,8 @@ public class ModuleController {
 
     @GetMapping("/page")
     public PageInfo getAllByPage(@RequestParam("page") int page,
-                                 @RequestParam("pageSize") int pageSize){
+                                 @RequestParam(value = "pageSize" ,defaultValue = "8") int pageSize){
         return this.moduleService.getAllByPage(page, pageSize);
     }
+
 }

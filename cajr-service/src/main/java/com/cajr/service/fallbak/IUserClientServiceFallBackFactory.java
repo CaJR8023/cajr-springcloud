@@ -4,10 +4,7 @@ import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
 import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
-import com.cajr.vo.user.User;
-import com.cajr.vo.user.UserInfo;
-import com.cajr.vo.user.UserOther;
-import com.cajr.vo.user.UserPref;
+import com.cajr.vo.user.*;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -114,6 +111,26 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
 
             @Override
             public ImageResult uploadAvatarImg(MultipartFile multipartFile) {
+                return null;
+            }
+
+            @Override
+            public Result star(UserNewsStar userNewsStar) {
+                return null;
+            }
+
+            @Override
+            public UserNewsStar getByUserIdAndNewsId(int userId, int newsId) {
+                return null;
+            }
+
+            @Override
+            public List<User> getFollowedUsers(Integer userId) {
+                return null;
+            }
+
+            @Override
+            public Result follow(Follow follow) {
                 return null;
             }
         };

@@ -14,9 +14,13 @@ public interface NewsService {
 
     Integer add(News news);
 
+    Integer init(News news);
+
     List<News> findSectionNews(List<Integer> newsIds);
 
     List<News> findAll();
+
+    List<News> findAllByUserId(int userId);
 
     List<News> findAllByModuleId(int moduleId);
 
@@ -30,6 +34,12 @@ public interface NewsService {
 
     News getOne(int id);
 
+    News getUndistributedOne(int userId);
+
     SearchPage searchNews(String keyWord, int pageNum, int pageSize);
+
+    int checkExistedByUserId(int userId);
+
+    int distributedNews(Integer id);
 
 }

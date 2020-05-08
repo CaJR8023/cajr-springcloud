@@ -1,15 +1,14 @@
 package com.cajr.service.impl;
 
 import com.cajr.mapper.ReviewMapper;
-import com.cajr.service.IUserClientService;
-import com.cajr.service.IUserLikeReviewClientService;
-import com.cajr.service.ReplyService;
-import com.cajr.service.ReviewService;
+import com.cajr.service.*;
 import com.cajr.util.TimeUtil;
+import com.cajr.vo.news.News;
 import com.cajr.vo.news.Review;
 import com.cajr.vo.user.UserLikeReview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +31,9 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Autowired
     private ReplyService replyService;
+
+    @Autowired
+    private NewsService newsService;
 
     @Override
     public Integer getReviewCountByNewsId(Integer newsId) {
@@ -80,6 +82,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public List<Review> getReviewsByUserId(Integer userId) {
-        return this.reviewMapper.selectAllByUserId(userId);
+        List<Review> reviews =  this.reviewMapper.selectAllByUserId(userId);
+        if (CollectionUtils.isEmpty(reviews)){
+            return reviews;
+        }
+        reviews.forEach(review -> {
+            review.setNews(this.newsService.getOne(review.getNewsId()));
+        });
+        return reviews;
     }
 }

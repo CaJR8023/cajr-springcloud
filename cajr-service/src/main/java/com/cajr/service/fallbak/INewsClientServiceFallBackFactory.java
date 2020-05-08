@@ -5,6 +5,7 @@ import com.cajr.util.Result;
 import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
+import com.cajr.vo.news.NewsUser;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
@@ -62,7 +63,37 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
             }
 
             @Override
+            public News getUndistributedOne(int userId) {
+                return null;
+            }
+
+            @Override
+            public Result distributed(int id) {
+                return null;
+            }
+
+            @Override
+            public Result getListByModuleId(int moduleId) {
+                return null;
+            }
+
+            @Override
+            public Result getMyNews(int userId) {
+                return null;
+            }
+
+            @Override
             public ImageResult uploadNewsImg(MultipartFile multipartFile) {
+                return null;
+            }
+
+            @Override
+            public Result getCollectNewsList(int userId) {
+                return null;
+            }
+
+            @Override
+            public Result collect(NewsUser newsUser) {
                 return null;
             }
         };

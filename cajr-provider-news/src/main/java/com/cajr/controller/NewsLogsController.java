@@ -22,8 +22,8 @@ public class NewsLogsController {
     @Autowired
     NewsLogsService newsLogsService;
 
-    @GetMapping("/{userId}")
-    public Result getAllByUserId(@PathVariable("userId") int userId){
+    @GetMapping("/user")
+    public Result getAllByUserId(@RequestParam("userId") int userId){
         return new Result<>(this.newsLogsService.findAllByUserId(userId));
     }
 

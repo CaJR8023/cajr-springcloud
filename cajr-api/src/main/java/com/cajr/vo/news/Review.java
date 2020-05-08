@@ -55,6 +55,9 @@ public class Review {
     @ApiModelProperty(hidden = true)
     private List<Integer> unlikeUserIds;
 
+    @ApiModelProperty(hidden = true)
+    private News news;
+
     public Integer getId() {
         return id;
     }
@@ -173,5 +176,13 @@ public class Review {
 
     public void setUnlikeUserIds(List<Integer> unlikeUserIds) {
         this.unlikeUserIds = unlikeUserIds;
+    }
+
+    public News getNews() {
+        return news;
+    }
+
+    public void setNews(News news) {
+        this.news = news;
     }
 }

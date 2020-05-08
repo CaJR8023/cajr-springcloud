@@ -41,8 +41,16 @@ public class NewsController {
         return this.newsService.getOne(id);
     }
 
+    @GetMapping("/undistributed")
+    public News getUndistributedOne(@RequestParam("userId") int userId){
+        return this.newsService.getUndistributedOne(userId);
+    }
+
     @PostMapping("/")
     public Result addOne(@RequestBody News news){
+        if (this.newsService.checkExistedByUserId(news.getUserId()) > 0){
+            return new Result<>(0);
+        }
         return new Result<>(this.newsService.add(news));
     }
 
@@ -68,5 +76,19 @@ public class NewsController {
         return this.newsService.searchNews(keyWord, page, pageSize);
     }
 
+    @GetMapping("/distributed")
+    public Result distributed(@RequestParam("id") int id){
+        return new Result<>(this.newsService.distributedNews(id));
+    }
+
+    @GetMapping("/module")
+    public Result getListByModuleId(@RequestParam("moduleId") int moduleId){
+        return new Result<>(this.newsService.findAllByModuleId(moduleId));
+    }
+
+    @GetMapping("/my")
+    public Result getMyNews(@RequestParam("userId") int userId){
+        return new Result<>(this.newsService.findAllByUserId(userId));
+    }
 
 }

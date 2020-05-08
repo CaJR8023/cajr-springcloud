@@ -15,6 +15,12 @@
     <!--@mbg.generated-->
     id, user_id, news_id, `status`, created_at, updated_at
   </sql>
+  <select id="selectAllByUserId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/> from news_user where user_id = #{userId,jdbcType=INTEGER} and status = 1
+  </select>
+  <select id="checkExisted" resultType="integer">
+    select exists (select 1 from news_user where user_id = #{userId,jdbcType=INTEGER} and news_id = #{newsId,jdbcType=INTEGER} limit 1)
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 

@@ -4,6 +4,7 @@ import com.cajr.lock.DistributedLock;
 import com.cajr.lock.impl.RedisDistributedLock;
 import com.cajr.mapper.NewsLogsMapper;
 import com.cajr.service.NewsLogsService;
+import com.cajr.service.NewsService;
 import com.cajr.util.CommonParam;
 import com.cajr.vo.news.News;
 import com.cajr.vo.news.NewsLogs;
@@ -14,6 +15,7 @@ import org.springframework.data.redis.core.BoundGeoOperations;
 import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,22 @@ public class NewsLogsServiceImpl implements NewsLogsService {
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    private NewsService newsService;
+
     private static final String LOCK_KEY = "news_logs_lock";
 
     @Override
-    public List<NewsLogs> findAllByUserId(Integer userId) {
-        return this.newsLogsMapper.findAllByUserId(userId);
+    public List<News> findAllByUserId(Integer userId) {
+        List<NewsLogs> newsLogsList = this.newsLogsMapper.findAllByUserId(userId);
+        List<News> newsList = new ArrayList<>();
+        if (CollectionUtils.isEmpty(newsLogsList)){
+            return newsList;
+        }
+        newsLogsList.forEach(newsLogs -> {
+            newsList.add(this.newsService.getOne(newsLogs.getNewsId()));
+        });
+        return newsList;
     }
 
     @Override
