@@ -19,5 +19,7 @@ public interface UserInfoMapper {
 
     int updateByPrimaryKey(UserInfo record);
 
+    int updateByUserId(UserInfo record);
+
     UserInfo selectByUserId(int userId);
 }

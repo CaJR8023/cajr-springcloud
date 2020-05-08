@@ -69,4 +69,6 @@ public class ConsumerUserController {
                                  @RequestParam(value = "page",defaultValue = "1") int page){
         return this.iUserClientService.searchUsers(keyWord, page, 10);
     }
+
+
 }

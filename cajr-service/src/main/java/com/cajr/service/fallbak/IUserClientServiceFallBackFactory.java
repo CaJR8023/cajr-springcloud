@@ -2,13 +2,16 @@ package com.cajr.service.fallbak;
 
 import com.cajr.service.IUserClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserInfo;
 import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,7 +98,17 @@ public class IUserClientServiceFallBackFactory implements FallbackFactory<IUserC
             }
 
             @Override
+            public Result updateUserInfo(UserInfo userInfo) {
+                return new Result<>("hystrix fail",0);
+            }
+
+            @Override
             public SearchPage searchUsers(String keyWord, int page, int pageSize) {
+                return null;
+            }
+
+            @Override
+            public ImageResult uploadAvatarImg(MultipartFile multipartFile) {
                 return null;
             }
         };

@@ -28,14 +28,13 @@ public class ImgServiceImpl implements ImgService {
     private String bucketName;
 
     @Override
-    public String uploadImg(MultipartFile multipartFile, HttpServletRequest request, String type) throws IOException {
+    public String uploadImg(MultipartFile multipartFile, String type) throws IOException {
             String imgFileName = multipartFile.getOriginalFilename();
             String returnUrl = "";
-            String userId = request.getHeader("userId");
 
             try {
                 if (!"".equals(imgFileName) && imgFileName != null){
-                    String newsImgPath = type+"/img/"+ userId +"/";
+                    String newsImgPath = type+"/img/";
                     String fileF = imgFileName.substring(imgFileName.lastIndexOf("."));
                     imgFileName = new Date().getTime() + fileF;
 

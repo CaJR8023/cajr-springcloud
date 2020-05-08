@@ -128,7 +128,7 @@ public class UserServiceImpl implements UserService {
         userPref.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         this.userPrefService.add(userPref);
 
-
+        initSearchNewsData(user);
         return Optional.of(user.getId());
     }
 
@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
     public Optional<Integer> update(User user) {
 
         user.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        return Optional.of(this.userMapper.updateByPrimaryKey(user));
+        return Optional.of(this.userMapper.updateByPrimaryKeySelective(user));
     }
 
     @Override

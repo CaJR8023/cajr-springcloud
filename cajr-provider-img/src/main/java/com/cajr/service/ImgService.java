@@ -11,5 +11,5 @@ import java.io.IOException;
  */
 public interface ImgService {
 
-    String uploadImg(MultipartFile multipartFile, HttpServletRequest request, String type) throws IOException;
+    String uploadImg(MultipartFile multipartFile, String type) throws IOException;
 }

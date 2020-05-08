@@ -2,11 +2,13 @@ package com.cajr.service.fallbak;
 
 import com.cajr.service.INewsClientService;
 import com.cajr.util.Result;
+import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author CAJR
@@ -56,6 +58,11 @@ public class INewsClientServiceFallBackFactory implements FallbackFactory<INewsC
 
             @Override
             public SearchPage searchNews(String keyWord, int page, int pageSize) {
+                return null;
+            }
+
+            @Override
+            public ImageResult uploadNewsImg(MultipartFile multipartFile) {
                 return null;
             }
         };

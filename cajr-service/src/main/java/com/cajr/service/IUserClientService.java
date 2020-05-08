@@ -3,13 +3,16 @@ package com.cajr.service;
 import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.IUserClientServiceFallBackFactory;
 import com.cajr.util.Result;
+import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.user.User;
+import com.cajr.vo.user.UserInfo;
 import com.cajr.vo.user.UserOther;
 import com.cajr.vo.user.UserPref;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -58,8 +61,14 @@ public interface IUserClientService {
     @PutMapping("/user_pref/")
     public Result updateUserPref(@RequestBody UserPref userPref);
 
+    @PutMapping("/user_info/")
+    public Result updateUserInfo(@RequestBody UserInfo userInfo);
+
     @GetMapping("/user/search")
     public SearchPage searchUsers(@RequestParam("keyWord") String keyWord,
                                   @RequestParam(value = "page",defaultValue = "1") int page,
                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
+
+    @PostMapping("/img/avatar/upload")
+    public ImageResult uploadAvatarImg(@RequestParam("file") MultipartFile multipartFile);
 }

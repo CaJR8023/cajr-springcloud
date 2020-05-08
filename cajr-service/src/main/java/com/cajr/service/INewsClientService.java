@@ -3,11 +3,13 @@ package com.cajr.service;
 import com.cajr.config.FeignClientConfig;
 import com.cajr.service.fallbak.INewsClientServiceFallBackFactory;
 import com.cajr.util.Result;
+import com.cajr.vo.ImageResult;
 import com.cajr.vo.SearchPage;
 import com.cajr.vo.news.News;
 import com.github.pagehelper.PageInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -46,4 +48,6 @@ public interface INewsClientService {
                                   @RequestParam(value = "page",defaultValue = "1") int page,
                                   @RequestParam(value = "pageSize", defaultValue = "10") int pageSize);
 
+    @PostMapping("/img/news/upload")
+    public ImageResult uploadNewsImg(@RequestParam("file") MultipartFile multipartFile);
 }

@@ -53,6 +53,7 @@ public class ResourcesServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(HttpMethod.GET,"/user/visitor/**").permitAll()
                 .antMatchers(HttpMethod.GET,"/reply/**").permitAll()
                 .antMatchers(HttpMethod.POST,"/admin/").permitAll()
+                .antMatchers(HttpMethod.POST,"/img/**").permitAll()
                 .antMatchers("/visitor/**").permitAll()
                 .antMatchers(HttpMethod.PUT,"/user/forget_password").permitAll()
                 //swagger

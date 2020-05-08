@@ -1,5 +1,7 @@
 package com.cajr.vo.user;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -20,10 +22,15 @@ public class UserInfo {
 
     private String signature;
 
+    @ApiModelProperty(hidden = true)
+    private String userName;
+
     private Integer status;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp createdAt;
 
+    @ApiModelProperty(hidden = true)
     private Timestamp updatedAt;
 
     public Integer getId() {
@@ -96,5 +103,13 @@ public class UserInfo {
 
     public void setUpdatedAt(Timestamp updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }
